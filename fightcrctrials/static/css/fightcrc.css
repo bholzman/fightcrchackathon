@@ -6,3 +6,11 @@ table{
   table-layout: fixed; 
   word-wrap:break-word;
 }
+
+.welcome {
+  max-width: 900px;
+}
+
+.fight-crc-logo {
+  max-height: 100px;
+}
