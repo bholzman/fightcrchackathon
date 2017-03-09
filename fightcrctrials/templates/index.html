@@ -59,7 +59,7 @@
       } );
 
       var columnFilters = [];
-      var columnsWithoutMultiselect = ['comments', 'publications', 'drug'];
+      var columnsWithoutMultiselect = ['Comments', 'Publications', 'Drug'];
       for (i = 0; i < columns.length; i++) {
         if (!_.contains(columnsWithoutMultiselect, columns[i].title)) {
           columnFilters.push({
