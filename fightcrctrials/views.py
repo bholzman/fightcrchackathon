@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-from .models import Greeting
+import json
+from .models import Greeting, CRCTrials
 
 # Create your views here.
 def index(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'trials': json.dumps(CRCTrials().trials)})
 
 
 def db(request):
