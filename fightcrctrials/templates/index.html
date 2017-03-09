@@ -10,6 +10,17 @@
   <script src="../static/js/chosen.jquery.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
+      if (!Cookies.get('agreed-to-disclaimer')) {
+          $('#disclaimer').modal({keyboard: false, show: true});
+          $('#disclaimer .btn-primary').click(function() {
+            if ($('#disclaimed').prop('checked')) {
+                $('#disclaimer').modal('hide');
+                Cookies.set('agreed-to-disclaimer', true, { expires: 365 });
+            } else {
+                $('label[for=disclaimed]').css('color', 'red');
+            }
+          });
+      }
       var trials = {{ trials|safe }};
       var columns = _.map(trials.header, function(item) {
 
@@ -76,7 +87,18 @@
 
 <table id="example" class="display" cellspacing="0" width="100%">
 </table>
-<div id="disclaimer">
-{% tag "disclaimer" %}
+<div id="disclaimer" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+              <div class="modal-title">{% tag "disclaimer-header" %}</div>
+          </div>
+          <div class="modal-body">
+              <pre>{% tag "disclaimer" %}</pre>
+              <input type="checkbox" id="disclaimed"> <label for="disclaimed">{% tag "disclaimer-accept" %}</label>
+              <div class="button-wrapper"><input type="button" class="btn btn-primary" value="Continue to search"></div>
+          </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

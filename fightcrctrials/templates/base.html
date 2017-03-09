@@ -6,9 +6,9 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="../static/js/jquery.dataTables.yadcf.js"></script>
   <script src="../static/js/chosen.jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.3/js.cookie.min.js"></script>
 
   <link href="../static/css/jquery.datatables.yadcf.css" rel="stylesheet" type="text/css" />
   <link href="../static/css/chosen.min.css" rel="stylesheet" type="text/css" />
@@ -19,6 +19,17 @@
   <style type="text/css">
     #disclaimer {
         display: none;
+    }
+
+    #disclaimed,label[for=disclaimed] {
+        cursor: pointer;
+    }
+
+    #disclaimer .button-wrapper {
+        height: 32px;
+    }
+    #disclaimer .button-wrapper .btn {
+        float: right;
     }
   </style>
 </head>
