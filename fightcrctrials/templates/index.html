@@ -12,10 +12,10 @@
         return {title: item}
       });
       var table = $('#example').DataTable( {
-        data: trials,
+        data: trials.data,
         columns: columns
       } );
-
+ 
       yadcf.init(table, [
         {
             column_number: 2,
