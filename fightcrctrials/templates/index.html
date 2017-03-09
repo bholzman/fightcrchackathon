@@ -93,7 +93,8 @@
           return true;
         }
         var found = _.find(filterVal, function(value) {
-          return value.length > 0 && columnVal.includes(value);
+          var splitValues = columnVal.split(', ');
+          return value.length > 0 && _.contains(splitValues, value);
         });
         return found !== undefined;
       };
