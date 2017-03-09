@@ -22,6 +22,7 @@
           });
       }
       var trials = {{ trials|safe }};
+
       var columns = _.map(trials.header, function(item) {
 
         var props = {
@@ -78,17 +79,45 @@
             }
           }
         ]
-      } );
+      });
 
-      var columnFilters = [];
+      var locations = new Set();
+      _.each(trials.data, function(item) {
+        _.each(item[4], function(location) {
+          var cleaned = location.trim();
+          locations.add(cleaned)
+        })
+      });
+      var filterFunction = function(filterVal, columnVal, rowValues, stateVal) {
+        if (filterVal === null || filterVal.length == 0 || (filterVal.length == 1 && filterVal[0].length == 0)){
+          return true;
+        }
+        var found = _.find(filterVal, function(value) {
+          return value.length > 0 && columnVal.includes(value);
+        });
+        return found !== undefined;
+      };
+      var columnFilters = [ ];
       var columnsWithoutMultiselect = ['Comments', 'Publications', 'Drug'];
+
       for (i = 0; i < columns.length; i++) {
-        if (!_.contains(columnsWithoutMultiselect, columns[i].title)) {
-          columnFilters.push({
+        var columnTitle = columns[i].title;
+        if (!_.contains(columnsWithoutMultiselect, columnTitle)) {
+          if (columnTitle === 'Locations') {
+            columnFilters.push({column_number: i,
+              filter_type: "multi_select_custom_func",
+              select_type: 'chosen',
+              custom_func: filterFunction,
+              data: [...locations]
+            })
+          } else {
+            columnFilters.push({
               column_number: i,
-              filter_type: "multi_select",
-              select_type: 'chosen'
-          })
+              filter_type: "multi_select_custom_func",
+              select_type: 'chosen',
+              custom_func: filterFunction
+            })
+          }
         }
       }
 
