@@ -21,6 +21,20 @@
             }
           });
       }
+
+      var csrftoken = Cookies.get('csrftoken');
+      function csrfSafeMethod(method) {
+          // these HTTP methods do not require CSRF protection
+          return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+      $.ajaxSetup({
+          beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrftoken);
+              }
+          }
+      });
+
       var trials = {{ trials|safe }};
 
       var columns = _.map(trials.header, function(item) {
@@ -122,25 +136,38 @@
         }
       }
 
+      var detail_data;
       table.on('click', 'tbody tr', function() {
-        var data = table.row(this).data();
-        $('#detail-category').html(data[0]);
-        $('#detail-drug').html(data[1]);
+        detail_data = table.row(this).data();
+        $('#detail-category').html(detail_data[0]);
+        $('#detail-drug').html(detail_data[1]);
         var trial_type = {
             'Im': 'Immunotherapy', 'Tw': 'Treading Water', 'Im OR Tw': 'Immunotherapy OR Treading Water'
-        }[data[3]];
+        }[detail_data[3]];
         $('#detail-type').html(trial_type);
-        $('#detail-locations').html(data[4].join(', '));
-        $('#detail-nct').html('<a target="_blank" href="https://clinicaltrials.gov/ct2/show/' + data[2] + '">' + data[2] + '</a>');
-        $('#detail-comments').html(data[5]);
-        $('#detail-prior-io').html({1: 'Yes', 0: 'No'}[data[6]]);
-        var pubs = _.map(data[7], function (pub) {
+        $('#detail-locations').html(detail_data[4].join(', '));
+        $('#detail-nct').html('<a target="_blank" href="https://clinicaltrials.gov/ct2/show/' + detail_data[2] + '">' + detail_data[2] + '</a>');
+        $('#detail-comments').html(detail_data[5]);
+        $('#detail-prior-io').html({1: 'Yes', 0: 'No'}[detail_data[6]]);
+        var pubs = _.map(detail_data[7], function (pub) {
             return '<a target="_blank" href="' + pub + '">' + pub + '</a>';
         }).join('<br>');
         $('#detail-publications').html(pubs);
         $('#detail').modal('show');
       });
       yadcf.init(table, columnFilters);
+
+      $('#trial-closed').click(function() {
+        var user = prompt('Please enter your name');
+        if (user) {
+            $.post(
+                '/send-trial-closed-email/',
+                {'drug': detail_data[1], 'nct': detail_data[2], 'user': user},
+                function (result) {
+                    alert('Thanks for letting us know!');
+                });
+        }
+      });
     } );
   </script>
 
@@ -199,6 +226,7 @@
                         <td id="detail-publications"></td>
                     </tr>
                 </table>
+                <input id="trial-closed" type="button" class="btn btn-secondary" value="Notify that this trial has closed.">
             </div>
         </div>
     </div>
