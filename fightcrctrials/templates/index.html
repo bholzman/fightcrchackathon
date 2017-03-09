@@ -48,6 +48,18 @@
       var table = $('#example').DataTable( {
         data: trials.data,
         columns: columns,
+        columnDefs: [
+          { "width": "15%", "targets": 0 },
+          { "width": "15%", "targets": 1 },
+          { "width": "5%", "targets": 2 },
+          { "width": "5%", "targets": 3 },
+          { "width": "15%", "targets": 4 },
+          { "width": "10%", "targets": 5 },
+          { "width": "5%", "targets": 6 },
+          { "width": "10%", "targets": 7 }
+
+
+        ],
         dom: 'Bfrtip',
         buttons: [
           // JK: hack to prevent multi-select from messing with column headers when printing
