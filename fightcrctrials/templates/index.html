@@ -18,7 +18,7 @@
         };
 
         if (item === 'Publications') {
-          props['createdCell'] = function (cell, cellData, rowData) {
+          props['createdCell'] = function (cell, cellData) {
             var html = '';
             _.each(cellData, function(publication) {
               html += "<a target='_blank' href='"+publication + "'>" + publication +"</a></br>";
@@ -26,7 +26,11 @@
             $(cell).html(html);
           };
         }
-
+        if (item ==='NCT') {
+         props['createdCell'] = function (cell, cellData) {
+           $(cell).html("<a target='_blank' href='https://clinicaltrials.gov/ct2/show/"+cellData + "'>" + cellData +"</a>");
+         };
+        }
         return props;
       });
 
