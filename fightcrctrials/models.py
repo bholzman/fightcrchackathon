@@ -103,10 +103,10 @@ class CRCTrials(object):
                 locations = row[2].split(',')
                 nct = row[3]
                 comments = row[5]
-                prior_io_ok = 0
+                prior_io_ok = "No"
                 publications = []
                 if len(row) > 6 and row[6]:
-                    prior_io_ok = 1
+                    prior_io_ok = "Yes"
                 if len(row) > 7:
                     publications = row[7:]
                 data.append([
