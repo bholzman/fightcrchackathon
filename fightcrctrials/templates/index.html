@@ -83,6 +83,24 @@
         }
       }
 
+      table.on('click', 'tbody tr', function() {
+        var data = table.row(this).data();
+        $('#detail-category').html(data[0]);
+        $('#detail-drug').html(data[1]);
+        var trial_type = {
+            'Im': 'Immunotherapy', 'Tw': 'Treading Water', 'Im OR Tw': 'Immunotherapy OR Treading Water'
+        }[data[3]];
+        $('#detail-type').html(trial_type);
+        $('#detail-locations').html(data[4].join(', '));
+        $('#detail-nct').html('<a target="_blank" href="https://clinicaltrials.gov/ct2/show/' + data[2] + '">' + data[2] + '</a>');
+        $('#detail-comments').html(data[5]);
+        $('#detail-prior-io').html({1: 'Yes', 0: 'No'}[data[6]]);
+        var pubs = _.map(data[7], function (pub) {
+            return '<a target="_blank" href="' + pub + '">' + pub + '</a>';
+        }).join('<br>');
+        $('#detail-publications').html(pubs);
+        $('#detail').modal('show');
+      });
       yadcf.init(table, columnFilters);
     } );
   </script>
@@ -100,6 +118,49 @@
               <input type="checkbox" id="disclaimed"> <label for="disclaimed">{% tag "disclaimer-accept" %}</label>
               <div class="button-wrapper"><input type="button" class="btn btn-primary" value="Continue to search"></div>
           </div>
+        </div>
+    </div>
+</div>
+
+<div id="detail" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div id="detail-drug" class="modal-title"></div>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <th>Category</th>
+                        <td id="detail-category"></td>
+                    </tr>
+                    <tr>
+                        <th>Trial Type</th>
+                        <td id="detail-type"></td>
+                    </tr>
+                    <tr>
+                        <th>Location(s)</th>
+                        <td id="detail-locations"></td>
+                    </tr>
+                    <tr>
+                        <th>NCT #</th>
+                        <td id="detail-nct"></td>
+                    </tr>
+                    <tr>
+                        <th>Comments</th>
+                        <td id="detail-comments"></td>
+                    </tr>
+                    <tr>
+                        <th>Allow prior immunotherapy?</th>
+                        <td id="detail-prior-io"></td>
+                    </tr>
+                    <tr>
+                        <th>Publications</th>
+                        <td id="detail-publications"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>
