@@ -4,6 +4,8 @@
 
 {% block content %}
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
   <script src="../static/js/jquery.dataTables.yadcf.js"></script>
   <script src="../static/js/chosen.jquery.min.js"></script>
   <script type="text/javascript">
@@ -30,7 +32,26 @@
 
       var table = $('#example').DataTable( {
         data: trials.data,
-        columns: columns
+        columns: columns,
+        dom: 'Bfrtip',
+        buttons: [
+          // JK: hack to prevent multi-select from messing with column headers when printing
+          {
+            extend : 'print',
+            exportOptions : {
+              columns : ':visible',
+              format : {
+                header : function (mDataProp, columnIdx) {
+                  var htmlText = '<span>' + mDataProp + '</span>';
+                  var jHtmlObject = jQuery(htmlText);
+                  jHtmlObject.find('div').remove();
+                  var newHtml = jHtmlObject.text();
+                  return newHtml;
+                }
+              }
+            }
+          }
+        ]
       } );
 
       var columnFilters = [];
