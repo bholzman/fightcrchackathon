@@ -22,13 +22,16 @@ class UserText(models.Model):
 
 # this data model will read from the CRC Trials google sheet
 class CRCTrials(object):
-    def __init__(self):
+    _header = ['category', 'drug', 'nct', 'type', 'locations', 'comments', 'prior_io_ok', 'publications']
+
+    def __init__(self, caching_enabled=True):
+        self._caching_enabled = caching_enabled
         self.trials = self.get_trials_data()
 
     def get_trials_data(self):
         # read from cache with 30 minute expiration
         cache_file = '.trials'
-        if os.path.exists(cache_file):
+        if self._caching_enabled and os.path.exists(cache_file):
             with open(cache_file, 'r') as fh:
                 data = json.load(fh)
                 if data['created_at'] < time.time() + 30 * 60:
@@ -58,6 +61,7 @@ class CRCTrials(object):
         with open(temp_file, 'w') as fh:
             json.dump(data, fh)
         os.rename(temp_file, cache_file)
+
         return data['trials']
 
     def _transform(self, values):
@@ -81,12 +85,13 @@ class CRCTrials(object):
             'Drug', '"Im"/"Tw"', 'Locations (as of 02/2017)', 'NCT#', 'NCT# Link', 'Comments',
             'Allow prior PD-1? ', 'Publication?', 'Publication #2?'])
 
-        trials = []
+        data = []
+
         cur_category = None
         for row in values[1:]:
             if len(row) == 1:  # header row
                 cur_category = row[0]
-                trials.append({'header': cur_category})
+                # trials.append({'header': cur_category})
             else:
                 drug = row[0]
                 trial_type = row[1]
@@ -99,15 +104,18 @@ class CRCTrials(object):
                     prior_io_ok = 1
                 if len(row) > 7:
                     publications = row[7:]
-                trials.append({
-                    'category': cur_category,
-                    'drug': drug,
-                    'nct': nct,
-                    'type': trial_type,
-                    'locations': locations,
-                    'comments': comments,
-                    'prior_io_ok': prior_io_ok,
-                    'publications': publications
-                })
+                data.append([
+                    cur_category,
+                    drug,
+                    nct,
+                    trial_type,
+                    locations,
+                     comments,
+                    prior_io_ok,
+                    publications
+                ])
 
-        return trials
+        return {
+            'header': self._header,
+            'data': data
+        }
