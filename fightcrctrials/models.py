@@ -13,6 +13,13 @@ class Greeting(models.Model):
     when = models.DateTimeField('date created', auto_now_add=True)
 
 
+class UserText(models.Model):
+    tag = models.SlugField(unique=True)
+    text = models.TextField()
+    def __str__(self):
+        return self.tag
+
+
 # this data model will read from the CRC Trials google sheet
 class CRCTrials(object):
     def __init__(self):
