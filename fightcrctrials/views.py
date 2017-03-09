@@ -9,6 +9,10 @@ def index(request):
     return render(request, 'index.html', {'trials': json.dumps(CRCTrials().trials)})
 
 
+def welcome(request):
+    return render(request, 'welcome.html', {'trials': json.dumps(CRCTrials().trials)})
+
+
 def db(request):
 
     greeting = Greeting()

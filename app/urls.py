@@ -12,5 +12,6 @@ import fightcrctrials.views
 urlpatterns = [
     url(r'^$', fightcrctrials.views.index, name='index'),
     url(r'^db', fightcrctrials.views.db, name='db'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^welcome/', fightcrctrials.views.welcome, name='welcome'),
+    url(r'^admin/', include(admin.site.urls))
 ]
