@@ -10,8 +10,24 @@
     $(document).ready(function() {
       var trials = {{ trials|safe }};
       var columns = _.map(trials.header, function(item) {
-        return {title: item}
+
+        var props = {
+          title: item
+        };
+
+        if (item === 'Publications') {
+          props['createdCell'] = function (cell, cellData, rowData) {
+            var html = '';
+            _.each(cellData, function(publication) {
+              html += "<a target='_blank' href='"+publication + "'>" + publication +"</a></br>";
+            })
+            $(cell).html(html);
+          };
+        }
+
+        return props;
       });
+
       var table = $('#example').DataTable( {
         data: trials.data,
         columns: columns
