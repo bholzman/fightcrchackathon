@@ -3,16 +3,25 @@
 
 {% block content %}
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+  <script src="../static/js/jquery.dataTables.yadcf.js"></script>
+  <script src="../static/js/chosen.jquery.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       var trials = {{ trials|safe }};
       var columns = _.map(trials.header, function(item) {
         return {title: item}
       });
-      $('#example').DataTable( {
-        data: trials.data,
+      var table = $('#example').DataTable( {
+        data: trials,
         columns: columns
       } );
+
+      yadcf.init(table, [
+        {
+            column_number: 2,
+            filter_type: "multi_select",
+            select_type: 'chosen'
+        }]);
     } );
   </script>
 
