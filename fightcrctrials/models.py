@@ -22,7 +22,7 @@ class UserText(models.Model):
 
 # this data model will read from the CRC Trials google sheet
 class CRCTrials(object):
-    _header = ['category', 'drug', 'nct', 'type', 'locations', 'comments', 'prior_io_ok', 'publications']
+    _header = ['Category', 'Drug', 'NCT', 'Type', 'Locations', 'Comments', 'Prior Immunotherapy OK', 'Publications']
 
     def __init__(self, caching_enabled=True):
         self._caching_enabled = caching_enabled
