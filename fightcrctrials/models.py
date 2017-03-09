@@ -28,14 +28,14 @@ class CRCTrials(object):
         self._caching_enabled = caching_enabled
         self.trials = self.get_trials_data()
 
-    def get_trials_data(self):
+    def _get_spreadsheet_data(self):
         # read from cache with 30 minute expiration
-        cache_file = '.trials'
+        cache_file = '.crchacks'
         if self._caching_enabled and os.path.exists(cache_file):
             with open(cache_file, 'r') as fh:
                 data = json.load(fh)
                 if data['created_at'] < time.time() + 30 * 60:
-                    return data['trials']
+                    return data['response']
 
         # if we got here, there is no cache or it has expired
         scopes = [
@@ -55,14 +55,19 @@ class CRCTrials(object):
 
         spreadsheetId = '1HV-WiZTiJORIOTQhsgAC19Oe5bOuSMCVBDJ8woBFdnQ'
         response = self._api.spreadsheets().values().get(spreadsheetId=spreadsheetId, range='A2:J999').execute()
-        data = {'created_at': time.time(), 'trials': self._transform(response['values'])}
+        data = {'created_at': time.time(), 'response': response}
         # use a temp file so we can atomically rename it
         temp_file = '{}.{}'.format(cache_file, random.random())
         with open(temp_file, 'w') as fh:
             json.dump(data, fh)
         os.rename(temp_file, cache_file)
 
-        return data['trials']
+        return data['response']
+
+    def get_trials_data(self):
+        response = self._get_spreadsheet_data()
+
+        return self._transform(response['values'])
 
     def _transform(self, values):
         # transform raw data from spreadsheet into this format:
@@ -75,7 +80,7 @@ class CRCTrials(object):
         #    'locations': [...],
         #    'comments': [...],
         #    'prior_io_ok': 1/0,
-        #    'publications': [...]}, 
+        #    'publications': [...]},
         #   ...other trials in this category...
         #   {'header': CATEGORY2},
         #   ...
