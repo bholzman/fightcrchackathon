@@ -120,12 +120,12 @@
         "bStateSave": true
       });
 
-      var locations = new Set();
+      var locations = [];
       _.each(trials.data, function(item) {
         _.each(item[4], function(location) {
           var cleaned = location.trim();
           if (cleaned.length > 0) {
-            locations.add(cleaned);
+            locations.push(cleaned);
           }
         })
       });
@@ -151,7 +151,7 @@
               filter_type: "multi_select_custom_func",
               select_type: 'chosen',
               custom_func: filterFunction,
-              data: [...locations]
+              data: _.uniq(locations)
             })
           } else {
             columnFilters.push({
