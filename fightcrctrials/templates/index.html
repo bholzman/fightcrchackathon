@@ -14,18 +14,37 @@
       if (!query) {
         return false;
       }
-      return _
-          .chain(query.split('&'))
-          .map(function(params) {
-            var p = params.split('=');
-            return [p[0], decodeURIComponent(p[1])];
-          })
-          .object()
-          .value();
+      var params = {};
+
+      _.each(query.split('&'), function(param) {
+        var parts = param.split('=');
+        var key = parts[0];
+        var value = parts[1];
+
+        // handle multi-valued parameters
+        if (_.has(params, key)) {
+          if (_.isArray(params[key])) {
+            params[key].push(value);
+          }
+          else {
+            params[key] = [params[key], value];
+          }
+        }
+        else {
+          params[key] = value;
+        }
+      });
+
+      return params;
     }
 
     var params = getQueryParams();
     var pLocation = params.location;
+    var pNctNumber = params.nctNumber;
+    var pTherapyName = params.therapyName;
+    var pSearchTerm = params.searchTerm;
+    var pTreatmentType = params.treatmentType;
+    var pPriorIo = params.priorIo;
 
     $(document).ready(function() {
       if (!Cookies.get('agreed-to-disclaimer')) {
@@ -161,9 +180,29 @@
         $('#detail').modal('show');
       });
       yadcf.init(table, columnFilters);
+
       if (pLocation) {
         yadcf.exFilterColumn(table, [[4, pLocation]]);
       }
+      if (pTreatmentType && pTreatmentType === 'immunotherapy') {
+        // Im = Immunotherapy
+        // Tw = Treading water (CRC trial)
+        // Im OR Tw = either
+        yadcf.exFilterColumn(table, [[3, ['Im', 'Im OR Tw']]]);
+      }
+      if (pPriorIo && pPriorIo === 'yes') {
+        yadcf.exFilterColumn(table, [[6, 'Yes']])
+      }
+      if (pNctNumber) {
+        yadcf.exFilterColumn(table, [[2, pNctNumber]]);
+      }
+      if (pTherapyName) {
+        table.column(1).search(pTherapyName).draw();
+      }
+      if (pSearchTerm) {
+        table.search(pSearchTerm).draw();
+      }
+
 
       $('#trial-closed').click(function() {
         var user = prompt('Please enter your name');
