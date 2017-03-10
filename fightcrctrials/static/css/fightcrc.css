@@ -3,7 +3,7 @@ table{
   width: 100%;
   clear: both;
   border-collapse: collapse;
-  table-layout: fixed; 
+  table-layout: fixed;
   word-wrap:break-word;
 }
 
@@ -13,4 +13,8 @@ table{
 
 .fight-crc-logo {
   max-height: 100px;
+}
+
+.yadcf-filter-wrapper > select {
+  width: 100% !important;
 }
