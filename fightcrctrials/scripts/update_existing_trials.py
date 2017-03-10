@@ -68,7 +68,6 @@ class CRCTrialsUpdater(object):
         engine = create_engine('postgresql://aact:aact@aact-prod.cr4nrslb1lw7.us-east-1.rds.amazonaws.com/aact')
 
         pickle_file_path = 'data.pkl'
-        print(self.get_sql_string(nct_ids))
         if self.use_pickle and os.path.exists(pickle_file_path):
             with open(pickle_file_path, 'rb') as output:
                 data = pickle.load(output)
