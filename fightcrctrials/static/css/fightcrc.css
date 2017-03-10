@@ -18,3 +18,9 @@ table{
 .yadcf-filter-wrapper > select {
   width: 100% !important;
 }
+
+.nav a{
+    color: #0053A2 !important;
+    font-size: 1.8em !important;
+    font-weight: bold;
+    }
