@@ -79,7 +79,7 @@ class CRCTrial(models.Model):
     resources = ArrayField(models.URLField(max_length=200), null=True)
 
     def __str__(self):
-        return '{} ({})'.format(self.brief_title, self.nct_id)
+        return '%s (%s)' % (self.brief_title, self.nct_id)
 
     @classmethod
     def trials_json(cls):
