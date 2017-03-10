@@ -95,6 +95,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='crctrial',
             name='urls',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.URLField(), blank=True, size=None),
+            field=django.contrib.postgres.fields.ArrayField(base_field=models.URLField(max_length=300), blank=True, size=None),
         ),
     ]

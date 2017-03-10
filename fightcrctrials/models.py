@@ -30,11 +30,12 @@ class FAQ(models.Model):
 
 # this data model will read from the CRC Trials google sheet
 class CRCTrial(models.Model):
-    nct_id = models.CharField(unique=True, max_length=15)
+    category = models.CharField(max_length=100)
+    nct_id = models.CharField(unique=True, max_length=100)
     updated_date = models.DateField()
     date_trial_added = models.DateField()
-    brief_title = models.CharField(max_length=100, blank=True)
-    title = models.CharField(max_length=100)
+    brief_title = models.CharField(max_length=300, blank=True)
+    title = models.CharField(max_length=300)
     program_status = models.CharField(max_length=30, choices=(
         ("Temporarily not available", "Temporarily not available"),
         ("Active, not recruiting", "Active, not recruiting"),
@@ -58,22 +59,23 @@ class CRCTrial(models.Model):
         ("Phase 2/Phase 3", "Phase 2/Phase 3"),
         ("Phase 2", "Phase 2"),
         ("Phase 3", "Phase 3")), blank=True)
-    min_age = models.IntegerField(blank=True)
-    max_age = models.IntegerField(blank=True)
+    min_age = models.IntegerField(null=True)
+    max_age = models.IntegerField(null=True)
     gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female')), blank=True)
-    inclusion_criteria = models.TextField(blank=True)
-    exclusion_criteria = models.TextField(blank=True)
-    locations = ArrayField(models.CharField(max_length=50))
-    contact_phones = ArrayField(models.CharField(max_length=15), blank=True)
-    contact_emails = ArrayField(models.EmailField(), blank=True)
-    urls = ArrayField(models.URLField(), blank=True)
+    inclusion_criteria = models.TextField(null=True)
+    exclusion_criteria = models.TextField(null=True)
+    locations = ArrayField(models.CharField(max_length=100))
+    contact_phones = ArrayField(models.CharField(max_length=100), null=True)
+    contact_emails = ArrayField(models.EmailField(), null=True)
+    urls = ArrayField(models.URLField(max_length=200), null=True)
     prior_io_ok = models.BooleanField(default=False)
-    description = models.TextField()
+    description = models.TextField(null=True)
     is_crc_trial = models.BooleanField(default=False)
     is_immunotherapy_trial = models.BooleanField(default=False)
     comments = models.TextField(blank=True)
-    resources = ArrayField(models.URLField(), blank=True, default='{}')
-    drug_names = ArrayField(models.CharField(max_length=100))
+    resources = ArrayField(models.URLField(max_length=200), null=True)
+    drug_names = ArrayField(models.CharField(max_length=300))
+    intervention_types = ArrayField(models.CharField(max_length=200), null=True)
     reviewed = models.BooleanField(default=False)
 
     def __str__(self):
