@@ -19,7 +19,7 @@
       _.each(query.split('&'), function(param) {
         var parts = param.split('=');
         var key = parts[0];
-        var value = parts[1];
+        var value = decodeURIComponent(parts[1]).replace(/\+/g, " ");
 
         // handle multi-valued parameters
         if (_.has(params, key)) {
