@@ -17,5 +17,6 @@ urlpatterns = [
     url(r'^send-trial-closed-email/', fightcrctrials.views.send_trial_closed_email),
     url(r'^favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
     url(r'^faq/', fightcrctrials.views.faq, name='faq'),
+    url(r'^contact-us/', fightcrctrials.views.contactus, name='contact_us'),
     url(r'^admin/', include(admin.site.urls))
 ]
