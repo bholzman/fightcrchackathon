@@ -20,6 +20,13 @@ class UserText(models.Model):
         return self.tag
 
 
+class FAQ(models.Model):
+    question = models.TextField(unique=True)
+    answer = models.TextField()
+    def __str__(self):
+        return self.question
+
+
 # this data model will read from the CRC Trials google sheet
 class CRCTrials(object):
     _header = ['Category', 'Drug', 'NCT', 'Type', 'Locations', 'Comments', 'Prior Immunotherapy OK', 'Publications']
