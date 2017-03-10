@@ -1,5 +1,6 @@
 from apiclient.discovery import build
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 from httplib2 import Http
 import fcntl
 import json
@@ -28,6 +29,56 @@ class FAQ(models.Model):
 
 
 # this data model will read from the CRC Trials google sheet
+class CRCTrial(models.Model):
+    nct_id = models.CharField(unique=True, max_length=15)
+    updated_date = models.DateField()
+    date_trial_added = models.DateField()
+    brief_title = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=100)
+    program_status = models.CharField(max_length=30, choices=(
+        ("Temporarily not available", "Temporarily not available"),
+        ("Active, not recruiting", "Active, not recruiting"),
+        ("Suspended", "Suspended"),
+        ("Recruiting", "Recruiting"),
+        ("Withheld", "Withheld"),
+        ("Enrolling by invitation", "Enrolling by invitation"),
+        ("Completed", "Completed"),
+        ("No longer available", "No longer available"),
+        ("Unknown status", "Unknown status"),
+        ("Withdrawn", "Withdrawn"),
+        ("Available", "Available"),
+        ("Approved for marketing", "Approved for marketing"),
+        ("Not yet recruiting", "Not yet recruiting"),
+        ("Terminated", "Terminated")))
+    phase = models.CharField(max_length=20, choices=(
+        ("Phase 1", "Phase 1"),
+        ("Early Phase 1", "Early Phase 1"),
+        ("Phase 4", "Phase 4"),
+        ("Phase 1/Phase 2", "Phase 1/Phase 2"),
+        ("Phase 2/Phase 3", "Phase 2/Phase 3"),
+        ("Phase 2", "Phase 2"),
+        ("Phase 3", "Phase 3")), blank=True)
+    min_age = models.IntegerField(blank=True)
+    max_age = models.IntegerField(blank=True)
+    gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female')), blank=True)
+    inclusion_criteria = models.TextField(blank=True)
+    exclusion_criteria = models.TextField(blank=True)
+    locations = ArrayField(models.CharField(max_length=50))
+    contact_phones = ArrayField(models.CharField(max_length=15), blank=True)
+    contact_emails = ArrayField(models.EmailField(), blank=True)
+    urls = ArrayField(models.URLField(), blank=True)
+    prior_io_ok = models.BooleanField(default=False)
+    description = models.TextField()
+    is_crc_trial = models.BooleanField(default=False)
+    is_immunotherapy_trial = models.BooleanField(default=False)
+    comments = models.TextField(blank=True)
+    resources = ArrayField(models.URLField(), blank=True, default='{}')
+    drug_names = ArrayField(models.CharField(max_length=100))
+    reviewed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return '{} ({})'.format(self.brief_title, self.nct_id)
+
 class CRCTrials(object):
     _header = ['Category', 'Drug', 'NCT', 'Type', 'Locations', 'Comments', 'Prior Immunotherapy OK', 'Publications']
 
