@@ -21,9 +21,53 @@
         <h3>Search for open clinical trials for colorectal cancer</h3>
       </div>
     </div>
-    <div class="row">
-      <div class="col-sm-12">
+    <div class="row welcome-filters">
+      <div class="col-sm-4">
+        <h5>Type of cancer</h5>
+        <div class="checkbox">
+          <label><input type="checkbox" value="colon">Colon cancer</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" value="rectal">Rectal cancer</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" value="colorectal" disabled>Colorectal</label>
+        </div>
+        <h5>Geography</h5>
 
+      </div>
+      <div class="col-sm-4">
+        <h5>Type of treatment</h5>
+        <div class="checkbox">
+          <label><input type="checkbox" value="immunotherapy">Immunotherapy only</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" value="all">All</label>
+        </div>
+        <h5>Prior immunotherapy</h5>
+        <div class="checkbox">
+          <label><input type="checkbox" value="yes">Allowed</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" value="no">Not allowed</label>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <h5>Advanced search</h5>
+        <div class="form-group">
+          <input type="text" class=form-control" placeholder="NCT number" id="adv-nct">
+        </div>
+        <div class="form-group">
+          <input type="text" class=form-control" placeholder="Therapy Name" id="adv-therapy">
+        </div>
+        <div class="form-group">
+          <input type="text" class=form-control" placeholder="Search any text" id="adv-texty">
+        </div>
+      </div>
+    </div>
+    <div class="row centered">
+      <div class="col-sm-2 col-md-offset-5">
+        <button class="btn btn-primary" type="submit">Search</button>
       </div>
     </div>
   </div>
