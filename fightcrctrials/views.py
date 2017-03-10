@@ -20,6 +20,9 @@ def welcome(request):
     return render(request, 'welcome.html', {'trials': json.dumps(CRCTrials().trials)})
 
 
+def faq(request):
+    return render(request, 'faq.html', {'trials': json.dumps(CRCTrials().trials)})
+
 def db(request):
 
     greeting = Greeting()
