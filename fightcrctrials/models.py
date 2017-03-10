@@ -69,7 +69,7 @@ class CRCTrial(models.Model):
     gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), ('A', 'All')), blank=True)
     inclusion_criteria = models.TextField(null=True)
     exclusion_criteria = models.TextField(null=True)
-    locations = ArrayField(models.CharField(max_length=100))
+    locations = ArrayField(models.CharField(max_length=100, null=True))
     contact_phones = ArrayField(models.CharField(max_length=100), null=True)
     contact_emails = ArrayField(models.EmailField(), null=True)
     urls = ArrayField(models.URLField(max_length=200), null=True)
