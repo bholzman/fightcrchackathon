@@ -66,7 +66,7 @@ class CRCTrial(models.Model):
         ("Phase 3", "Phase 3")), blank=True)
     min_age = models.IntegerField(null=True)
     max_age = models.IntegerField(null=True)
-    gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female')), blank=True)
+    gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), ('A', 'All')), blank=True)
     inclusion_criteria = models.TextField(null=True)
     exclusion_criteria = models.TextField(null=True)
     locations = ArrayField(models.CharField(max_length=100))

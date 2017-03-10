@@ -57,8 +57,7 @@ class AACTrialSerializer(object):
         elif gender == 'Male':
           return 'M'
         elif gender == "All":
-          # TODO(bkies): remove this fix by allowing 'A' in the model
-          return "M"
+          return "A"
         else:
           # TODO(Bkies): add more gender types
           raise Exception("%s is not a valid gender" % gender)

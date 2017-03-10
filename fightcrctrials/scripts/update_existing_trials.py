@@ -15,12 +15,15 @@ from fightcrctrials.serializers import AACTrialSerializer
 
 
 class CRCTrialsUpdater(object):
-    def __init__(self, use_pickle):
+    def __init__(self, use_pickle, cutoff_days):
         self.use_pickle = use_pickle
+        self.cutoff_days = cutoff_days
 
     def update_existing_trials(self):
         # query trials that we have
-        updated_aac_trials_map = self.get_updated_aac_trials_map()
+        existing_ids = [k['nct_id'] for k in CRCTrial.objects.all().values('nct_id')]
+
+        updated_aac_trials_map = self.get_updated_aac_trials_map(existing_ids)
 
         # for each trial, update it's information
         for trial in CRCTrial.objects.filter(nct_id__in=updated_aac_trials_map.keys()):
@@ -52,32 +55,33 @@ class CRCTrialsUpdater(object):
             trial.save()
 
 
-    def get_updated_aac_trials_map(self):
+    def get_updated_aac_trials_map(self, nct_ids):
         """Returns a map of nct_ids to recently updated aact_trials from aact"""
         trials = {}
-        for row in self.get_updated_aac_trials():
+        for row in self.get_updated_aac_trials(nct_ids):
             trials[row['nct_id']] = row
 
         return trials
 
-    def get_updated_aac_trials(self):
+    def get_updated_aac_trials(self, nct_ids):
         """Returns a map of nct_ids to recently updated aact_trials from aact"""
         engine = create_engine('postgresql://aact:aact@aact-prod.cr4nrslb1lw7.us-east-1.rds.amazonaws.com/aact')
 
         pickle_file_path = 'data.pkl'
+        print(self.get_sql_string(nct_ids))
         if self.use_pickle and os.path.exists(pickle_file_path):
             with open(pickle_file_path, 'rb') as output:
                 data = pickle.load(output)
 
             return data
         else:
-            data = engine.execute(self.get_sql_string())
+            data = engine.execute(self.get_sql_string(nct_ids))
             if self.use_pickle:
                 with open(pickle_file_path, 'wb') as output:
                     pickle.dump([a for a in data], output)
             return data
 
-    def get_sql_string(self):
+    def get_sql_string(self, nct_ids):
         return text("""
             select st.nct_id
               , st.first_received_date as date_trial_added
@@ -96,14 +100,14 @@ class CRCTrialsUpdater(object):
               , cont.contact_emails
               , links.urls
               , des.description as trial_description
-              , (case when (((st.official_title ilike '%colorec%' or st.official_title ilike '%colon%'
+              , (case when ((st.official_title ilike '%colorec%' or st.official_title ilike '%colon%'
                              or st.official_title ilike '%rectum%' or st.official_title ilike '%rectal%'
                              or st.official_title ilike '%CRC%')
                             or (cond.name ilike '%colorec%' or cond.name ilike '%colon%'
                                 or cond.name ilike '%rectum%' or cond.name ilike '%rectal%'
                                 or cond.name ilike '%CRC%')
                             or (ky.name ilike '%colorec%' or ky.name ilike '%colon%' or ky.name ilike '%rectum%'
-                                or ky.name ilike '%rectal%' or ky.name ilike '%CRC%')) AND st.phase in ('Phase 1/Phase 2','Phase 2','Phase 2/Phase 3','Phase 3','Phase 4')) then True else False end) is_crc_trial
+                                or ky.name ilike '%rectal%' or ky.name ilike '%CRC%')) then True else False end) is_crc_trial
               , (case when      -- can you find the treatment in the title?
               ((st.official_title ilike '%pd1%' or st.official_title ilike '%pd-1%' or st.official_title ilike '%pdl1%' or st.official_title ilike '%pd-l1%'
                 or st.official_title ilike '%ctla4%' or st.official_title ilike '%ctla-4%' or st.official_title ilike '%nivo%' or st.official_title ilike '%pembro%' or st.official_title ilike '%atezo%'
@@ -128,20 +132,65 @@ class CRCTrialsUpdater(object):
                or ((TRIM(substring(el.criteria from position('Exclusion' in el.criteria) for char_length(el.criteria)))) ilike '%immune%')
                or ((TRIM(substring(el.criteria from position('Exclusion' in el.criteria) for char_length(el.criteria)))) ilike '%pd-1%')
                or ((TRIM(substring(el.criteria from position('Exclusion' in el.criteria) for char_length(el.criteria)))) ilike '%pd1%')
+               or st.official_title ilike '%opdivo%'
+               or int.name ilike '%opdivo%'
+               or ky.name ilike '%opdivo%'
+               or des.description ilike '%opdivo%'
+               or st.official_title ilike '%keytruda%'
+               or int.name ilike '%keytruda%'
+               or ky.name ilike '%keytruda%'
+               or des.description ilike '%keytruda%'
+               or st.official_title ilike '%Provenge%'
+               or int.name ilike '%Provenge%'
+               or ky.name ilike '%Provenge%'
+               or des.description ilike '%Provenge%'
+               or st.official_title ilike '%sipuleucel%'
+               or int.name ilike '%sipuleucel%'
+               or ky.name ilike '%sipuleucel%'
+               or des.description ilike '%sipuleucel%'
+               or st.official_title ilike '%Axicabtagene%'
+               or int.name ilike '%Axicabtagene%'
+               or ky.name ilike '%Axicabtagene%'
+               or des.description ilike '%Axicabtagene%'
+               or st.official_title ilike '%Ciloleucel%'
+               or int.name ilike '%Ciloleucel%'
+               or ky.name ilike '%Ciloleucel%'
+               or des.description ilike '%Ciloleucel%'
+               or st.official_title ilike '%CTL019%'
+               or int.name ilike '%CTL019%'
+               or ky.name ilike '%CTL019%'
+               or des.description ilike '%CTL019%'
+               or st.official_title ilike '%tisagenlecleucel-T%'
+               or int.name ilike '%tisagenlecleucel-T%'
+               or ky.name ilike '%tisagenlecleucel-T%'
+               or des.description ilike '%tisagenlecleucel-T%'
+               or st.official_title ilike '%MGB453%'
+               or int.name ilike '%MGB453%'
+               or ky.name ilike '%MGB453%'
+               or des.description ilike '%MGB453%'
+               or st.official_title ilike '%NY-ESO%'
+               or int.name ilike '%NY-ESO%'
+               or ky.name ilike '%NY-ESO%'
+               or des.description ilike '%NY-ESO%'
+               or st.official_title ilike '%SPEAR%'
+               or int.name ilike '%SPEAR%'
+               or ky.name ilike '%SPEAR%'
+               or des.description ilike '%SPEAR%'
               ) then True else False end) as is_immunotherapy_trial
               , '' as comments
               , '' as publications
+              , array_agg(distinct int.intervention_type) as intervention_types
               , array_agg(distinct int.name) as drug_names
             from public.studies st
-              join public.conditions cond
+              left join public.conditions cond
                 on cond.nct_id = st.nct_id
-              join public.interventions int
+              left join public.interventions int
                 on int.nct_id = st.nct_id
-                   and int.intervention_type in ('Drug', 'Device', 'Biology')
-              join (select fac.nct_id
-                      , array_agg(distinct (CASE WHEN country = 'United States' then fac.state else fac.country end)) as locations
-                    from public.facilities fac
-                    group by fac.nct_id) fac
+                   and int.intervention_type in ('Drug', 'Device', 'Biological')
+              left join (select fac.nct_id
+                           , array_agg(distinct (CASE WHEN country = 'United States' then fac.state else fac.country end)) as locations
+                         from public.facilities fac
+                         group by fac.nct_id) fac
                 on fac.nct_id = st.nct_id
               left join (select cont.nct_id
                            , array_agg(distinct cont.phone) as contact_phones
@@ -163,16 +212,30 @@ class CRCTrialsUpdater(object):
                 on ky.nct_id = st.nct_id
               left join public.eligibilities el
                 on el.nct_id = st.nct_id
+              left join
+              (select br.nct_id
+                , array_agg(distinct br.mesh_term) as mesh_terms
+                from public.browse_conditions br
+                group by br.nct_id) br
+                on br.nct_id = st.nct_id
             -- all logic conditions
             where st.study_type =  'Interventional'
-              and overall_status in ('Recruiting','Enrolling by invitation','Not yet recruiting','Available')
-              and ((st.official_title ilike '%cancer%' or st.official_title ilike '%neoplasm%' or st.official_title ilike '%tumor%')
-                   or (cond.name ilike '%cancer%' or cond.name ilike '%neoplasm%' or cond.name ilike '%tumor%')
-                   or (ky.name ilike '%cancer%' or ky.name ilike '%neoplasm%' or ky.name ilike '%tumor%')
-                   or (cond.name ilike '%tumor%') or st.official_title ilike '%Advanced Cancer%' or (cond.name ilike '%advanced solid tumor%'))
-              and (first_received_date >= date('2010-01-01'))
+                  and st.nct_id in ({nct_ids})
+                  and overall_status in ('Recruiting','Enrolling by invitation','Not yet recruiting','Available')
+                  and (st.official_title ilike '%cancer%' or st.official_title ilike '%neoplasm%' or st.official_title ilike '%tumor%' or st.official_title ilike '%malignan%' or st.official_title ilike '%tumour%'
+                       or cond.name ilike '%cancer%' or cond.name ilike '%neoplasm%' or cond.name ilike '%tumor%' or cond.name ilike '%malignan%' or cond.name ilike '%tumour%'
+                       or ky.name ilike '%cancer%' or ky.name ilike '%neoplasm%' or ky.name ilike '%tumor%' or ky.name ilike '%tumour%' or ky.name ilike '%carcinoma%' or ky.name ilike '%malignan%'
+                       or st.official_title ilike '%carcinoma%' or cond.name ilike '%carcinoma%' or st.official_title ilike '%metast%'
+                       or cast(br.mesh_terms as varchar) ilike '%cancer%' or cast(br.mesh_terms as varchar) ilike '%neoplasm%' or cast(br.mesh_terms as varchar) ilike '%tumor%'
+                       or cast(br.mesh_terms as varchar) ilike '%maligan%' or cast(br.mesh_terms as varchar) ilike '%metast%' or cast(br.mesh_terms as varchar) ilike '%tumour%'
+                       or cast(br.mesh_terms as varchar) ilike '%carcinoma%')
+                  and (first_received_date >= date(current_date - {cutoff_days}) OR last_changed_date >= date(current_date - {cutoff_days}))
             group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19;
-                """)
+                """.format(cutoff_days=self.cutoff_days, nct_ids=','.join("'%s'" % id for id in nct_ids)))
 
-def run(use_pickle=False):
-    CRCTrialsUpdater(use_pickle).update_existing_trials()
+def run(cutoff_days=2, use_pickle=False):
+    """
+    use pickle to load/save the queried external source data locally for faster testing
+    cutoff_days: the number of days prior to today that we query for updates/change
+    """
+    CRCTrialsUpdater(use_pickle, int(cutoff_days)).update_existing_trials()
