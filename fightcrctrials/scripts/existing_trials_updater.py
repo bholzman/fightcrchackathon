@@ -1,10 +1,8 @@
 """
-Queries aac trials database to find new
-trials that we don't have in the system.
-
-Adds them as uncurated trials in our own database
-for our admins to approve.
+Updates our existing CRT trials with any new
+information sourced from the aact datatbase.
 """
+
 from __future__ import print_function
 import datetime
 import httplib2
@@ -12,13 +10,19 @@ import os
 
 from sqlalchemy import create_engine, text
 
-# from fightcrctrials.models import CRCTrials
 
-class CRCTrialDownloader(object):
-    def download_new_trials(self):
-        # Create an un-approved trial for eah new aac_trial
-        for aac_trial in self.get_new_aac_trials():
-            Trial.create(
+class CRTUpdater(object):
+    def update_existing_trials(self):
+        # query trials that we have
+        updated_aac_trials = self.get_updated_aac_trials_map()
+
+        # for each trial, update it's information
+        for trial in Trial.objects.filter_by(nct_ids=aact_updated_trials.keys()):
+            aact_trial = aact_updated_trials.fetch('nct_id')
+            if aact_trial is None:
+                continue
+
+            trial.update(
                 date_trial_added=aact_updated_trials['date_trial_added'],
                 brief_title=aact_updated_trials['brief_title'],
                 official_title=aact_updated_trials['official_title'],
@@ -35,10 +39,14 @@ class CRCTrialDownloader(object):
                 drug_names=aact_updated_trials['drug_names'],
             )
 
-    def get_new_aac_trials(self):
+    def get_updated_aac_trials_map(self):
         """Returns a map of nct_ids to recently updated aact_trials from aact"""
         engine = create_engine('postgresql://aact:aact@aact-prod.cr4nrslb1lw7.us-east-1.rds.amazonaws.com/aact')
-        return engine.execute(self.get_sql_string())
+        trials = {}
+        for row in engine.execute(self.get_sql_string()):
+            trials[row['nct_id']] = row
+
+        return trials
 
     def get_sql_string(self):
         return text("""
@@ -109,7 +117,7 @@ class CRCTrialDownloader(object):
                       or (ky.name ilike '%cancer%' or ky.name ilike '%neoplasm%')
                       or (cond.name ilike '%advanced solid tumor%'))
             group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15;
-                """)
+              """)
 
 def run():
-      CRCTrialDownloader().download_new_trials()
+      CRTUpdater().update_existing_trials()
