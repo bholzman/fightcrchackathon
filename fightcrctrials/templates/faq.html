@@ -1,1 +1,12 @@
-faq.html
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="container welcome">
+<h4>Frequently Asked Questions:</h4>
+{% for faq in faqs %}
+    <p style="font-weight:bold">{{ faq.question }}</p>
+    <p>{{ faq.answer }}</p>
+
+{% endfor %}
+</div>
+{% endblock %}

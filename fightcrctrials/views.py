@@ -6,7 +6,7 @@ import os
 import sendgrid
 from sendgrid.helpers.mail import Email, Content, Mail
 
-from .models import Greeting, CRCTrials
+from .models import Greeting, CRCTrials, FAQ
 
 
 # Create your views here.
@@ -21,7 +21,8 @@ def welcome(request):
 
 
 def faq(request):
-    return render(request, 'faq.html', {'trials': json.dumps(CRCTrials().trials)})
+    faqs = FAQ.objects.all()
+    return render(request, 'faq.html', {'faqs': faqs})
 
 def db(request):
 
