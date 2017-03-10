@@ -200,12 +200,12 @@
         yadcf.exFilterColumn(table, [[2, pNctNumber]]);
       }
       if (pTherapyName) {
-        table.column(1).search(pTherapyName).draw();
+        table = table.column(1).search(pTherapyName);
       }
       if (pSearchTerm) {
-        table.search(pSearchTerm).draw();
+        table = table.search(pSearchTerm).draw();
       }
-
+      table.draw();
 
       $('#trial-closed').click(function() {
         var user = prompt('Please enter your name');

@@ -11,9 +11,9 @@ import fightcrctrials.views
 # url(r'^blog/', include('blog.urls')),
 
 urlpatterns = [
-    url(r'^$', fightcrctrials.views.index, name='index'),
+    url(r'^$', fightcrctrials.views.welcome, name='welcome'),
     url(r'^db', fightcrctrials.views.db, name='db'),
-    url(r'^welcome/', fightcrctrials.views.welcome, name='welcome'),
+    url(r'^trials/', fightcrctrials.views.index, name='trials'),
     url(r'^send-trial-closed-email/', fightcrctrials.views.send_trial_closed_email),
     url(r'^favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
     url(r'^faq/', fightcrctrials.views.faq, name='faq'),
