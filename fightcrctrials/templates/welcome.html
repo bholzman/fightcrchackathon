@@ -6,8 +6,15 @@
   <div class="container welcome">
     <form action="trials/" method="GET">
       <div class="row">
-        <div class="col-sm-12">
-          <h3>Search for open clinical trials for colorectal cancer</h3>
+        <div class="col-xs-12">
+          <div class="form-group">
+            <input type="text"
+                   class="form-control"
+                   id="jumbo-search"
+                   autofocus
+                   name="searchTerm"
+                   placeholder="Search for open colorectal cancer clinical trials..." id="adv-texty">
+          </div>
         </div>
       </div>
       <div class="row welcome-filters">
@@ -51,15 +58,11 @@
           <div class="form-group">
             <input type="text" class="form-control" name="therapyName" placeholder="Therapy Name" id="adv-therapy">
           </div>
-          <div class="form-group">
-            <input type="text" class="form-control" name="searchTerm" placeholder="Search any text" id="adv-texty">
-          </div>
         </div>
       </div>
+      <br/>
       <div class="row centered">
-        <div class="col-sm-2 col-md-offset-5">
-          <button class="btn btn-primary" type="submit">Search</button>
-        </div>
+        <button class="btn btn-primary btn-md col-sm-3 col-md-offset-9" type="submit">Search</button>
       </div>
     </form>
   </div>

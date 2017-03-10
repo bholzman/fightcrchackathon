@@ -10,6 +10,18 @@ table{
 .welcome {
   max-width: 768px;
 }
+.welcome form {
+    margin-top: 25vh;
+}
+
+.welcome-filters {
+    color: rgba(0, 0, 0, 0.60);
+}
+
+.welcome-filters h5 {
+    color: rgba(0, 0, 0, 0.70);
+}
+
 
 .fight-crc-logo {
   max-height: 100px;
@@ -19,14 +31,47 @@ table{
   width: 100% !important;
 }
 
-.nav a{
+.navbar {
+    border-bottom: 1px solid #a6dcf2;
+    background: #FFFFFF;
+    padding-bottom: 3px;
+    outline: none;
+}
+
+.nav a {
     color: #0053A2 !important;
-    font-size: 1.8em !important;
-    font-weight: bold;
+    font-size: 1.4em !important;
+    text-transform: uppercase;
+    font-weight: lighter;
     }
-.navbar-brand {
-    position: absolute;
-    left: 50%;
-    margin-left: -50px !important;  /* 50% of your logo width */
-    display: block;
+.nav > li > a:hover, .nav > li > a:active {
+    text-decoration: underline;
+    opacity: 1;
+}
+
+.navbar-brand img {
+    width: 2.8em;
+    height: 2.8em;
+    margin-top: -0.8em;
+}
+
+
+.yadcf-filter-wrapper {
+    box-sizing:border-box;
+}
+.yadcf-filter-wrapper > .yadcf-filter-reset-button,
+.yadcf-filter-wrapper > .chosen-choices {
+    font-size: 15px;
+    height: 1.75em;
+}
+
+#jumbo-search {
+    font-size: 30px;
+    border: none;
+    font-weight: lighter;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 31px 10px 24px 2px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 30px;
 }
