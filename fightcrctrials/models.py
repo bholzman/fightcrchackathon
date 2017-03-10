@@ -30,11 +30,16 @@ class FAQ(models.Model):
 
 # this data model will read from the CRC Trials google sheet
 class CRCTrial(models.Model):
-    category = models.CharField(max_length=100)
-    nct_id = models.CharField(unique=True, max_length=100)
-    updated_date = models.DateField()
-    date_trial_added = models.DateField()
+    nct_id = models.CharField("NCT ID", unique=True, max_length=100)
     brief_title = models.CharField(max_length=300, blank=True)
+    date_trial_added = models.DateField()
+    updated_date = models.DateField()
+    is_crc_trial = models.BooleanField('CRC-directed trial', default=False)
+    is_immunotherapy_trial = models.BooleanField('Immunotherapy trial', default=False)
+    intervention_types = ArrayField(models.CharField(max_length=200), null=True)
+    drug_names = ArrayField(models.CharField(max_length=300))
+    reviewed = models.BooleanField(default=False)
+    category = models.CharField('Subtype', max_length=100)
     title = models.CharField(max_length=300)
     program_status = models.CharField(max_length=30, choices=(
         ("Temporarily not available", "Temporarily not available"),
@@ -70,13 +75,8 @@ class CRCTrial(models.Model):
     urls = ArrayField(models.URLField(max_length=200), null=True)
     prior_io_ok = models.BooleanField(default=False)
     description = models.TextField(null=True)
-    is_crc_trial = models.BooleanField(default=False)
-    is_immunotherapy_trial = models.BooleanField(default=False)
     comments = models.TextField(blank=True)
     resources = ArrayField(models.URLField(max_length=200), null=True)
-    drug_names = ArrayField(models.CharField(max_length=300))
-    intervention_types = ArrayField(models.CharField(max_length=200), null=True)
-    reviewed = models.BooleanField(default=False)
 
     def __str__(self):
         return '{} ({})'.format(self.brief_title, self.nct_id)
