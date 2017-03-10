@@ -11,7 +11,7 @@ import os
 from sqlalchemy import create_engine, text
 
 
-class CRTUpdater(object):
+class CRCTrialsUpdater(object):
     def update_existing_trials(self):
         # query trials that we have
         updated_aac_trials = self.get_updated_aac_trials_map()
@@ -120,4 +120,4 @@ class CRTUpdater(object):
               """)
 
 def run():
-      CRTUpdater().update_existing_trials()
+      CRCTrialsUpdater().update_existing_trials()
