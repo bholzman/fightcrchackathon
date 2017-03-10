@@ -148,7 +148,7 @@
         $('#detail-locations').html(detail_data[4].join(', '));
         $('#detail-nct').html('<a target="_blank" href="https://clinicaltrials.gov/ct2/show/' + detail_data[2] + '">' + detail_data[2] + '</a>');
         $('#detail-comments').html(detail_data[5]);
-        $('#detail-prior-io').html({1: 'Yes', 0: 'No'}[detail_data[6]]);
+        $('#detail-prior-io').html(detail_data[6]);
         var pubs = _.map(detail_data[7], function (pub) {
             return '<a target="_blank" href="' + pub + '">' + pub + '</a>';
         }).join('<br>');
