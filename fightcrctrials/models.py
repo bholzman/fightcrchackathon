@@ -105,14 +105,14 @@ class CRCTrial(models.Model):
                 trial.resources])
 
         return json.dumps({
-            'header': ['Category', 'Drug', 'NCT', 'Type', 'Locations',
+            'header': ['Subtype', 'Drug', 'NCT', 'Type', 'Locations',
                        'Comments', 'Prior Immunotherapy OK', 'Publications'],
             'data': trial_data
         })
 
 
 class CRCTrials(object):
-    _header = ['Category', 'Drug', 'NCT', 'Type', 'Locations', 'Comments', 'Prior Immunotherapy OK', 'Publications']
+    _header = ['Subtype', 'Drug', 'NCT', 'Type', 'Locations', 'Comments', 'Prior Immunotherapy OK', 'Publications']
 
     def __init__(self, caching_enabled=True):
         self._caching_enabled = caching_enabled
