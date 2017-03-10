@@ -116,14 +116,17 @@
               }
             }
           }
-        ]
+        ],
+        "bStateSave": true
       });
 
       var locations = new Set();
       _.each(trials.data, function(item) {
         _.each(item[4], function(location) {
           var cleaned = location.trim();
-          locations.add(cleaned)
+          if (cleaned.length > 0) {
+            locations.add(cleaned);
+          }
         })
       });
 
