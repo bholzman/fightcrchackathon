@@ -7,18 +7,18 @@ import sendgrid
 from sendgrid.helpers.mail import Email, Content, Mail
 
 from .forms import ContactUsForm
-from .models import Greeting, CRCTrials, FAQ
+from .models import Greeting, CRCTrial, FAQ
 
 
 # Create your views here.
 @ensure_csrf_cookie
 def index(request):
     # return HttpResponse('Hello from Python!')
-    return render(request, 'index.html', {'trials': json.dumps(CRCTrials().trials)})
+    return render(request, 'index.html', {'trials': CRCTrial.trials_json()})
 
 
 def welcome(request):
-    return render(request, 'welcome.html', {'trials': json.dumps(CRCTrials().trials)})
+    return render(request, 'welcome.html', {'trials': CRCTrial.trials_json()})
 
 
 def faq(request):

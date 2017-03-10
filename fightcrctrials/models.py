@@ -81,6 +81,36 @@ class CRCTrial(models.Model):
     def __str__(self):
         return '{} ({})'.format(self.brief_title, self.nct_id)
 
+    @classmethod
+    def trials_json(cls):
+        reviewed = CRCTrial.objects.filter(reviewed=True)
+        trial_data = []
+        for trial in reviewed:
+            trial_type = ''
+            if trial.is_crc_trial and trial.is_immunotherapy_trial:
+                trial_type = 'Im OR Tw'
+            elif trial.is_crc_trial:
+                trial_type = 'Tw'
+            elif trial.is_immunotherapy_trial:
+                trial_type = 'Im'
+
+            trial_data.append([
+                trial.category,
+                ', '.join(trial.drug_names),
+                trial.nct_id,
+                trial_type,
+                trial.locations,
+                trial.comments,
+                trial.prior_io_ok,
+                trial.resources])
+
+        return json.dumps({
+            'header': ['Category', 'Drug', 'NCT', 'Type', 'Locations',
+                       'Comments', 'Prior Immunotherapy OK', 'Publications'],
+            'data': trial_data
+        })
+
+
 class CRCTrials(object):
     _header = ['Category', 'Drug', 'NCT', 'Type', 'Locations', 'Comments', 'Prior Immunotherapy OK', 'Publications']
 
