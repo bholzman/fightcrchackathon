@@ -210,7 +210,7 @@ class CRCTrials(object):
                     publications
                 ])
 
-        return {
+        return json.dumps({
             'header': self._header,
             'data': data
-        }
+        })
