@@ -61,36 +61,40 @@
 
       var trials = {{ trials|safe }};
 
-      var columns = _.map(trials.header, function(item) {
+      function nct_createdCell(cell, cellData) {
+          $(cell).html("<a target='_blank' href='https://clinicaltrials.gov/ct2/show/"+cellData + "'>" + cellData +"</a>");
+      }
 
-        var props = {
-          title: item
-        };
+      var columns = [
+          {title: 'NCT ID',
+           createdCell: nct_createdCell},
+          {title: 'CRC-Directed?'},
+          {title: 'Immunotherapy?'},
+          {title: 'Title'},
+          {title: 'Phase'},
+          {title: 'Geography'},
+          {title: 'Prior IO OK?'},
+          {title: 'Comments'},
+          {title: 'Description'}
+      ];
 
-        if (item === 'Publications') {
-          props['createdCell'] = function (cell, cellData) {
-            var html = '';
-            _.each(cellData, function(publication) {
-              html += "<a target='_blank' href='"+publication + "'>" + publication +"</a></br>";
-            })
-            $(cell).html(html);
-          };
-        }
-        if (item ==='NCT') {
-         props['createdCell'] = function (cell, cellData) {
-           $(cell).html("<a target='_blank' href='https://clinicaltrials.gov/ct2/show/"+cellData + "'>" + cellData +"</a>");
-         };
-        }
-        return props;
-      });
+      function column_for(name) {
+          return _.findIndex(columns, function (c) { return c.title === name });
+      }
 
       var table = $('#example').DataTable( {
-        data: trials.data,
+        data: _.map(trials, function(trial) {
+            return [trial.nct_id,
+                    trial.is_crc_trial,
+                    trial.is_immunotherapy_trial,
+                    trial.brief_title,
+                    trial.phase,
+                    trial.locations,
+                    trial.prior_io_ok,
+                    trial.comments,
+                    trial.description] }),
         columns: columns,
         columnDefs: [
-                  { "width": "75px", "targets": 2},
-                  { "width": "40px", "targets": 3},
-                  { "width": "105px", "targets": 6}
         ],
         responsive: true,
         dom: 'Bfrtip',
@@ -115,8 +119,8 @@
       });
 
       var locations = [];
-      _.each(trials.data, function(item) {
-        _.each(item[4], function(location) {
+      _.each(trials, function(item) {
+        _.each(item.locations, function(location) {
           var cleaned = location.trim();
           if (cleaned.length > 0) {
             locations.push(cleaned);
@@ -135,12 +139,12 @@
         return found !== undefined;
       };
       var columnFilters = [ ];
-      var columnsWithoutMultiselect = ['Comments', 'Publications', 'Drug'];
+      var columnsWithoutMultiselect = ['Comments', 'Description', 'Title'];
 
       for (i = 0; i < columns.length; i++) {
         var columnTitle = columns[i].title;
         if (!_.contains(columnsWithoutMultiselect, columnTitle)) {
-          if (columnTitle === 'Locations') {
+          if (columnTitle === 'Geography') {
             columnFilters.push({column_number: i,
               filter_type: "multi_select_custom_func",
               select_type: 'chosen',
@@ -159,42 +163,32 @@
 
       var detail_data;
       table.on('click', 'tbody tr', function() {
-        detail_data = table.row(this).data();
-        $('#detail-category').html(detail_data[0]);
-        $('#detail-drug').html(detail_data[1]);
-        var trial_type = {
-            'Im': 'Immunotherapy', 'Tw': 'Treading Water', 'Im OR Tw': 'Immunotherapy OR Treading Water'
-        }[detail_data[3]];
-        $('#detail-type').html(trial_type);
-        $('#detail-locations').html(detail_data[4].join(', '));
-        $('#detail-nct').html('<a target="_blank" href="https://clinicaltrials.gov/ct2/show/' + detail_data[2] + '">' + detail_data[2] + '</a>');
-        $('#detail-comments').html(detail_data[5]);
-        $('#detail-prior-io').html(detail_data[6]);
-        var pubs = _.map(detail_data[7], function (pub) {
-            return '<a target="_blank" href="' + pub + '">' + pub + '</a>';
-        }).join('<br>');
-        $('#detail-publications').html(pubs);
+        var nct_id = table.row(this).data()[0];
+        detail_data = _.findWhere(trials, {'nct_id': nct_id});
+        $('#detail-title').html(detail_data.title + ' (' + nct_id + ')');
+        for (key in detail_data) {
+            var content = detail_data[key];
+            if (key == 'nct_id') {
+                content = '<a target="_blank" href="https://clinicaltrials.gov/ct2/show/' + content + '">' + content + '</a>';
+            } else if (key == 'publications') {
+                content = _.map(content, function (pub) {
+                    return '<a target="_blank" href="' + pub + '">' + pub + '</a>';
+                }).join('<br>');
+            }
+            $('#detail-' + key).html(detail_data[key]);
+        }
         $('#detail').modal('show');
       });
       yadcf.init(table, columnFilters);
 
       if (pLocation) {
-        yadcf.exFilterColumn(table, [[4, pLocation]]);
-      }
-      if (pTreatmentType && pTreatmentType === 'immunotherapy') {
-        // Im = Immunotherapy
-        // Tw = Treading water (CRC trial)
-        // Im OR Tw = either
-        yadcf.exFilterColumn(table, [[3, ['Im', 'Im OR Tw']]]);
+        yadcf.exFilterColumn(table, [[column_for('Geography'), pLocation]]);
       }
       if (pPriorIo && pPriorIo === 'yes') {
-        yadcf.exFilterColumn(table, [[6, 'Yes']])
+        yadcf.exFilterColumn(table, [[column_for('Prior IO OK?'), 'Yes']])
       }
       if (pNctNumber) {
-        yadcf.exFilterColumn(table, [[2, pNctNumber]]);
-      }
-      if (pTherapyName) {
-        table = table.column(1).search(pTherapyName);
+        yadcf.exFilterColumn(table, [[column_for('NCT ID'), pNctNumber]]);
       }
       if (pSearchTerm) {
         table = table.search(pSearchTerm).draw();
@@ -237,7 +231,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div id="detail-drug" class="modal-title"></div>
+                <div id="detail-title" class="modal-title"></div>
             </div>
             <div class="modal-body">
                 <table>

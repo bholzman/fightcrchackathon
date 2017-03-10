@@ -84,31 +84,36 @@ class CRCTrial(models.Model):
     @classmethod
     def trials_json(cls):
         reviewed = CRCTrial.objects.filter(reviewed=True)
-        trial_data = []
-        for trial in reviewed:
-            trial_type = ''
-            if trial.is_crc_trial and trial.is_immunotherapy_trial:
-                trial_type = 'Im OR Tw'
-            elif trial.is_crc_trial:
-                trial_type = 'Tw'
-            elif trial.is_immunotherapy_trial:
-                trial_type = 'Im'
-
-            trial_data.append([
-                trial.category,
-                ', '.join(trial.drug_names),
-                trial.nct_id,
-                trial_type,
-                trial.locations,
-                trial.comments,
-                trial.prior_io_ok,
-                trial.resources])
-
-        return json.dumps({
-            'header': ['Subtype', 'Drug', 'NCT', 'Type', 'Locations',
-                       'Comments', 'Prior Immunotherapy OK', 'Publications'],
-            'data': trial_data
-        })
+        # would be nice to use django's built-in serializer, but it does
+        # not handle the ArrayFields correctly. Could try to extend the
+        # serializer, but for now we'll just do something dumb.
+        raw_data = [
+            {'nct_id': r.nct_id,
+             'brief_title': r.brief_title,
+             'date_trial_added': str(r.date_trial_added),
+             'updated_date': str(r.updated_date),
+             'is_crc_trial': r.is_crc_trial,
+             'is_immunotherapy_trial': r.is_immunotherapy_trial,
+             'intervention_types': r.intervention_types,
+             'drug_names': r.drug_names,
+             'subtype': r.category,
+             'title': r.title,
+             'program_status': r.program_status,
+             'phase': r.phase,
+             'min_age': r.min_age,
+             'max_age': r.max_age,
+             'gender': r.gender,
+             'inclusion_criteria': r.inclusion_criteria,
+             'exclusion_criteria': r.exclusion_criteria,
+             'locations': r.locations,
+             'contact_phones': r.contact_phones,
+             'contact_emails': r.contact_emails,
+             'urls': r.urls,
+             'prior_io_ok': r.prior_io_ok,
+             'description': r.description,
+             'comments': r.comments,
+             'publications': r.resources} for r in reviewed]
+        return json.dumps(raw_data)
 
 
 class CRCTrials(object):

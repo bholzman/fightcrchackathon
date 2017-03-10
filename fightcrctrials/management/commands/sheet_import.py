@@ -20,4 +20,4 @@ class Command(BaseCommand):
                     locations=data[4],
                     comments=data[5],
                     prior_io_ok=data[6],
-                    resources=data[7])
+                    publications=data[7])
