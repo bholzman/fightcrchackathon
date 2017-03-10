@@ -10,6 +10,8 @@ import pickle
 
 from sqlalchemy import create_engine, text
 from fightcrctrials.models import CRCTrial
+from fightcrctrials.serializers import AACTrialSerializer
+
 
 
 class CRCTrialsUpdater(object):
@@ -26,25 +28,27 @@ class CRCTrialsUpdater(object):
             if aact_trial is None:
                 continue
 
-            trial.updated_date = aact_trial.last_changed_date
-            trial.date_trial_added = aact_trial.date_trial_added
-            trial.brief_title = self.truncate_or_none(aact_trial.brief_title)
-            trial.title = self.truncate_or_none(aact_trial.official_title)
-            trial.program_status = "%s" % aact_trial.program_status
-            trial.phase = "%s" % aact_trial.eligible_cancer_phase
-            trial.min_age = self.sanitize_min_age(aact_trial.minimum_age)
-            trial.max_age = self.sanitize_max_age(aact_trial.maximum_age)
-            trial.gender = self.sanitize_gender(aact_trial.gender_criteria)
-            trial.inclusion_criteria = self.truncate_or_none(aact_trial.inclusion_criteria)
-            trial.exclusion_criteria = self.truncate_or_none(aact_trial.exclusion_criteria)
-            trial.locations = aact_trial.locations
-            trial.contact_phones = aact_trial.contact_phones
-            trial.contact_emails = aact_trial.contact_emails
-            trial.urls = self.sanitize_urls(aact_trial.urls)
-            trial.description = aact_trial.trial_description
-            trial.is_crc_trial = aact_trial.is_crc_trial
-            trial.is_immunotherapy_trial = aact_trial.is_immunotherapy_trial
-            trial.drug_names = self.sanitize_drug_names(aact_trial.drug_names)
+            serialized_aac_trial = AACTrialSerializer(aact_trial).serialize()
+
+            trial.updated_date = serialized_aac_trial['updated_date']
+            trial.date_trial_added = serialized_aac_trial['date_trial_added']
+            trial.brief_title = serialized_aac_trial['brief_title']
+            trial.title = serialized_aac_trial['title']
+            trial.program_status = serialized_aac_trial['program_status']
+            trial.phase = serialized_aac_trial['phase']
+            trial.min_age = serialized_aac_trial['min_age']
+            trial.max_age = serialized_aac_trial['max_age']
+            trial.gender = serialized_aac_trial['gender']
+            trial.inclusion_criteria = serialized_aac_trial['inclusion_criteria']
+            trial.exclusion_criteria = serialized_aac_trial['exclusion_criteria']
+            trial.locations = serialized_aac_trial['locations']
+            trial.contact_phones = serialized_aac_trial['contact_phones']
+            trial.contact_emails = serialized_aac_trial['contact_emails']
+            trial.urls = serialized_aac_trial['urls']
+            trial.description = serialized_aac_trial['description']
+            trial.is_crc_trial = serialized_aac_trial['is_crc_trial']
+            trial.is_immunotherapy_trial = serialized_aac_trial['is_immunotherapy_trial']
+            trial.drug_names = serialized_aac_trial['drug_names']
             trial.save()
 
 
@@ -72,52 +76,6 @@ class CRCTrialsUpdater(object):
                 with open(pickle_file_path, 'wb') as output:
                     pickle.dump([a for a in data], output)
             return data
-
-    def sanitize_urls(self, urls):
-        if urls is None: return None
-
-        return ["%s" % url[:200] for url in urls]
-
-
-    def sanitize_gender(self, gender):
-        if gender is None: return None
-
-        if gender == 'Female':
-          return "F"
-        elif gender == 'Male':
-          return 'M'
-        elif gender == "All":
-          # TODO(bkies): remove this fix
-          return "M"
-        else:
-          raise Exception("%s is not a valid gender" % gender)
-
-    def truncate_or_none(self, string):
-        if string is None: return "UNKOWN"
-        return "%s" % string[:200]
-
-    def sanitize_drug_names(self, drug_names):
-        if drug_names is None: return None
-
-        return ["%s" % drug for drug in drug_names]
-
-    def sanitize_min_age(self, minimum_age):
-        if minimum_age is None:
-            return None
-
-        try:
-            int(minimum_age)
-        except ValueError:
-            return None
-
-    def sanitize_max_age(self, maximum_age):
-        if maximum_age is None:
-            return None
-
-        try:
-            int(maximum_age)
-        except ValueError:
-            return None
 
     def get_sql_string(self):
         return text("""

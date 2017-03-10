@@ -17,6 +17,7 @@ import pickle
 from sqlalchemy import create_engine, text
 
 from fightcrctrials.models import CRCTrial
+from fightcrctrials.serializers import AACTrialSerializer
 
 class CRCTrialDownloader(object):
     def __init__(self, use_pickle):
@@ -26,75 +27,29 @@ class CRCTrialDownloader(object):
         # Create an un-approved trial for eah new aac_trial
         trials = self.get_new_aac_trials()
         for aac_trial in self.get_new_aac_trials():
+            serialized_aac_trial = AACTrialSerializer(aac_trial).serialize()
+
             CRCTrial.objects.update_or_create(nct_id=aac_trial.nct_id, defaults={
-                'updated_date': aac_trial.last_changed_date,
-                'date_trial_added': datetime.datetime.now(), #aac_trial.date_trial_added,
-                'brief_title': self.truncate_or_none(aac_trial.brief_title),
-                'title': self.truncate_or_none(aac_trial.official_title),
-                'program_status': "%s" % aac_trial.program_status,
-                'phase': "%s" % aac_trial.eligible_cancer_phase,
-                'min_age': self.sanitize_min_age(aac_trial.minimum_age),
-                'max_age': self.sanitize_max_age(aac_trial.maximum_age),
-                'gender': self.sanitize_gender(aac_trial.gender_criteria),
-                'inclusion_criteria': self.truncate_or_none(aac_trial.inclusion_criteria),
-                'exclusion_criteria': self.truncate_or_none(aac_trial.exclusion_criteria),
-                'locations': aac_trial.locations,
-                'contact_phones': aac_trial.contact_phones,
-                'contact_emails': aac_trial.contact_emails,
-                'urls': self.sanitize_urls(aac_trial.urls),
-                'description': aac_trial.trial_description,
-                'is_crc_trial': aac_trial.is_crc_trial,
-                'is_immunotherapy_trial': aac_trial.is_immunotherapy_trial,
-                'drug_names': self.sanitize_drug_names(aac_trial.drug_names),
+                'updated_date': serialized_aac_trial['updated_date'],
+                'date_trial_added': serialized_aac_trial['date_trial_added'],
+                'brief_title': serialized_aac_trial['brief_title'],
+                'title': serialized_aac_trial['title'],
+                'program_status': serialized_aac_trial['program_status'],
+                'phase': serialized_aac_trial['phase'],
+                'min_age': serialized_aac_trial['min_age'],
+                'max_age': serialized_aac_trial['max_age'],
+                'gender': serialized_aac_trial['gender'],
+                'inclusion_criteria': serialized_aac_trial['inclusion_criteria'],
+                'exclusion_criteria': serialized_aac_trial['exclusion_criteria'],
+                'locations': serialized_aac_trial['locations'],
+                'contact_phones': serialized_aac_trial['contact_phones'],
+                'contact_emails': serialized_aac_trial['contact_emails'],
+                'urls': serialized_aac_trial['urls'],
+                'description': serialized_aac_trial['description'],
+                'is_crc_trial': serialized_aac_trial['is_crc_trial'],
+                'is_immunotherapy_trial': serialized_aac_trial['is_immunotherapy_trial'],
+                'drug_names': serialized_aac_trial['drug_names'],
             })
-
-    def sanitize_urls(self, urls):
-        if urls is None: return None
-
-        return ["%s" % url[:200] for url in urls]
-
-
-    def sanitize_gender(self, gender):
-        if gender is None: return None
-
-        if gender == 'Female':
-          return "F"
-        elif gender == 'Male':
-          return 'M'
-        elif gender == "All":
-          # TODO(bkies): remove this fix by allowing 'A' in the model
-          return "M"
-        else:
-          # TODO(Bkies): add more gender types
-          raise Exception("%s is not a valid gender" % gender)
-          return None
-
-    def truncate_or_none(self, string):
-        if string is None: return "UNKOWN"
-        return "%s" % string[:200]
-
-    def sanitize_drug_names(self, drug_names):
-        if drug_names is None: return None
-
-        return ["%s" % drug for drug in drug_names]
-
-    def sanitize_min_age(self, minimum_age):
-        if minimum_age is None:
-            return None
-
-        try:
-            int(minimum_age)
-        except ValueError:
-            return None
-
-    def sanitize_max_age(self, maximum_age):
-        if maximum_age is None:
-            return None
-
-        try:
-            int(maximum_age)
-        except ValueError:
-            return None
 
     def get_new_aac_trials(self):
         """Returns a map of nct_ids to recently updated aact_trials from aact"""
