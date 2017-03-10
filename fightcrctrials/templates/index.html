@@ -9,6 +9,24 @@
   <script src="../static/js/jquery.dataTables.yadcf.js"></script>
   <script src="../static/js/chosen.jquery.min.js"></script>
   <script type="text/javascript">
+    function getQueryParams(queryString) {
+      var query = (queryString || window.location.search).substring(1); // delete ?
+      if (!query) {
+        return false;
+      }
+      return _
+          .chain(query.split('&'))
+          .map(function(params) {
+            var p = params.split('=');
+            return [p[0], decodeURIComponent(p[1])];
+          })
+          .object()
+          .value();
+    }
+
+    var params = getQueryParams();
+    var pLocation = params.location;
+
     $(document).ready(function() {
       if (!Cookies.get('agreed-to-disclaimer')) {
           $('#disclaimer').modal({keyboard: false, show: true});
@@ -102,12 +120,13 @@
           locations.add(cleaned)
         })
       });
+
       var filterFunction = function(filterVal, columnVal, rowValues, stateVal) {
         if (filterVal === null || filterVal.length == 0 || (filterVal.length == 1 && filterVal[0].length == 0)){
           return true;
         }
         var found = _.find(filterVal, function(value) {
-          var splitValues = columnVal.split(', ');
+          var splitValues = columnVal.split(',');
           return value.length > 0 && _.contains(splitValues, value);
         });
         return found !== undefined;
@@ -156,6 +175,9 @@
         $('#detail').modal('show');
       });
       yadcf.init(table, columnFilters);
+      if (pLocation) {
+        yadcf.exFilterColumn(table, [[4, pLocation]]);
+      }
 
       $('#trial-closed').click(function() {
         var user = prompt('Please enter your name');

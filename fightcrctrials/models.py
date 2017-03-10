@@ -107,7 +107,7 @@ class CRCTrials(object):
             else:
                 drug = row[0]
                 trial_type = row[1]
-                locations = row[2].split(',')
+                locations = [x.strip() for x in row[2].split(',') if x]
                 nct = row[3]
                 comments = row[5]
                 prior_io_ok = "No"

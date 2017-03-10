@@ -16,6 +16,7 @@
         </a>
       </div>
     </div>
+    <form action="../" method="GET">
     <div class="row">
       <div class="col-sm-12">
         <h3>Search for open clinical trials for colorectal cancer</h3>
@@ -33,9 +34,11 @@
         <div class="checkbox">
           <label><input type="checkbox" value="colorectal" disabled>Colorectal</label>
         </div>
-        <h5>Geography</h5>
-
       </div>
+        <h5>Geography</h5>
+        <div class="checkbox">
+          <select id="geo" name="location"></select>
+        </div>
       <div class="col-sm-4">
         <h5>Type of treatment</h5>
         <div class="checkbox">
@@ -72,5 +75,13 @@
     </div>
   </div>
 
+  <script type="text/javascript">
+    var trials = {{ trials|safe }};
+    var locations = _.uniq(_.flatten(_.map(trials.data, function(item) { return item[4]; }))).sort();
 
+    var geoSelect = $('#geo');
+    _.forEach(locations, function(location) {
+      geoSelect.append($('<option/>', {value: location, text: location}));
+    });
+  </script>
 {% endblock %}
