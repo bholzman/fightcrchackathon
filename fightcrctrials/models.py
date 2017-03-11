@@ -31,16 +31,16 @@ class FAQ(models.Model):
 # this data model will read from the CRC Trials google sheet
 class CRCTrial(models.Model):
     nct_id = models.CharField("NCT ID", unique=True, max_length=100)
-    brief_title = models.CharField(max_length=300, blank=True)
-    date_trial_added = models.DateField()
-    updated_date = models.DateField()
-    is_crc_trial = models.BooleanField('CRC-directed trial', default=False)
-    is_immunotherapy_trial = models.BooleanField('Immunotherapy trial', default=False)
-    intervention_types = ArrayField(models.CharField(max_length=200), null=True)
-    drug_names = ArrayField(models.CharField(max_length=300))
-    reviewed = models.BooleanField(default=False)
-    category = models.CharField('Subtype', max_length=100)
-    title = models.CharField(max_length=300)
+    brief_title = models.CharField(max_length=300, null=True, blank=True)
+    reviewed = models.BooleanField(default=False, blank=True)
+    is_crc_trial = models.BooleanField('CRC-directed trial', default=False, blank=True)
+    is_immunotherapy_trial = models.BooleanField('Immunotherapy trial', default=False, blank=True)
+    category = models.CharField('Trial sub-type', max_length=100, null=True, blank=True)
+    prior_io_ok = models.BooleanField(default=False, blank=True)
+    comments = models.TextField(null=True, blank=True)
+    resources = ArrayField(models.URLField(max_length=200), null=True, blank=True)
+    urls = ArrayField(models.URLField(max_length=200), null=True, blank=True)
+    title = models.CharField(max_length=300, null=True, blank=True)
     program_status = models.CharField(max_length=30, choices=(
         ("Temporarily not available", "Temporarily not available"),
         ("Active, not recruiting", "Active, not recruiting"),
@@ -55,7 +55,10 @@ class CRCTrial(models.Model):
         ("Available", "Available"),
         ("Approved for marketing", "Approved for marketing"),
         ("Not yet recruiting", "Not yet recruiting"),
-        ("Terminated", "Terminated")))
+        ("Terminated", "Terminated")), null=True, blank=True)
+    locations = ArrayField(models.CharField(max_length=100), null=True, blank=True)
+    date_trial_added = models.DateField(null=True, blank=True)
+    updated_date = models.DateField(null=True, blank=True)
     phase = models.CharField(max_length=20, choices=(
         ("Phase 1", "Phase 1"),
         ("Early Phase 1", "Early Phase 1"),
@@ -63,20 +66,17 @@ class CRCTrial(models.Model):
         ("Phase 1/Phase 2", "Phase 1/Phase 2"),
         ("Phase 2/Phase 3", "Phase 2/Phase 3"),
         ("Phase 2", "Phase 2"),
-        ("Phase 3", "Phase 3")), blank=True)
-    min_age = models.IntegerField(null=True)
-    max_age = models.IntegerField(null=True)
-    gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), ('A', 'All')), blank=True)
-    inclusion_criteria = models.TextField(null=True)
-    exclusion_criteria = models.TextField(null=True)
-    locations = ArrayField(models.CharField(max_length=100), null=True)
-    contact_phones = ArrayField(models.CharField(max_length=100), null=True)
-    contact_emails = ArrayField(models.EmailField(), null=True)
-    urls = ArrayField(models.URLField(max_length=200), null=True)
-    prior_io_ok = models.BooleanField(default=False)
-    description = models.TextField(null=True)
-    comments = models.TextField(blank=True)
-    resources = ArrayField(models.URLField(max_length=200), null=True)
+        ("Phase 3", "Phase 3")), null=True, blank=True)
+    intervention_types = ArrayField(models.CharField(max_length=200), null=True, blank=True)
+    drug_names = ArrayField(models.CharField(max_length=300), null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    min_age = models.IntegerField(null=True, blank=True)
+    max_age = models.IntegerField(null=True, blank=True)
+    gender = models.CharField(max_length=1, choices=(('M', 'Male'), ('F', 'Female'), ('A', 'All')), null=True, blank=True)
+    inclusion_criteria = models.TextField(null=True, blank=True)
+    exclusion_criteria = models.TextField(null=True, blank=True)
+    contact_phones = ArrayField(models.CharField(max_length=100), null=True, blank=True)
+    contact_emails = ArrayField(models.EmailField(), null=True, blank=True)
 
     def __str__(self):
         return '%s (%s)' % (self.brief_title, self.nct_id)

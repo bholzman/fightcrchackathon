@@ -20,3 +20,5 @@ urlpatterns = [
     url(r'^contact-us/', fightcrctrials.views.contactus, name='contact_us'),
     url(r'^admin/', include(admin.site.urls))
 ]
+
+admin.site.site_header = 'FightCRC Trial Finder administration'
