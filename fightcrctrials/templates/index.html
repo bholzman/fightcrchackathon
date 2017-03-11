@@ -75,7 +75,7 @@
             return [trial.nct_id,
                     trial.is_crc_trial ? "Yes" : "No",
                     trial.is_immunotherapy_trial ? "Yes" : "No",
-                    trial.title,
+                    trial.brief_title ? trial.brief_title : trial.title,
                     trial.phase,
                     trial.locations ? trial.locations.join(', ') : [],
                     trial.prior_io_ok ? "Yes" : "No",
@@ -175,7 +175,7 @@
         }
         var nct_id = table.row(this).data()[0];
         detail_data = _.findWhere(trials, {'nct_id': nct_id});
-        $('#detail-heading').html(detail_data.title + ' (' + nct_id + ')');
+        $('#detail-heading').html((detail_data.brief_title ? detail_data.brief_title : detail_data.title) + ' (' + nct_id + ')');
         for (key in detail_data) {
             var content = detail_data[key];
             if (key === 'nct_id') {
@@ -233,7 +233,7 @@
         if (confirm('Are you sure you want to report that this trial has closed?')) {
             $.post(
                 '/send-trial-closed-email/',
-                {'title': detail_data.title, 'nct': detail_data.nct_id},
+                {'title': (detail_data.brief_title ? detail_data.brief_title : detail_data.title), 'nct': detail_data.nct_id},
                 function (result) {
                     alert('Thanks for letting us know!');
                 });
