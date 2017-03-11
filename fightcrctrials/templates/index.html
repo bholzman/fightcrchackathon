@@ -76,7 +76,7 @@
                     trial.is_immunotherapy_trial ? "Yes" : "No",
                     trial.brief_title,
                     trial.phase,
-                    trial.locations.join(', '),
+                    trial.locations ? trial.locations.join(', ') : [],
                     trial.prior_io_ok ? "Yes" : "No",
                     trial.comments,
                     trial.description] }),
