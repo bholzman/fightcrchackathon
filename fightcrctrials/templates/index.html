@@ -54,16 +54,16 @@
       }
 
       var columns = [
-          {title: 'NCT ID',
+          {title: 'NCT ID', className: 'filter-nct_id',
            createdCell: nct_createdCell},
-          {title: 'CRC-Directed?'},
-          {title: 'Immunotherapy?'},
-          {title: 'Title'},
-          {title: 'Phase'},
-          {title: 'Geography'},
-          {title: 'Prior IO OK?'},
-          {title: 'Comments'},
-          {title: 'Description'}
+          {title: 'CRC-Directed?', width: '75px', className: 'filter-crc-directed'},
+          {title: 'Immunotherapy?', width: '82px', className: 'filter-immunotherapy'},
+          {title: 'Title', className: 'filter-title'},
+          {title: 'Phase', width: '114px', className: 'filter-phase'},
+          {title: 'Geography', className: 'filter-geography'},
+          {title: 'Prior IO OK?', width: '74px', className: 'filter-prior_io_ok'},
+          {title: 'Comments', className: 'filter-comments'},
+          {title: 'Drug(s)', className: 'filter-drugs'}
       ];
 
       function column_for(name) {
@@ -80,7 +80,7 @@
                     trial.locations ? trial.locations.join(', ') : [],
                     trial.prior_io_ok ? "Yes" : "No",
                     trial.comments,
-                    trial.description] }),
+                    trial.drug_names ? trial.drug_names.join(', ') : []] }),
         columns: columns,
         columnDefs: [
         ],
@@ -106,13 +106,19 @@
         ]
       });
 
-      var locations = [], phases = [];
+      var locations = [], phases = [], drug_names = [];
       _.each(trials, function(item) {
         phases.push(item.phase);
         _.each(item.locations, function(location) {
           var cleaned = location.trim();
           if (cleaned.length > 0) {
             locations.push(cleaned);
+          }
+        })
+        _.each(item.drug_names, function(drug_name) {
+          var cleaned = drug_name.trim();
+          if (cleaned.length > 0) {
+            drug_names.push(cleaned);
           }
         })
       });
@@ -129,7 +135,7 @@
       };
       var columnFilters = [ ];
       var columnsWithoutMultiSelect = ['CRC-Directed?', 'Immunotherapy?', 'Prior IO OK?'];
-      var columnsWithoutSelect = ['Comments', 'Description', 'Title'];
+      var columnsWithoutSelect = ['Comments', 'Title'];
 
       for (i = 0; i < columns.length; i++) {
         var columnTitle = columns[i].title;
@@ -223,6 +229,12 @@
       }
       if (pPhase) {
         yadcf.exFilterColumn(table, [[column_for('Phase'), [pPhase]]]);
+      }
+      if (pTherapyName) {
+        // get all drug names that match pTherapyName
+        var re = new RegExp(pTherapyName, 'i');
+        var matched = _.filter(drug_names, function(drug) { return re.test(drug) });
+        yadcf.exFilterColumn(table, [[column_for('Drug(s)'), matched]]);
       }
       if (pSearchTerm) {
         table = table.search(pSearchTerm).draw();
