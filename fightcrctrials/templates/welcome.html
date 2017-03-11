@@ -55,6 +55,9 @@
           <div class="form-group">
             <input type="text" class="form-control" name="therapyName" placeholder="Therapy Name" id="adv-therapy">
           </div>
+          <div class="checkbox">
+            <select id="adv-phase" name="phase" data-placeholder="Choose phases" multiple style="width: 200px"></select>
+          </div>
         </div>
       </div>
       <br/>
@@ -67,6 +70,7 @@
   <script type="text/javascript">
     var trials = {{ trials|safe }};
     var locations = _.uniq(_.flatten(_.map(trials, function(item) { return item.locations; }))).sort();
+    var phases = _.uniq(_.map(trials, function(item) { return item.phase; })).sort();
 
     var geoSelect = $('#geo');
     _.forEach(locations, function(location) {
@@ -74,5 +78,12 @@
     });
 
     $("#geo").chosen();
+
+    var phaseSelect = $('#adv-phase');
+    _.forEach(phases, function(phase) {
+      phaseSelect.append($('<option/>', {value: phase, text: phase}));
+    });
+
+    $("#adv-phase").chosen();
   </script>
 {% endblock %}

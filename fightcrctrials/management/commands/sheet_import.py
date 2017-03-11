@@ -21,6 +21,6 @@ class Command(BaseCommand):
                     is_immunotherapy_trial='Im' in data[3],
                     locations=data[4],
                     comments=data[5],
-                    prior_io_ok=data[6],
+                    prior_io_ok=(data[6] == 'Yes'),
                     resources=data[7],
                     reviewed=True)
