@@ -169,22 +169,32 @@
         $('#detail-heading').html(detail_data.brief_title + ' (' + nct_id + ')');
         for (key in detail_data) {
             var content = detail_data[key];
-            if (key == 'nct_id') {
+            if (key === 'nct_id') {
                 content = '<a target="_blank" href="https://clinicaltrials.gov/ct2/show/' + content + '">' + content + '</a>';
-            } else if (key == 'publications') {
+            } else if (key === 'publications') {
                 content = _.map(content, function (pub) {
                     return '<a target="_blank" href="' + pub + '">' + pub + '</a>';
                 }).join('<br>');
+            } else if (key === 'gender') {
+                content = {'M': 'Male only', 'F': 'Female only', 'A': 'Any'}[content];
             } else if (_.isArray(content)) {
                 content = content.join(', ')
             } else if (typeof(content) === "boolean") {
                 content = content ? 'Yes' : 'No';
             }
-            $('#detail-' + key).html(content);
+            var node = $('#detail-' + key);
+            if (content) {
+                node.html(content).parent().show();
+            } else {
+                node.parent().hide();
+            }
         }
         $('#detail').modal('show');
       });
 
+      if (pTreatmentType) {
+        yadcf.exFilterColumn(table, [[column_for('Immunotherapy?'), 'Yes']]);
+      }
       if (pLocation) {
         yadcf.exFilterColumn(table, [[column_for('Geography'), pLocation]]);
       }
@@ -237,7 +247,7 @@
                     </tr>
                     <tr>
                         <th>Trial sub-type</th>
-                        <td id="detail-category"></td>
+                        <td id="detail-subtype"></td>
                     </tr>
                     <tr>
                         <th>Prior IO OK?</th>
@@ -249,7 +259,7 @@
                     </tr>
                     <tr>
                         <th>Publications</th>
-                        <td id="detail-resources"></td>
+                        <td id="detail-publications"></td>
                     </tr>
                     <tr>
                         <th>URLs</th>
@@ -264,7 +274,7 @@
                         <td id="detail-program_status"></td>
                     </tr>
                     <tr>
-                        <th>Locations</th>
+                        <th>Location(s)</th>
                         <td id="detail-locations"></td>
                     </tr>
                     <tr>
@@ -280,11 +290,11 @@
                         <td id="detail-phase"></td>
                     </tr>
                     <tr>
-                        <th>Intervention Types</th>
+                        <th>Intervention Type()</th>
                         <td id="detail-intervention_types"></td>
                     </tr>
                     <tr>
-                        <th>Drug Names</th>
+                        <th>Drug Name(s)</th>
                         <td id="detail-drug_names"></td>
                     </tr>
                     <tr>
@@ -312,15 +322,16 @@
                         <td id="detail-exclusion_criteria"></td>
                     </tr>
                     <tr>
-                        <th>Contact Phones</th>
+                        <th>Contact Phone(s)</th>
                         <td id="detail-contact_phones"></td>
                     </tr>
                     <tr>
-                        <th>Contact Emails</th>
+                        <th>Contact Email(s)</th>
                         <td id="detail-contact_emails"></td>
                     </tr>
                 </table>
-                <br>
+            </div>
+            <div class="modal-footer">
                 <input id="trial-closed" type="button" class="btn btn-secondary" value="Report that this trial has closed.">
             </div>
         </div>

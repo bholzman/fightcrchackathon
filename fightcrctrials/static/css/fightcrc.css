@@ -104,6 +104,10 @@ body {
     text-align: center;
 }
 
+#detail .modal-footer {
+    text-align: center;
+}
+
 #example tr td {
     cursor: pointer;
     white-space: nowrap;
