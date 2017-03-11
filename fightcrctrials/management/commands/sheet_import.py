@@ -1,12 +1,14 @@
 from datetime import date
 from django.core.management.base import BaseCommand
+import json
+
 from fightcrctrials.models import CRCTrial, CRCTrials
 
 class Command(BaseCommand):
     help = 'Import clinical trials from google sheet'
 
     def handle(self, *args, **kwargs):
-        trials = CRCTrials().get_trials_data()
+        trials = json.loads(CRCTrials().get_trials_data())
         for data in trials['data']:
             if data[2].startswith('NCT'):
                 trial = CRCTrial.objects.create(
@@ -20,4 +22,5 @@ class Command(BaseCommand):
                     locations=data[4],
                     comments=data[5],
                     prior_io_ok=data[6],
-                    publications=data[7])
+                    resources=data[7],
+                    reviewed=True)
