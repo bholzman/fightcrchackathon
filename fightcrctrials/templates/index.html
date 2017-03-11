@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% load user_text %}
 
 {% block content %}
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
@@ -47,18 +46,6 @@
     var pPriorIo = params.priorIo;
 
     $(document).ready(function() {
-      if (!Cookies.get('agreed-to-disclaimer')) {
-          $('#disclaimer').modal({keyboard: false, show: true});
-          $('#disclaimer .btn-primary').click(function() {
-            if ($('#disclaimed').prop('checked')) {
-                $('#disclaimer').modal('hide');
-                Cookies.set('agreed-to-disclaimer', true, { expires: 365 });
-            } else {
-                $('label[for=disclaimed]').css('color', 'red');
-            }
-          });
-      }
-
       var trials = {{ trials|safe }};
 
       function nct_createdCell(cell, cellData) {
@@ -211,21 +198,6 @@
 
 <table id="example" class="display" cellspacing="0" width="100%">
 </table>
-<div id="disclaimer" class="modal fade" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-              <div class="modal-title">{% tag "disclaimer-header" %}</div>
-          </div>
-          <div class="modal-body">
-              <pre>{% tag "disclaimer" %}</pre>
-              <input type="checkbox" id="disclaimed"> <label for="disclaimed">{% tag "disclaimer-accept" %}</label>
-              <div class="button-wrapper"><input type="button" class="btn btn-primary" value="Continue to search"></div>
-          </div>
-        </div>
-    </div>
-</div>
-
 <div id="detail" class="modal fade" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

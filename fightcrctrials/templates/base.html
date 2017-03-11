@@ -53,10 +53,26 @@
               }
           }
       });
+
+      $(document).ready(function(){
+          if (!Cookies.get('agreed-to-disclaimer')) {
+              $('#disclaimer').modal({keyboard: false, show: true});
+              $('#disclaimer .btn-primary').click(function() {
+                if ($('#disclaimed').prop('checked')) {
+                    $('#disclaimer').modal('hide');
+                    Cookies.set('agreed-to-disclaimer', true, { expires: 365 });
+                } else {
+                    $('label[for=disclaimed]').css('color', 'red');
+                }
+              });
+          }
+      });
+
   </script>
 </head>
 <body>
 {% load staticfiles %}
+{% load user_text %}
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -75,6 +91,21 @@
 </nav>
 
 {% block content %}{% endblock %}
+
+<div id="disclaimer" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+              <div class="modal-title">{% tag "disclaimer-header" %}</div>
+          </div>
+          <div class="modal-body">
+              <pre>{% tag "disclaimer" %}</pre>
+              <input type="checkbox" id="disclaimed"> <label for="disclaimed">{% tag "disclaimer-accept" %}</label>
+              <div class="button-wrapper"><input type="button" class="btn btn-primary" value="Continue to search"></div>
+          </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
