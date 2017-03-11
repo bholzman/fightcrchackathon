@@ -33,7 +33,7 @@
           -->
           <h5>Geography</h5>
           <div class="checkbox">
-            <select id="geo" name="location" style="width: 150px"></select>
+            <select id="geo" data-placeholder="Choose locations..." name="location" multiple style="width: 150px"></select>
           </div>
         </div>
         <div class="col-sm-4">
@@ -72,5 +72,7 @@
     _.forEach(locations, function(location) {
       geoSelect.append($('<option/>', {value: location, text: location}));
     });
+
+    $("#geo").chosen();
   </script>
 {% endblock %}
