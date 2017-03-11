@@ -9,15 +9,15 @@ class AACTrialSerializer(object):
        return {
             'updated_date': aact_trial.last_changed_date,
             'date_trial_added': aact_trial.date_trial_added,
-            'brief_title': self.truncate_or_none(aact_trial.brief_title),
-            'title': self.truncate_or_none(aact_trial.official_title),
+            'brief_title': self.sanitize_title(aact_trial.brief_title),
+            'title': self.sanitize_title(aact_trial.official_title),
             'program_status': "%s" % aact_trial.program_status,
             'phase': "%s" % aact_trial.eligible_cancer_phase,
             'min_age': self.sanitize_min_age(aact_trial.minimum_age),
             'max_age': self.sanitize_max_age(aact_trial.maximum_age),
             'gender': self.sanitize_gender(aact_trial.gender_criteria),
-            'inclusion_criteria': self.truncate_or_none(aact_trial.inclusion_criteria),
-            'exclusion_criteria': self.truncate_or_none(aact_trial.exclusion_criteria),
+            'inclusion_criteria': aact_trial.inclusion_criteria,
+            'exclusion_criteria': aact_trial.exclusion_criteria,
             'locations': self.sanitize_locations(aact_trial.locations),
             'contact_phones': self.sanitize_phones(aact_trial.contact_phones),
             'contact_emails': self.sanitize_emails(aact_trial.contact_emails),
@@ -63,9 +63,9 @@ class AACTrialSerializer(object):
           raise Exception("%s is not a valid gender" % gender)
           return None
 
-    def truncate_or_none(self, string):
-        if string is None: return "UNKOWN"
-        return "%s" % string[:200]
+    def sanitize_title(self, string):
+        if string is None: return ""
+        return string[:300]
 
     def sanitize_drug_names(self, drug_names):
         if drug_names is None: return None

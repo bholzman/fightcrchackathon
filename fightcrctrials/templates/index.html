@@ -43,6 +43,7 @@
     var pTherapyName = params.therapyName;
     var pSearchTerm = params.searchTerm;
     var pTreatmentType = params.treatmentType;
+    var pPhase = params.phase;
     var pPriorIo = params.priorIo;
 
     $(document).ready(function() {
@@ -105,8 +106,9 @@
         ]
       });
 
-      var locations = [];
+      var locations = [], phases = [];
       _.each(trials, function(item) {
+        phases.push(item.phase);
         _.each(item.locations, function(location) {
           var cleaned = location.trim();
           if (cleaned.length > 0) {
@@ -138,6 +140,13 @@
               select_type: 'chosen',
               custom_func: filterFunction,
               data: _.uniq(locations)
+            })
+          } else if (columnTitle === 'Phase') {
+            columnFilters.push({
+              column_number: i,
+              filter_type: "multi_select",
+              select_type: 'chosen',
+              data: _.uniq(phases)
             })
           } else if (_.contains(columnsWithoutMultiSelect, columnTitle)) {
             columnFilters.push({
@@ -203,6 +212,9 @@
       }
       if (pNctNumber) {
         yadcf.exFilterColumn(table, [[column_for('NCT ID'), pNctNumber]]);
+      }
+      if (pPhase) {
+        yadcf.exFilterColumn(table, [[column_for('Phase'), [pPhase]]]);
       }
       if (pSearchTerm) {
         table = table.search(pSearchTerm).draw();
