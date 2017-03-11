@@ -72,11 +72,11 @@
       var table = $('#example').DataTable( {
         data: _.map(trials, function(trial) {
             return [trial.nct_id,
-                    trial.is_crc_trial,
-                    trial.is_immunotherapy_trial,
+                    trial.is_crc_trial ? "Yes" : "No",
+                    trial.is_immunotherapy_trial ? "Yes" : "No",
                     trial.brief_title,
                     trial.phase,
-                    trial.locations,
+                    trial.locations.join(', '),
                     trial.prior_io_ok ? "Yes" : "No",
                     trial.comments,
                     trial.description] }),
@@ -126,17 +126,26 @@
         return found !== undefined;
       };
       var columnFilters = [ ];
-      var columnsWithoutMultiselect = ['Comments', 'Description', 'Title'];
+      var columnsWithoutMultiSelect = ['CRC-Directed?', 'Immunotherapy?', 'Prior IO OK?'];
+      var columnsWithoutSelect = ['Comments', 'Description', 'Title'];
 
       for (i = 0; i < columns.length; i++) {
         var columnTitle = columns[i].title;
-        if (!_.contains(columnsWithoutMultiselect, columnTitle)) {
+        if (!_.contains(columnsWithoutSelect, columnTitle)) {
           if (columnTitle === 'Geography') {
             columnFilters.push({column_number: i,
               filter_type: "multi_select_custom_func",
               select_type: 'chosen',
               custom_func: filterFunction,
               data: _.uniq(locations)
+            })
+          } else if (_.contains(columnsWithoutMultiSelect, columnTitle)) {
+            columnFilters.push({
+              column_number: i,
+              filter_type: "select",
+              select_type: 'chosen',
+              select_type_options: {disable_search: true},
+              filter_default_label: 'Any'
             })
           } else {
             columnFilters.push({
@@ -147,12 +156,17 @@
           }
         }
       }
+      yadcf.init(table, columnFilters);
 
       var detail_data;
-      table.on('click', 'tbody tr', function() {
+      table.on('click', 'tbody tr', function(event) {
+        // do not open detail if they clicked on a link
+        if ($(event.target).is('a')) {
+            return;
+        }
         var nct_id = table.row(this).data()[0];
         detail_data = _.findWhere(trials, {'nct_id': nct_id});
-        $('#detail-title').html(detail_data.title + ' (' + nct_id + ')');
+        $('#detail-heading').html(detail_data.brief_title + ' (' + nct_id + ')');
         for (key in detail_data) {
             var content = detail_data[key];
             if (key == 'nct_id') {
@@ -161,12 +175,15 @@
                 content = _.map(content, function (pub) {
                     return '<a target="_blank" href="' + pub + '">' + pub + '</a>';
                 }).join('<br>');
+            } else if (_.isArray(content)) {
+                content = content.join(', ')
+            } else if (typeof(content) === "boolean") {
+                content = content ? 'Yes' : 'No';
             }
-            $('#detail-' + key).html(detail_data[key]);
+            $('#detail-' + key).html(content);
         }
         $('#detail').modal('show');
       });
-      yadcf.init(table, columnFilters);
 
       if (pLocation) {
         yadcf.exFilterColumn(table, [[column_for('Geography'), pLocation]]);
@@ -183,11 +200,10 @@
       table.draw();
 
       $('#trial-closed').click(function() {
-        var user = prompt('Please enter your name');
-        if (user) {
+        if (confirm('Are you sure you want to report that this trial has closed?')) {
             $.post(
                 '/send-trial-closed-email/',
-                {'drug': detail_data[1], 'nct': detail_data[2], 'user': user},
+                {'title': detail_data.brief_title, 'nct': detail_data.nct_id},
                 function (result) {
                     alert('Thanks for letting us know!');
                 });
@@ -198,45 +214,114 @@
 
 <table id="example" class="display" cellspacing="0" width="100%">
 </table>
-<div id="detail" class="modal fade" role="dialog">
+<div id="detail" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div id="detail-title" class="modal-title"></div>
+                <div id="detail-heading" class="modal-title"></div>
             </div>
             <div class="modal-body">
                 <table>
                     <tr>
-                        <th>Category</th>
+                        <th>Trial Link</th>
+                        <td id="detail-nct_id"></td>
+                    </tr>
+                    <tr>
+                        <th>Is CRC-directed trial?</th>
+                        <td id="detail-is_crc_trial"></td>
+                    </tr>
+                    <tr>
+                        <th>Is immunotherapy trial?</th>
+                        <td id="detail-is_immunotherapy_trial"></td>
+                    </tr>
+                    <tr>
+                        <th>Trial sub-type</th>
                         <td id="detail-category"></td>
                     </tr>
                     <tr>
-                        <th>Trial Type</th>
-                        <td id="detail-type"></td>
-                    </tr>
-                    <tr>
-                        <th>Location(s)</th>
-                        <td id="detail-locations"></td>
-                    </tr>
-                    <tr>
-                        <th>NCT #</th>
-                        <td id="detail-nct"></td>
+                        <th>Prior IO OK?</th>
+                        <td id="detail-prior_io_ok"></td>
                     </tr>
                     <tr>
                         <th>Comments</th>
                         <td id="detail-comments"></td>
                     </tr>
                     <tr>
-                        <th>Allow prior immunotherapy?</th>
-                        <td id="detail-prior-io"></td>
+                        <th>Publications</th>
+                        <td id="detail-resources"></td>
                     </tr>
                     <tr>
-                        <th>Publications</th>
-                        <td id="detail-publications"></td>
+                        <th>URLs</th>
+                        <td id="detail-urls"></td>
+                    </tr>
+                    <tr>
+                        <th>Full Title</th>
+                        <td id="detail-title"></td>
+                    </tr>
+                    <tr>
+                        <th>Program Status</th>
+                        <td id="detail-program_status"></td>
+                    </tr>
+                    <tr>
+                        <th>Locations</th>
+                        <td id="detail-locations"></td>
+                    </tr>
+                    <tr>
+                        <th>Date Trial Added</th>
+                        <td id="detail-date_trial_added"></td>
+                    </tr>
+                    <tr>
+                        <th>Updated Date</th>
+                        <td id="detail-updated_date"></td>
+                    </tr>
+                    <tr>
+                        <th>Phase</th>
+                        <td id="detail-phase"></td>
+                    </tr>
+                    <tr>
+                        <th>Intervention Types</th>
+                        <td id="detail-intervention_types"></td>
+                    </tr>
+                    <tr>
+                        <th>Drug Names</th>
+                        <td id="detail-drug_names"></td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td id="detail-description"></td>
+                    </tr>
+                    <tr>
+                        <th>Min Age</th>
+                        <td id="detail-min_age"></td>
+                    </tr>
+                    <tr>
+                        <th>Max Age</th>
+                        <td id="detail-max_age"></td>
+                    </tr>
+                    <tr>
+                        <th>Gender</th>
+                        <td id="detail-gender"></td>
+                    </tr>
+                    <tr>
+                        <th>Inclusion Criteria</th>
+                        <td id="detail-inclusion_criteria"></td>
+                    </tr>
+                    <tr>
+                        <th>Exclusion Criteria</th>
+                        <td id="detail-exclusion_criteria"></td>
+                    </tr>
+                    <tr>
+                        <th>Contact Phones</th>
+                        <td id="detail-contact_phones"></td>
+                    </tr>
+                    <tr>
+                        <th>Contact Emails</th>
+                        <td id="detail-contact_emails"></td>
                     </tr>
                 </table>
-                <input id="trial-closed" type="button" class="btn btn-secondary" value="Notify that this trial has closed.">
+                <br>
+                <input id="trial-closed" type="button" class="btn btn-secondary" value="Report that this trial has closed.">
             </div>
         </div>
     </div>

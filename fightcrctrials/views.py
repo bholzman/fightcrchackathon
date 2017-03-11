@@ -48,14 +48,13 @@ def _send_email(subject, message, reply_to=None):
 
 def send_trial_closed_email(request):
     if request.method == 'POST':
-        drug_name = request.POST.get('drug')
-        nct = request.POST.get('nct', 'No NCT# available')
-        user = request.POST.get('user')
+        title = request.POST.get('title')
+        nct = request.POST.get('nct') or 'No NCT# available'
 
         response = _send_email(
-            'User reports trial "{}" has closed'.format(drug_name),
-            "User '{}' reports that trial '{}' (NCT #: {}) has closed.".format(
-                user, drug_name, nct))
+            'User reports trial "{}" has closed'.format(title),
+            "User reports that trial '{}' ({}) has closed.".format(
+                title, nct))
 
         return HttpResponse(response.body)
 
