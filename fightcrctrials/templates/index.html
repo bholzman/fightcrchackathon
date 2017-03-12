@@ -182,15 +182,11 @@
       }
       yadcf.init(table, columnFilters);
 
-      var detail_data;
-      table.on('click', 'tbody tr', function(event) {
-        // do not open detail if they clicked on a link
-        if ($(event.target).is('a')) {
-            return;
-        }
-        var nct_id = table.row(this).data()[0];
-        detail_data = _.findWhere(trials, {'nct_id': nct_id});
-        $('#detail-heading').html((detail_data.brief_title ? detail_data.brief_title : detail_data.title) + ' (' + nct_id + ')');
+      var filtered_nct_ids = [];
+      function update_detail(detail_data_ix) {
+        var nct_id = filtered_nct_ids[detail_data_ix];
+        var detail_data = _.findWhere(trials, {'nct_id': nct_id});
+        $('#detail-heading').html((detail_data.brief_title ? detail_data.brief_title : detail_data.title) + ' (' + detail_data.nct_id + ')');
         for (key in detail_data) {
             var content = detail_data[key];
             if (key === 'nct_id') {
@@ -224,6 +220,32 @@
                 node.parent().hide();
             }
         }
+      }
+
+      var detail_data_ix;
+      $('#detail').on('keydown', function(event) {
+        if (event.which === 37) {
+            if (detail_data_ix > 0) {
+                detail_data_ix -= 1;
+            }
+            update_detail(detail_data_ix);
+        } else if (event.which === 39) {
+            if (detail_data_ix < filtered_nct_ids.length - 1) {
+                detail_data_ix += 1;
+            }
+            update_detail(detail_data_ix);
+        }
+      });
+      table.on('click', 'tbody tr', function(event) {
+        // do not open detail if they clicked on a link
+        if ($(event.target).is('a')) {
+            return;
+        }
+        var nct_id = table.row(this).data()[0];
+        filtered_nct_ids = _.map(table.rows({filter: 'applied'})[0], function(r) { return trials[r].nct_id });
+
+        detail_data_ix = _.indexOf(filtered_nct_ids, nct_id);
+        update_detail(detail_data_ix);
         $('#detail').modal('show');
       });
 
