@@ -1,4 +1,7 @@
 from django.contrib import admin
+from django.contrib.postgres.fields import ArrayField
+from django.forms import Textarea
+
 
 # Register your models here.
 from .models import UserText, FAQ, CRCTrial
@@ -24,3 +27,9 @@ class CRCTrialAdmin(admin.ModelAdmin):
             'description', 'min_age', 'max_age', 'gender',
             'inclusion_criteria', 'exclusion_criteria',
             'contact_phones', 'contact_emails')}))
+
+    formfield_overrides = {
+        ArrayField: {'widget': Textarea(attrs={'rows':4})}
+    }
+
+    search_fields = ['nct_id', 'brief_title']

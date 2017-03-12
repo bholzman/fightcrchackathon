@@ -39,6 +39,7 @@ class CRCTrial(models.Model):
     prior_io_ok = models.BooleanField(default=False, blank=True)
     comments = models.TextField(null=True, blank=True)
     resources = ArrayField(models.URLField(max_length=200), null=True, blank=True)
+    resources.verbose_name = 'Publications'
     urls = ArrayField(models.URLField(max_length=200), null=True, blank=True)
     title = models.CharField(max_length=300, null=True, blank=True)
     program_status = models.CharField(max_length=30, choices=(
