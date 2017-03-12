@@ -204,6 +204,9 @@
                 content = content.join(', ')
             } else if (typeof(content) === "boolean") {
                 content = content ? 'Yes' : 'No';
+                if (key === 'prior_io_ok' && content === 'No') {
+                    content = '';
+                }
             }
             var node = $('#detail-' + key);
             if (content) {
