@@ -201,7 +201,7 @@ class CRCTrials(object):
                 comments = row[5]
                 prior_io_ok = "No"
                 publications = []
-                if len(row) > 6 and row[6]:
+                if len(row) > 6 and row[6].startswith('PD1-OK'):
                     prior_io_ok = "Yes"
                 if len(row) > 7:
                     publications = row[7:]

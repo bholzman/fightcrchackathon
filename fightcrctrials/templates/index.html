@@ -54,16 +54,20 @@
       }
 
       var columns = [
-          {title: 'NCT ID', className: 'filter-nct_id',
+          {title: 'NCT ID', width: '84px', className: 'filter-nct_id',
            createdCell: nct_createdCell},
-          {title: 'CRC-Directed?', width: '75px', className: 'filter-crc-directed'},
-          {title: 'Immunotherapy?', width: '82px', className: 'filter-immunotherapy'},
+          {title: 'CRC-Directed?', width: '80px', className: 'filter-crc-directed'},
+          {title: 'Immunotherapy?', width: '86px', className: 'filter-immunotherapy'},
           {title: 'Title', className: 'filter-title'},
-          {title: 'Phase', width: '114px', className: 'filter-phase'},
+          {title: 'Phase', width: '78px', className: 'filter-phase'},
           {title: 'Geography', className: 'filter-geography'},
-          {title: 'Prior IO OK?', width: '74px', className: 'filter-prior_io_ok'},
-          {title: 'Comments', className: 'filter-comments'},
-          {title: 'Drug(s)', className: 'filter-drugs'}
+          {title: 'Prior IO OK?', width: '70px', className: 'filter-prior_io_ok'},
+          {title: 'Drug(s)', className: 'filter-drugs'},
+          // the rest of the columns are here for the text search only
+          {title: 'Comments', visible: false},
+          {title: 'Description', visible: false},
+          {title: 'Inclusion Criteria', visible: false},
+          {title: 'Exclusion Criteria', visible: false}
       ];
 
       function column_for(name) {
@@ -79,8 +83,11 @@
                     trial.phase,
                     trial.locations ? trial.locations.join(', ') : [],
                     trial.prior_io_ok ? "Yes" : "",
+                    trial.drug_names ? trial.drug_names.join(', ') : [],
                     trial.comments,
-                    trial.drug_names ? trial.drug_names.join(', ') : []] }),
+                    trial.description,
+                    trial.inclusion_criteria,
+                    trial.exclusion_criteria] }),
         columns: columns,
         columnDefs: [
         ],
@@ -133,9 +140,11 @@
         });
         return found !== undefined;
       };
+
+      // note these column filters are hidden by CSS for now
       var columnFilters = [ ];
       var columnsWithoutMultiSelect = ['CRC-Directed?', 'Immunotherapy?', 'Prior IO OK?'];
-      var columnsWithoutSelect = ['Comments', 'Title'];
+      var columnsWithoutSelect = ['Title'];
 
       for (i = 0; i < columns.length; i++) {
         var columnTitle = columns[i].title;

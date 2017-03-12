@@ -40,6 +40,11 @@ body {
   max-height: 100px;
 }
 
+/* hide the filters for now */
+#example .yadcf-filter-wrapper {
+    display: none;
+}
+
 .yadcf-filter-wrapper > select {
   width: 100% !important;
 }
