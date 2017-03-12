@@ -144,6 +144,7 @@ body {
     padding-right: 12px;
     vertical-align: top;
     white-space: pre;
+    width: 25%;
 }
 
 #detail .modal-title {
@@ -159,4 +160,11 @@ body {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+}
+
+#detail-description,
+#detail-inclusion_criteria,
+#detail-exclusion_criteria {
+    white-space: pre;
+    overflow: scroll;
 }
