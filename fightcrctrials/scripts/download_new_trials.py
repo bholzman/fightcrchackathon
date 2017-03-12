@@ -20,8 +20,9 @@ from fightcrctrials.models import CRCTrial
 from fightcrctrials.serializers import AACTrialSerializer
 
 class CRCTrialDownloader(object):
-    def __init__(self, use_pickle):
+    def __init__(self, use_pickle, cutoff_days):
         self.use_pickle = use_pickle
+        self.cutoff_days = cutoff_days
 
     def download_new_trials(self):
         # Create an un-approved trial for eah new aac_trial
@@ -161,9 +162,9 @@ class CRCTrialDownloader(object):
                    or (cond.name ilike '%cancer%' or cond.name ilike '%neoplasm%' or cond.name ilike '%tumor%')
                    or (ky.name ilike '%cancer%' or ky.name ilike '%neoplasm%' or ky.name ilike '%tumor%')
                    or (cond.name ilike '%tumor%') or st.official_title ilike '%Advanced Cancer%' or (cond.name ilike '%advanced solid tumor%'))
-              and (first_received_date >= date('2010-01-01'))
+              and (first_received_date >= current_date - {cutoff_days})
             group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19;
-                            """)
+                            """.format(cutoff_days=self.cutoff_days)
 
-def run(use_pickle=False):
-    CRCTrialDownloader(use_pickle).download_new_trials()
+def run(cutoff_days=7, use_pickle=False):
+    CRCTrialDownloader(use_pickle, int(cutoff_days)).download_new_trials()
