@@ -164,7 +164,7 @@ class CRCTrialDownloader(object):
                    or (cond.name ilike '%tumor%') or st.official_title ilike '%Advanced Cancer%' or (cond.name ilike '%advanced solid tumor%'))
               and (first_received_date >= current_date - {cutoff_days})
             group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19;
-                            """.format(cutoff_days=self.cutoff_days)
+                            """.format(cutoff_days=self.cutoff_days))
 
 def run(cutoff_days=7, use_pickle=False):
     CRCTrialDownloader(use_pickle, int(cutoff_days)).download_new_trials()
