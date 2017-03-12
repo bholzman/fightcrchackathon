@@ -225,7 +225,7 @@
         yadcf.exFilterColumn(table, [[column_for('Prior IO OK?'), 'Yes']])
       }
       if (pNctNumber) {
-        yadcf.exFilterColumn(table, [[column_for('NCT ID'), pNctNumber]]);
+        yadcf.exFilterColumn(table, [[column_for('NCT ID'), [pNctNumber]]]);
       }
       if (pPhase) {
         yadcf.exFilterColumn(table, [[column_for('Phase'), [pPhase]]]);
