@@ -216,16 +216,7 @@ class CRCTrialsUpdater(object):
                 group by br.nct_id) br
                 on br.nct_id = st.nct_id
             -- all logic conditions
-            where st.study_type =  'Interventional'
-                  and st.nct_id in ({nct_ids})
-                  and overall_status in ('Recruiting','Enrolling by invitation','Not yet recruiting','Available')
-                  and (st.official_title ilike '%cancer%' or st.official_title ilike '%neoplasm%' or st.official_title ilike '%tumor%' or st.official_title ilike '%malignan%' or st.official_title ilike '%tumour%'
-                       or cond.name ilike '%cancer%' or cond.name ilike '%neoplasm%' or cond.name ilike '%tumor%' or cond.name ilike '%malignan%' or cond.name ilike '%tumour%'
-                       or ky.name ilike '%cancer%' or ky.name ilike '%neoplasm%' or ky.name ilike '%tumor%' or ky.name ilike '%tumour%' or ky.name ilike '%carcinoma%' or ky.name ilike '%malignan%'
-                       or st.official_title ilike '%carcinoma%' or cond.name ilike '%carcinoma%' or st.official_title ilike '%metast%'
-                       or cast(br.mesh_terms as varchar) ilike '%cancer%' or cast(br.mesh_terms as varchar) ilike '%neoplasm%' or cast(br.mesh_terms as varchar) ilike '%tumor%'
-                       or cast(br.mesh_terms as varchar) ilike '%maligan%' or cast(br.mesh_terms as varchar) ilike '%metast%' or cast(br.mesh_terms as varchar) ilike '%tumour%'
-                       or cast(br.mesh_terms as varchar) ilike '%carcinoma%')
+            where st.nct_id in ({nct_ids})
                   and (first_received_date >= date(current_date - {cutoff_days}) OR last_changed_date >= date(current_date - {cutoff_days}))
             group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19;
                 """.format(cutoff_days=self.cutoff_days, nct_ids=','.join("'%s'" % id for id in nct_ids)))
