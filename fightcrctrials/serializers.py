@@ -1,3 +1,6 @@
+import re
+
+
 class AACTrialSerializer(object):
     """Serialzizes an AACT trial object into a dictionary of attributes used
     by a CRCTrial object"""
@@ -65,7 +68,9 @@ class AACTrialSerializer(object):
 
     def sanitize_title(self, string):
         if string is None: return ""
-        return string[:300]
+        truncated = string[:300]
+        truncated = re.sub(u'\xae', '(R)', truncated)
+        return truncated
 
     def sanitize_drug_names(self, drug_names):
         if drug_names is None: return None
