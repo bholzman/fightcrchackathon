@@ -40,7 +40,7 @@ class CRCTrial(models.Model):
     category = models.CharField('Trial sub-type', max_length=100, null=True, blank=True)
     prior_io_ok = models.BooleanField(default=False, blank=True)
     comments = models.TextField(null=True, blank=True)
-    resources = ArrayField(models.URLField(max_length=200), null=True, blank=True)
+    resources = ArrayField(models.URLField(max_length=250), null=True, blank=True)
     resources.verbose_name = 'Publications'
     urls = ArrayField(models.URLField(max_length=200), null=True, blank=True)
     title = models.CharField(max_length=300, null=True, blank=True)
