@@ -184,3 +184,16 @@ body {
     vertical-align: top;
 }
 
+@media print {
+    .dt-print-view td {
+        font-size: 9px;
+    }
+
+    .dt-print-view th {
+        font-size: 11px;
+    }
+
+    .dt-print-view h1 {
+        font-size: 24px;
+    }
+}
