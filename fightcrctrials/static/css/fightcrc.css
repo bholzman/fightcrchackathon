@@ -197,3 +197,10 @@ body {
         font-size: 24px;
     }
 }
+
+.dataTables_wrapper
+{
+    padding-right:15px;
+    padding-left:15px;
+
+}
