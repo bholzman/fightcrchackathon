@@ -199,6 +199,10 @@
                 content = _.map(content, function (pub) {
                     return '<a target="_blank" href="' + pub + '">' + pub + '</a>';
                 }).join('<br>');
+            } else if (key === 'URLs') {
+                content = _.map(content, function (pub) {
+                    return '<a target="_blank" href="' + pub + '">' + pub + '</a>';
+                }).join('<br>');
             } else if (key === 'gender') {
                 content = {'M': 'Male only', 'F': 'Female only', 'A': 'Any'}[content];
             } else if (key === 'contact_emails') {
