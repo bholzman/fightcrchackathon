@@ -5,6 +5,7 @@
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
   <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+  <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
   <script src="../static/js/jquery.dataTables.yadcf.js"></script>
   <script src="../static/js/chosen.jquery.min.js"></script>
   <script type="text/javascript">
@@ -109,7 +110,10 @@
                 }
               }
             }
-          }
+          }, 
+          'csv', 
+          'pdf'
+
         ]
       });
 
