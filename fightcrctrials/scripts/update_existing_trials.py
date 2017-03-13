@@ -49,8 +49,6 @@ class CRCTrialsUpdater(object):
             trial.contact_emails = serialized_aac_trial['contact_emails']
             trial.urls = serialized_aac_trial['urls']
             trial.description = serialized_aac_trial['description']
-            trial.is_crc_trial = serialized_aac_trial['is_crc_trial']
-            trial.is_immunotherapy_trial = serialized_aac_trial['is_immunotherapy_trial']
             trial.drug_names = serialized_aac_trial['drug_names']
             trial.save()
 
