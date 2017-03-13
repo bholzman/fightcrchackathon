@@ -51,7 +51,9 @@
       var trials = {{ trials|safe }};
 
       function nct_createdCell(cell, cellData) {
-          $(cell).html("<a target='_blank' href='https://clinicaltrials.gov/ct2/show/"+cellData + "'>" + cellData +"</a>");
+          var trial = _.findWhere(trials, {'nct_id': cellData});
+          trial_url = trial.trial_link || 'https://clinicaltrials.gov/ct2/show/' + cellData;
+          $(cell).html('<a target="_blank" href="' + trial_url + '">' + cellData + '</a>');
       }
 
       var columns = [
@@ -192,7 +194,8 @@
         for (key in detail_data) {
             var content = detail_data[key];
             if (key === 'nct_id') {
-                content = '<a target="_blank" href="https://clinicaltrials.gov/ct2/show/' + content + '">' + content + '</a>';
+                var trial_url = detail_data.trial_link || 'https://clinicaltrials.gov/ct2/show/' + content;
+                content = '<a target="_blank" href="' + trial_url + '">' + content + '</a>';
             } else if (key === 'publications') {
                 content = _.map(content, function (pub) {
                     return '<a target="_blank" href="' + pub + '">' + pub + '</a>';

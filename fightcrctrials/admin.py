@@ -15,7 +15,7 @@ class CRCTrialAdmin(admin.ModelAdmin):
     list_display_links = ('brief_title', 'nct_id')
 
     fieldsets = (
-        (None, {'fields': ('nct_id','brief_title','reviewed')}),
+        (None, {'fields': (('nct_id','trial_link'),'brief_title','reviewed')}),
         ('For Review', {'fields': (
             'is_crc_trial', 'is_immunotherapy_trial',
             'category', 'prior_io_ok',

@@ -31,6 +31,8 @@ class FAQ(models.Model):
 # this data model will read from the CRC Trials google sheet
 class CRCTrial(models.Model):
     nct_id = models.CharField("NCT ID", unique=True, max_length=100)
+    trial_link = models.URLField(max_length=200, null=True, blank=True,
+        help_text="Optional, defaults to the page at clinicaltrials.gov for this NCT ID")
     brief_title = models.CharField(max_length=300, null=True, blank=True)
     reviewed = models.BooleanField(default=False, blank=True)
     is_crc_trial = models.BooleanField('CRC-directed trial', default=False, blank=True)
@@ -85,11 +87,13 @@ class CRCTrial(models.Model):
     @classmethod
     def trials_json(cls):
         reviewed = CRCTrial.objects.filter(reviewed=True)
+        # TODO
         # would be nice to use django's built-in serializer, but it does
-        # not handle the ArrayFields correctly. Could try to extend the
-        # serializer, but for now we'll just do something dumb.
+        # not handle the ArrayFields correctly. Should extend the serializer
+        # instead, but for now we'll just do something dumb.
         raw_data = [
             {'nct_id': r.nct_id,
+             'trial_link': r.trial_link,
              'brief_title': r.brief_title,
              'date_trial_added': str(r.date_trial_added),
              'updated_date': str(r.updated_date),
