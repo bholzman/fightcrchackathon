@@ -99,7 +99,8 @@
 
     $("#adv-status").chosen();
 
-
+    // get and restore form data. taken from:
+    // http://stackoverflow.com/questions/1489486/jquery-plugin-to-serialize-a-form-and-also-restore-populate-the-form/1490431#1490431
     $.fn.values = function(data) {
         var els = this.find(':input').get();
 
@@ -147,7 +148,8 @@
 
     var existingCookie = Cookies.getJSON('search-query');
     if (existingCookie !== undefined) {
-        $("#searchForm").values(existingCookie);
+      //don't reset from cookies until multiselect is working
+        //$("#searchForm").values(existingCookie);
     }
 
     $("#searchForm").submit(function(e) {
