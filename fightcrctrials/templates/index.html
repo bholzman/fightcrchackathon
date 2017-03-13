@@ -46,6 +46,7 @@
     var pTreatmentType = params.treatmentType;
     var pPhase = params.phase;
     var pPriorIo = params.priorIo;
+    var pStatus = params.programStatus;
 
     $(document).ready(function() {
       var trials = {{ trials|safe }};
@@ -63,7 +64,8 @@
           {title: 'Immunotherapy?', width: '86px', className: 'filter-immunotherapy'},
           {title: 'Title', className: 'filter-title'},
           {title: 'Phase', width: '78px', className: 'filter-phase'},
-          {title: 'Geography', className: 'filter-geography'},
+          {title: 'Status', width: '80px', className: 'filter-status'},
+          {title: 'Geography', width: '100px', className: 'filter-geography'},
           {title: 'Prior IO OK?', width: '70px', className: 'filter-prior_io_ok'},
           {title: 'Drug(s)', className: 'filter-drugs'},
           // the rest of the columns are here for the text search only
@@ -84,6 +86,7 @@
                     trial.is_immunotherapy_trial ? "Yes" : "No",
                     trial.brief_title ? trial.brief_title : trial.title,
                     trial.phase,
+                    trial.program_status,
                     trial.locations ? trial.locations.join(', ') : [],
                     trial.prior_io_ok ? "Yes" : "",
                     trial.drug_names ? trial.drug_names.join(', ') : [],
@@ -165,7 +168,15 @@
               column_number: i,
               filter_type: "multi_select",
               select_type: 'chosen',
+              filter_match_mode: 'exact',
               data: _.uniq(phases)
+            })
+          } else if (columnTitle === 'Status') {
+            columnFilters.push({
+              column_number: i,
+              filter_type: "multi_select",
+              select_type: 'chosen',
+              filter_match_mode: 'exact'
             })
           } else if (_.contains(columnsWithoutMultiSelect, columnTitle)) {
             columnFilters.push({
@@ -271,13 +282,22 @@
         yadcf.exFilterColumn(table, [[column_for('NCT ID'), [pNctNumber]]]);
       }
       if (pPhase) {
-        yadcf.exFilterColumn(table, [[column_for('Phase'), [pPhase]]]);
+        if (!_.isArray(pPhase)) {
+            pPhase = [pPhase];
+        }
+        yadcf.exFilterColumn(table, [[column_for('Phase'), pPhase]]);
       }
       if (pTherapyName) {
         // get all drug names that match pTherapyName
         var re = new RegExp(pTherapyName, 'i');
         var matched = _.filter(drug_names, function(drug) { return re.test(drug) });
         yadcf.exFilterColumn(table, [[column_for('Drug(s)'), matched]]);
+      }
+      if (pStatus) {
+        if (!_.isArray(pStatus)) {
+            pStatus = [pStatus];
+        }
+        yadcf.exFilterColumn(table, [[column_for('Status'), pStatus]]);
       }
       if (pSearchTerm) {
         table = table.search(pSearchTerm).draw();

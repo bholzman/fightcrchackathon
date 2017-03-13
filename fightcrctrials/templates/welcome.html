@@ -39,6 +39,10 @@
           <div class="checkbox">
             <select id="adv-phase" name="phase" data-placeholder="Choose phases..." multiple style="width: 150px"></select>
           </div>
+          <h5>Program Status</h5>
+          <div class="checkbox">
+            <select id="adv-status" name="programStatus" data-placeholder="Choose status..." multiple style="width: 150px"></select>
+          </div>
         </div>
         <div class="col-sm-4">
           <h5>Trial type</h5>
@@ -72,6 +76,7 @@
     var trials = {{ trials|safe }};
     var locations = _.uniq(_.flatten(_.map(trials, function(item) { return item.locations; }))).sort();
     var phases = _.uniq(_.map(trials, function(item) { return item.phase; })).sort();
+    var statuses = _.uniq(_.map(trials, function(item) { return item.program_status; })).sort();
 
     var geoSelect = $('#geo');
     _.forEach(locations, function(location) {
@@ -86,6 +91,14 @@
     });
 
     $("#adv-phase").chosen();
+
+    var statusSelect = $('#adv-status');
+    _.forEach(statuses, function(status) {
+      statusSelect.append($('<option/>', {value: status, text: status}));
+    });
+
+    $("#adv-status").chosen();
+
 
     $.fn.values = function(data) {
         var els = this.find(':input').get();
