@@ -146,10 +146,13 @@
         }
     };
 
+
     var existingCookie = Cookies.getJSON('search-query');
     if (existingCookie !== undefined) {
       //don't reset from cookies until multiselect is working
-        //$("#searchForm").values(existingCookie);
+       $("#searchForm").values(existingCookie);
+       $('select').trigger("chosen:updated");
+
     }
 
     $("#searchForm").submit(function(e) {
