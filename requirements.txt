@@ -8,3 +8,4 @@ oauth2client==4.0.0
 sendgrid==3.6.3
 SQLAlchemy==1.1.6
 django-extensions==1.7.7
+newrelic==2.80.1.61
