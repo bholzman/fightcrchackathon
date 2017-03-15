@@ -101,9 +101,9 @@
 
     // get and restore form data. taken from:
     // http://stackoverflow.com/questions/1489486/jquery-plugin-to-serialize-a-form-and-also-restore-populate-the-form/1490431#1490431
+    // (and subsequently modified to actually work)
     $.fn.values = function(data) {
         var els = this.find(':input').get();
-
         if(arguments.length === 0) {
             // return all data
             data = {};
@@ -112,10 +112,7 @@
                 if (this.name && !this.disabled && (this.checked
                                 || /select|textarea/i.test(this.nodeName)
                                 || /text|hidden|password/i.test(this.type))) {
-                    if(data[this.name] == undefined){
-                        data[this.name] = [];
-                    }
-                    data[this.name].push($(this).val());
+                    data[this.name] = $(this).val();
                 }
             });
             return data;
@@ -124,21 +121,21 @@
                 if (this.name && data[this.name]) {
                     var names = data[this.name];
                     var $this = $(this);
-                    if(Object.prototype.toString.call(names) !== '[object Array]'){
-                        names = [names]; //backwards compat to old version of this code
-                    }
                     if(this.type == 'checkbox' || this.type == 'radio') {
                         var val = $this.val();
                         var found = false;
+                        if (!_.isArray(names)) {
+                            names = [names];
+                        }
                         for(var i = 0; i < names.length; i++){
                             if(names[i] == val){
                                 found = true;
                                 break;
                             }
                         }
-                        $this.attr("checked", found);
+                        $this.prop("checked", found);
                     } else {
-                        $this.val(names[0]);
+                        $this.val(names);
                     }
                 }
             });

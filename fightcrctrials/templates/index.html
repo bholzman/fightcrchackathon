@@ -38,16 +38,6 @@
       return params;
     }
 
-    var params = getQueryParams();
-    var pLocation = params.location;
-    var pNctNumber = params.nctNumber;
-    var pTherapyName = params.therapyName;
-    var pSearchTerm = params.searchTerm;
-    var pTreatmentType = params.treatmentType;
-    var pPhase = params.phase;
-    var pPriorIo = params.priorIo;
-    var pStatus = params.programStatus;
-
     $(document).ready(function() {
       var trials = {{ trials|safe }};
 
@@ -268,6 +258,16 @@
         update_detail(detail_data_ix);
         $('#detail').modal('show');
       });
+
+      var params = getQueryParams();
+      var pLocation = params.location;
+      var pNctNumber = params.nctNumber;
+      var pTherapyName = params.therapyName;
+      var pSearchTerm = params.searchTerm;
+      var pTreatmentType = params.treatmentType;
+      var pPhase = params.phase;
+      var pPriorIo = params.priorIo;
+      var pStatus = params.programStatus;
 
       if (pTreatmentType) {
         yadcf.exFilterColumn(table, [[column_for('Immunotherapy?'), 'Yes']]);
