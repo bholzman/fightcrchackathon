@@ -8,6 +8,7 @@ import os
 import sendgrid
 from sendgrid.helpers.mail import Email, Content, Mail
 
+from fightcrctrials.email import send_email
 from fightcrctrials.models import ScriptRuns
 from fightcrctrials.scripts import update_existing_trials, download_new_trials
 
@@ -17,15 +18,7 @@ SCRIPT = 'check_script_runs'
 
 def _alert(message):
     print(message)
-    try:
-        sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
-        from_email = Email('fightcrchackathon@gmail.com')
-        to_email = Email(os.environ.get('FIGHT_CRC_EMAIL'))
-        content = Content("text/plain", message)
-        mail = Mail(from_email, "Alert from {}".format(SCRIPT), to_email, content)
-        sg.client.mail.send.post(request_body=mail.get())
-    except Exception as e:
-        print("Could not send alert email: {}".format(e))
+    send_email("Alert from {}".format(SCRIPT), message)
 
 
 def _alert_no_recent_run(script, last_finish_time):

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load user_text %}
 
 {% block content %}
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
@@ -314,6 +315,15 @@
                 });
         }
       });
+
+      // enable tooltips
+      $('#example thead th:contains("NCT ID")').attr({'title': '{% tag "tooltip-nct-id" %}', 'data-toggle': 'tooltip'});
+      $('#example thead th:contains("CRC-Directed?")').attr({'title': '{% tag "tooltip-crc-directed" %}', 'data-toggle': 'tooltip'});
+      $('#example thead th:contains("Immunotherapy?")').attr({'title': '{% tag "tooltip-immunotherapy" %}', 'data-toggle': 'tooltip'});
+      $('#example thead th:contains("Phase")').attr({'title': '{% tag "tooltip-phase" %}', 'data-toggle': 'tooltip'});
+      $('#example thead th:contains("Geography")').attr({'title': '{% tag "tooltip-geography" %}', 'data-toggle': 'tooltip'});
+      $('#example thead th:contains("Prior IO OK?")').attr({'title': '{% tag "tooltip-prior-io-ok" %}', 'data-toggle': 'tooltip'});
+      $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     } );
   </script>
 

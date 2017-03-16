@@ -6,6 +6,7 @@ import os
 import sendgrid
 from sendgrid.helpers.mail import Email, Content, Mail
 
+from .email import send_email
 from .forms import ContactUsForm
 from .models import Greeting, CRCTrial, FAQ
 
@@ -35,23 +36,12 @@ def db(request):
     return render(request, 'db.html', {'greetings': greetings})
 
 
-def _send_email(subject, message, reply_to=None):
-    sg = sendgrid.SendGridAPIClient(apikey=os.environ.get('SENDGRID_API_KEY'))
-    from_email = Email('fightcrchackathon@gmail.com')
-    to_email = Email(os.environ.get('FIGHT_CRC_EMAIL'))
-    content = Content("text/plain", message)
-    mail = Mail(from_email, subject, to_email, content)
-    if reply_to is not None:
-        mail.set_reply_to(Email(reply_to))
-    return sg.client.mail.send.post(request_body=mail.get())
-
-
 def send_trial_closed_email(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         nct = request.POST.get('nct') or 'No NCT# available'
 
-        response = _send_email(
+        response = send_email(
             'User reports trial "{}" has closed'.format(title),
             "User reports that trial '{}' ({}) has closed.".format(
                 title, nct))
@@ -73,7 +63,7 @@ def contactus(request):
                 form.cleaned_data['email'],
                 form.cleaned_data['user_class'],
                 form.cleaned_data['comment']))
-            response = _send_email(
+            response = send_email(
                 'Feedback from Fight CRC Trials',
                 message,
                 reply_to=form.cleaned_data['email'])
