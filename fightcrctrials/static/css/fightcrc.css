@@ -189,6 +189,10 @@ body {
 }
 
 @media print {
+    .dt-print-view table {
+        table-layout: auto;
+    }
+
     .dt-print-view td {
         font-size: 9px;
     }

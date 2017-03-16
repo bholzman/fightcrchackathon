@@ -51,8 +51,8 @@
       var columns = [
           {title: 'NCT ID', width: '84px', className: 'filter-nct_id',
            createdCell: nct_createdCell},
-          {title: 'CRC-Directed?', width: '80px', className: 'filter-crc-directed'},
-          {title: 'Immunotherapy?', width: '86px', className: 'filter-immunotherapy'},
+          {title: 'CRC', width: '40px', className: 'filter-crc-directed'},
+          {title: 'IO', width: '30px', className: 'filter-immunotherapy'},
           {title: 'Title', className: 'filter-title'},
           {title: 'Phase', width: '78px', className: 'filter-phase'},
           {title: 'Status', width: '80px', className: 'filter-status'},
@@ -141,7 +141,7 @@
 
       // note these column filters are hidden by CSS for now
       var columnFilters = [ ];
-      var columnsWithoutMultiSelect = ['CRC-Directed?', 'Immunotherapy?', 'Prior IO OK?'];
+      var columnsWithoutMultiSelect = ['CRC', 'IO', 'Prior IO OK?'];
       var columnsWithoutSelect = ['Title'];
 
       for (i = 0; i < columns.length; i++) {
@@ -271,7 +271,7 @@
       var pStatus = params.programStatus;
 
       if (pTreatmentType) {
-        yadcf.exFilterColumn(table, [[column_for('Immunotherapy?'), 'Yes']]);
+        yadcf.exFilterColumn(table, [[column_for('IO'), 'Yes']]);
       }
       if (pLocation) {
         yadcf.exFilterColumn(table, [[column_for('Geography'), pLocation]]);
@@ -317,12 +317,18 @@
       });
 
       // enable tooltips
-      $('#example thead th:contains("NCT ID")').attr({'title': '{% tag "tooltip-nct-id" %}', 'data-toggle': 'tooltip'});
-      $('#example thead th:contains("CRC-Directed?")').attr({'title': '{% tag "tooltip-crc-directed" %}', 'data-toggle': 'tooltip'});
-      $('#example thead th:contains("Immunotherapy?")').attr({'title': '{% tag "tooltip-immunotherapy" %}', 'data-toggle': 'tooltip'});
-      $('#example thead th:contains("Phase")').attr({'title': '{% tag "tooltip-phase" %}', 'data-toggle': 'tooltip'});
-      $('#example thead th:contains("Geography")').attr({'title': '{% tag "tooltip-geography" %}', 'data-toggle': 'tooltip'});
-      $('#example thead th:contains("Prior IO OK?")').attr({'title': '{% tag "tooltip-prior-io-ok" %}', 'data-toggle': 'tooltip'});
+      var ix = column_for('NCT ID');
+      $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-nct-id" %}', 'data-toggle': 'tooltip'});
+      ix = column_for('CRC');
+      $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-crc-directed" %}', 'data-toggle': 'tooltip'});
+      ix = column_for('IO');
+      $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-immunotherapy" %}', 'data-toggle': 'tooltip'});
+      ix = column_for('Phase');
+      $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-phase" %}', 'data-toggle': 'tooltip'});
+      ix = column_for('Geography');
+      $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-geography" %}', 'data-toggle': 'tooltip'});
+      ix = column_for('Prior IO OK?');
+      $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-prior-io-ok" %}', 'data-toggle': 'tooltip'});
       $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     } );
   </script>
