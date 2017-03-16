@@ -10,6 +10,7 @@ import os
 import pickle
 from sqlalchemy import create_engine, text
 
+from fightcrctrials.email import send_email
 from fightcrctrials.models import CRCTrial, ScriptRuns
 from fightcrctrials.serializers import AACTrialSerializer
 
@@ -24,6 +25,7 @@ class CRCTrialsUpdater(object):
 
     def update_existing_trials(self):
         record_count = 0
+        errors = []
         try:
             # query trials that we have
             existing_ids = [k['nct_id'] for k in CRCTrial.objects.all().values('nct_id')]
@@ -36,27 +38,32 @@ class CRCTrialsUpdater(object):
                 if aact_trial is None:
                     continue
 
-                serialized_aac_trial = AACTrialSerializer(aact_trial).serialize()
+                try:
+                    serialized_aac_trial = AACTrialSerializer(aact_trial).serialize()
 
-                trial.updated_date = serialized_aac_trial['updated_date']
-                trial.date_trial_added = serialized_aac_trial['date_trial_added']
-                trial.brief_title = serialized_aac_trial['brief_title']
-                trial.title = serialized_aac_trial['title']
-                trial.program_status = serialized_aac_trial['program_status']
-                trial.phase = serialized_aac_trial['phase']
-                trial.min_age = serialized_aac_trial['min_age']
-                trial.max_age = serialized_aac_trial['max_age']
-                trial.gender = serialized_aac_trial['gender']
-                trial.inclusion_criteria = serialized_aac_trial['inclusion_criteria']
-                trial.exclusion_criteria = serialized_aac_trial['exclusion_criteria']
-                trial.locations = serialized_aac_trial['locations']
-                trial.contact_phones = serialized_aac_trial['contact_phones']
-                trial.contact_emails = serialized_aac_trial['contact_emails']
-                trial.urls = serialized_aac_trial['urls']
-                trial.description = serialized_aac_trial['description']
-                trial.drug_names = serialized_aac_trial['drug_names']
-                trial.save()
-                record_count = record_count + 1
+                    trial.updated_date = serialized_aac_trial['updated_date']
+                    trial.date_trial_added = serialized_aac_trial['date_trial_added']
+                    trial.brief_title = serialized_aac_trial['brief_title']
+                    trial.title = serialized_aac_trial['title']
+                    trial.program_status = serialized_aac_trial['program_status']
+                    trial.phase = serialized_aac_trial['phase']
+                    trial.min_age = serialized_aac_trial['min_age']
+                    trial.max_age = serialized_aac_trial['max_age']
+                    trial.gender = serialized_aac_trial['gender']
+                    trial.inclusion_criteria = serialized_aac_trial['inclusion_criteria']
+                    trial.exclusion_criteria = serialized_aac_trial['exclusion_criteria']
+                    trial.locations = serialized_aac_trial['locations']
+                    trial.contact_phones = serialized_aac_trial['contact_phones']
+                    trial.contact_emails = serialized_aac_trial['contact_emails']
+                    trial.urls = serialized_aac_trial['urls']
+                    trial.description = serialized_aac_trial['description']
+                    trial.drug_names = serialized_aac_trial['drug_names']
+                    trial.save()
+                    record_count = record_count + 1
+                except Exception as e:
+                    error_message = "Could not update {}: {}".format(trial.nct_id, e)
+                    errors.append(error_message)
+                    print(error_message)
             self.script_run.success = True
         except Exception as e:
             print("{} failed: {}".format(SCRIPT, e))
@@ -64,6 +71,8 @@ class CRCTrialsUpdater(object):
             self.script_run.finish_time = timezone.now()
             self.script_run.record_count = record_count
             self.script_run.save()
+        if errors:
+            send_email("Errors from {}".format(SCRIPT), "\n".join(errors))
 
     def get_updated_aac_trials_map(self, nct_ids):
         """Returns a map of nct_ids to recently updated aact_trials from aact"""
