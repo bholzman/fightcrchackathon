@@ -152,6 +152,10 @@ body {
     width: 25%;
 }
 
+#detail td {
+    overflow: auto;
+}
+
 #detail .modal-title {
     text-align: center;
 }

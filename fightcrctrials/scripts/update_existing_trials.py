@@ -4,54 +4,66 @@ information sourced from the aact datatbase.
 """
 from __future__ import print_function
 import datetime
+from django.utils import timezone
 import httplib2
 import os
 import pickle
-
 from sqlalchemy import create_engine, text
-from fightcrctrials.models import CRCTrial
+
+from fightcrctrials.models import CRCTrial, ScriptRuns
 from fightcrctrials.serializers import AACTrialSerializer
 
+SCRIPT = 'update_existing_trials'
 
 
 class CRCTrialsUpdater(object):
     def __init__(self, use_pickle, cutoff_days):
         self.use_pickle = use_pickle
         self.cutoff_days = cutoff_days
+        self.script_run = ScriptRuns.objects.create(script=SCRIPT)
 
     def update_existing_trials(self):
-        # query trials that we have
-        existing_ids = [k['nct_id'] for k in CRCTrial.objects.all().values('nct_id')]
+        record_count = 0
+        try:
+            # query trials that we have
+            existing_ids = [k['nct_id'] for k in CRCTrial.objects.all().values('nct_id')]
 
-        updated_aac_trials_map = self.get_updated_aac_trials_map(existing_ids)
+            updated_aac_trials_map = self.get_updated_aac_trials_map(existing_ids)
 
-        # for each trial, update it's information
-        for trial in CRCTrial.objects.filter(nct_id__in=updated_aac_trials_map.keys()):
-            aact_trial = updated_aac_trials_map.get(trial.nct_id)
-            if aact_trial is None:
-                continue
+            # for each trial, update it's information
+            for trial in CRCTrial.objects.filter(nct_id__in=updated_aac_trials_map.keys()):
+                aact_trial = updated_aac_trials_map.get(trial.nct_id)
+                if aact_trial is None:
+                    continue
 
-            serialized_aac_trial = AACTrialSerializer(aact_trial).serialize()
+                serialized_aac_trial = AACTrialSerializer(aact_trial).serialize()
 
-            trial.updated_date = serialized_aac_trial['updated_date']
-            trial.date_trial_added = serialized_aac_trial['date_trial_added']
-            trial.brief_title = serialized_aac_trial['brief_title']
-            trial.title = serialized_aac_trial['title']
-            trial.program_status = serialized_aac_trial['program_status']
-            trial.phase = serialized_aac_trial['phase']
-            trial.min_age = serialized_aac_trial['min_age']
-            trial.max_age = serialized_aac_trial['max_age']
-            trial.gender = serialized_aac_trial['gender']
-            trial.inclusion_criteria = serialized_aac_trial['inclusion_criteria']
-            trial.exclusion_criteria = serialized_aac_trial['exclusion_criteria']
-            trial.locations = serialized_aac_trial['locations']
-            trial.contact_phones = serialized_aac_trial['contact_phones']
-            trial.contact_emails = serialized_aac_trial['contact_emails']
-            trial.urls = serialized_aac_trial['urls']
-            trial.description = serialized_aac_trial['description']
-            trial.drug_names = serialized_aac_trial['drug_names']
-            trial.save()
-
+                trial.updated_date = serialized_aac_trial['updated_date']
+                trial.date_trial_added = serialized_aac_trial['date_trial_added']
+                trial.brief_title = serialized_aac_trial['brief_title']
+                trial.title = serialized_aac_trial['title']
+                trial.program_status = serialized_aac_trial['program_status']
+                trial.phase = serialized_aac_trial['phase']
+                trial.min_age = serialized_aac_trial['min_age']
+                trial.max_age = serialized_aac_trial['max_age']
+                trial.gender = serialized_aac_trial['gender']
+                trial.inclusion_criteria = serialized_aac_trial['inclusion_criteria']
+                trial.exclusion_criteria = serialized_aac_trial['exclusion_criteria']
+                trial.locations = serialized_aac_trial['locations']
+                trial.contact_phones = serialized_aac_trial['contact_phones']
+                trial.contact_emails = serialized_aac_trial['contact_emails']
+                trial.urls = serialized_aac_trial['urls']
+                trial.description = serialized_aac_trial['description']
+                trial.drug_names = serialized_aac_trial['drug_names']
+                trial.save()
+                record_count = record_count + 1
+            self.script_run.success = True
+        except Exception as e:
+            print("{} failed: {}".format(SCRIPT, e))
+        finally:
+            self.script_run.finish_time = timezone.now()
+            self.script_run.record_count = record_count
+            self.script_run.save()
 
     def get_updated_aac_trials_map(self, nct_ids):
         """Returns a map of nct_ids to recently updated aact_trials from aact"""
@@ -221,9 +233,21 @@ class CRCTrialsUpdater(object):
             group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19;
                 """.format(cutoff_days=self.cutoff_days, nct_ids=','.join("'%s'" % id for id in nct_ids)))
 
-def run(cutoff_days=2, use_pickle=False):
+def run(cutoff_days=None, use_pickle=False):
     """
     use pickle to load/save the queried external source data locally for faster testing
     cutoff_days: the number of days prior to today that we query for updates/change
     """
+    start_time = timezone.now()
+    print("Script {} starting at {}".format(SCRIPT, start_time))
+    if cutoff_days is None:
+        # set to 1+days since last successful run, or to 2 if there is no such run
+        last_successful_run = ScriptRuns.objects.filter(script=SCRIPT, success=True).order_by('-finish_time').first()
+        if last_successful_run:
+            print("Last successful run found at {}".format(last_successful_run.finish_time))
+            cutoff_days = (start_time - last_successful_run.finish_time).days + 1
+        else:
+            print("No last successful run found")
+            cutoff_days = 2
+    print("Cutoff days: {}".format(cutoff_days))
     CRCTrialsUpdater(use_pickle, int(cutoff_days)).update_existing_trials()

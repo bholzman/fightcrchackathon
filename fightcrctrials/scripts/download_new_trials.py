@@ -10,47 +10,62 @@ TODO: Make database fields longer so we don't have to truncate
 from __future__ import print_function
 import argparse
 import datetime
+from django.utils import timezone
 import httplib2
 import os
 import pickle
-
 from sqlalchemy import create_engine, text
 
-from fightcrctrials.models import CRCTrial
+from fightcrctrials.models import CRCTrial, ScriptRuns
 from fightcrctrials.serializers import AACTrialSerializer
+
+SCRIPT = 'download_new_trials'
+
 
 class CRCTrialDownloader(object):
     def __init__(self, use_pickle, cutoff_days):
         self.use_pickle = use_pickle
         self.cutoff_days = cutoff_days
+        self.script_run = ScriptRuns.objects.create(script=SCRIPT)
 
     def download_new_trials(self):
-        # Create an un-approved trial for eah new aac_trial
-        trials = self.get_new_aac_trials()
-        for aac_trial in self.get_new_aac_trials():
-            serialized_aac_trial = AACTrialSerializer(aac_trial).serialize()
+        record_count = 0
 
-            CRCTrial.objects.update_or_create(nct_id=aac_trial.nct_id, defaults={
-                'updated_date': serialized_aac_trial['updated_date'],
-                'date_trial_added': serialized_aac_trial['date_trial_added'],
-                'brief_title': serialized_aac_trial['brief_title'],
-                'title': serialized_aac_trial['title'],
-                'program_status': serialized_aac_trial['program_status'],
-                'phase': serialized_aac_trial['phase'],
-                'min_age': serialized_aac_trial['min_age'],
-                'max_age': serialized_aac_trial['max_age'],
-                'gender': serialized_aac_trial['gender'],
-                'inclusion_criteria': serialized_aac_trial['inclusion_criteria'],
-                'exclusion_criteria': serialized_aac_trial['exclusion_criteria'],
-                'locations': serialized_aac_trial['locations'],
-                'contact_phones': serialized_aac_trial['contact_phones'],
-                'contact_emails': serialized_aac_trial['contact_emails'],
-                'urls': serialized_aac_trial['urls'],
-                'description': serialized_aac_trial['description'],
-                'is_crc_trial': serialized_aac_trial['is_crc_trial'],
-                'is_immunotherapy_trial': serialized_aac_trial['is_immunotherapy_trial'],
-                'drug_names': serialized_aac_trial['drug_names'],
-            })
+        try:
+            # Create an un-approved trial for eah new aac_trial
+            trials = self.get_new_aac_trials()
+            for aac_trial in self.get_new_aac_trials():
+                serialized_aac_trial = AACTrialSerializer(aac_trial).serialize()
+
+                CRCTrial.objects.update_or_create(nct_id=aac_trial.nct_id, defaults={
+                    'updated_date': serialized_aac_trial['updated_date'],
+                    'date_trial_added': serialized_aac_trial['date_trial_added'],
+                    'brief_title': serialized_aac_trial['brief_title'],
+                    'title': serialized_aac_trial['title'],
+                    'program_status': serialized_aac_trial['program_status'],
+                    'phase': serialized_aac_trial['phase'],
+                    'min_age': serialized_aac_trial['min_age'],
+                    'max_age': serialized_aac_trial['max_age'],
+                    'gender': serialized_aac_trial['gender'],
+                    'inclusion_criteria': serialized_aac_trial['inclusion_criteria'],
+                    'exclusion_criteria': serialized_aac_trial['exclusion_criteria'],
+                    'locations': serialized_aac_trial['locations'],
+                    'contact_phones': serialized_aac_trial['contact_phones'],
+                    'contact_emails': serialized_aac_trial['contact_emails'],
+                    'urls': serialized_aac_trial['urls'],
+                    'description': serialized_aac_trial['description'],
+                    'is_crc_trial': serialized_aac_trial['is_crc_trial'],
+                    'is_immunotherapy_trial': serialized_aac_trial['is_immunotherapy_trial'],
+                    'drug_names': serialized_aac_trial['drug_names'],
+                })
+                record_count = record_count + 1
+            self.script_run.success = True
+        except Exception as e:
+            print("{} failed: {}".format(SCRIPT, e))
+        finally:
+            self.script_run.finish_time = timezone.now()
+            self.script_run.record_count = record_count
+            self.script_run.save()
 
     def get_new_aac_trials(self):
         """Returns a map of nct_ids to recently updated aact_trials from aact"""
@@ -166,5 +181,17 @@ class CRCTrialDownloader(object):
             group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19;
                             """.format(cutoff_days=self.cutoff_days))
 
-def run(cutoff_days=7, use_pickle=False):
+def run(cutoff_days=None, use_pickle=False):
+    start_time = timezone.now()
+    print("Script {} starting at {}".format(SCRIPT, start_time))
+    if cutoff_days is None:
+        # set to 1+days since last successful run, or to 7 if there is no such run
+        last_successful_run = ScriptRuns.objects.filter(script=SCRIPT, success=True).order_by('-finish_time').first()
+        if last_successful_run:
+            print("Last successful run found at {}".format(last_successful_run.finish_time))
+            cutoff_days = (start_time - last_successful_run.finish_time).days + 1
+        else:
+            print("No last successful run found")
+            cutoff_days = 7
+    print("Cutoff days: {}".format(cutoff_days))
     CRCTrialDownloader(use_pickle, int(cutoff_days)).download_new_trials()

@@ -1,6 +1,7 @@
 from apiclient.discovery import build
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.utils import timezone
 from httplib2 import Http
 import fcntl
 import json
@@ -28,7 +29,6 @@ class FAQ(models.Model):
         return self.question
 
 
-# this data model will read from the CRC Trials google sheet
 class CRCTrial(models.Model):
     nct_id = models.CharField("NCT ID", unique=True, max_length=100)
     trial_link = models.URLField(max_length=200, null=True, blank=True,
@@ -121,6 +121,15 @@ class CRCTrial(models.Model):
         return json.dumps(raw_data)
 
 
+class ScriptRuns(models.Model):
+    script = models.CharField(max_length=200)
+    start_time = models.DateTimeField(default=timezone.now)
+    finish_time = models.DateTimeField(db_index=True, null=True, blank=True)
+    success = models.BooleanField(default=False)
+    record_count = models.IntegerField(null=True, blank=True)
+
+
+# this data model will read from the CRC Trials google sheet
 class CRCTrials(object):
     _header = ['Subtype', 'Drug', 'NCT', 'Type', 'Locations', 'Comments', 'Prior Immunotherapy OK', 'Publications']
 
