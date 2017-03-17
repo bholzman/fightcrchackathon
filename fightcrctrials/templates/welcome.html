@@ -4,6 +4,8 @@
 
 {% block content %}
   <div class="container welcome">
+            <h2>{% tag "HomeHeadLine" %}</h2>
+
     <form id="searchForm" action="trials/" method="GET">
       <div class="row">
         <div class="col-xs-12">
@@ -41,7 +43,7 @@
           </div>
           <h5>Program Status</h5>
           <div class="checkbox">
-            <select id="adv-status" name="programStatus" data-placeholder="All statuses..." multiple style="width: 150px"></select>
+            <select id="adv-status" name="programStatus" data-placeholder="All Statuses..." multiple style="width: 150px"></select>
           </div>
         </div>
         <div class="col-sm-4">
