@@ -31,7 +31,7 @@ def _alert_no_recent_records(script, first_finish_time):
 
 def run():
     import datetime
-    start_time = timezone.now() + datetime.timedelta(days=10)
+    start_time = timezone.now()
     print("Script {} starting at {}".format(SCRIPT, start_time))
 
     # get the last successful run for each script and check that it wasn't too long ago
