@@ -8,7 +8,6 @@
   <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
   <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
   <script src="../static/js/jquery.dataTables.yadcf.js"></script>
-  <script src="../static/js/chosen.jquery.min.js"></script>
   <script type="text/javascript">
     function getQueryParams(queryString) {
       var query = (queryString || window.location.search).substring(1); // delete ?
@@ -132,17 +131,6 @@
         })
       });
 
-      var filterFunction = function(filterVal, columnVal, rowValues, stateVal) {
-        if (filterVal === null || filterVal.length == 0 || (filterVal.length == 1 && filterVal[0].length == 0)){
-          return true;
-        }
-        var found = _.find(filterVal, function(value) {
-          var splitValues = columnVal.split(',');
-          return value.length > 0 && _.contains(splitValues, value);
-        });
-        return found !== undefined;
-      };
-
       // note these column filters are hidden by CSS for now
       var columnFilters = [ ];
       var columnsWithoutMultiSelect = ['CRC', 'IO', 'Prior IO OK?'];
@@ -153,16 +141,13 @@
         if (!_.contains(columnsWithoutSelect, columnTitle)) {
           if (columnTitle === 'Geography') {
             columnFilters.push({column_number: i,
-              filter_type: "multi_select_custom_func",
-              select_type: 'chosen',
-              custom_func: filterFunction,
+              filter_type: "multi_select",
               data: _.uniq(locations)
             })
           } else if (columnTitle === 'Phase') {
             columnFilters.push({
               column_number: i,
               filter_type: "multi_select",
-              select_type: 'chosen',
               filter_match_mode: 'exact',
               data: _.uniq(phases)
             })
@@ -170,7 +155,6 @@
             columnFilters.push({
               column_number: i,
               filter_type: "multi_select",
-              select_type: 'chosen',
               filter_match_mode: 'exact'
             })
           } else if (columnTitle === 'Date Added') {
@@ -184,15 +168,13 @@
             columnFilters.push({
               column_number: i,
               filter_type: "select",
-              select_type: 'chosen',
               select_type_options: {disable_search: true},
               filter_default_label: 'Any'
             })
           } else {
             columnFilters.push({
               column_number: i,
-              filter_type: "multi_select",
-              select_type: 'chosen'
+              filter_type: "multi_select"
             })
           }
         }
@@ -287,6 +269,9 @@
         yadcf.exFilterColumn(table, [[column_for('IO'), 'Yes']]);
       }
       if (pLocation) {
+        if (!_.isArray(pLocation)) {
+            pLocation = [pLocation];
+        }
         yadcf.exFilterColumn(table, [[column_for('Geography'), pLocation]]);
       }
       if (pPriorIo && pPriorIo === 'yes') {

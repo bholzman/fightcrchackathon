@@ -90,21 +90,21 @@
       geoSelect.append($('<option/>', {value: location, text: location}));
     });
 
-    $("#geo").chosen();
+     $("#geo").selectize();
 
     var phaseSelect = $('#adv-phase');
     _.forEach(phases, function(phase) {
       phaseSelect.append($('<option/>', {value: phase, text: phase}));
     });
 
-    $("#adv-phase").chosen();
+    $("#adv-phase").selectize();
 
     var statusSelect = $('#adv-status');
     _.forEach(statuses, function(status) {
       statusSelect.append($('<option/>', {value: status, text: status}));
     });
 
-    $("#adv-status").chosen();
+    $("#adv-status").selectize();
 
     $(".date-picker").datetimepicker({format: 'YYYY-MM-DD'});
 
