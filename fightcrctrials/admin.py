@@ -33,3 +33,11 @@ class CRCTrialAdmin(admin.ModelAdmin):
     }
 
     search_fields = ['nct_id', 'brief_title']
+
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return ()
+        return (
+            'title', 'program_status', 'locations', 'date_trial_added', 'updated_date', 'phase', 'intervention_types',
+            'drug_names', 'description', 'min_age', 'max_age', 'gender', 'inclusion_criteria', 'exclusion_criteria',
+            'contact_phones', 'contact_emails')
