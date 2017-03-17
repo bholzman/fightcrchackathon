@@ -53,6 +53,7 @@
            createdCell: nct_createdCell},
           {title: 'CRC', width: '40px', className: 'filter-crc-directed'},
           {title: 'IO', width: '30px', className: 'filter-immunotherapy'},
+          {title: 'Date Added', width: '80px', className: 'filter-date-added'},
           {title: 'Title', className: 'filter-title'},
           {title: 'Phase', width: '78px', className: 'filter-phase'},
           {title: 'Status', width: '80px', className: 'filter-status'},
@@ -76,6 +77,7 @@
             return [trial.nct_id,
                     trial.is_crc_trial ? "Yes" : "No",
                     trial.is_immunotherapy_trial ? "Yes" : "No",
+                    trial.date_trial_added,
                     trial.brief_title ? trial.brief_title : trial.title,
                     trial.phase,
                     trial.program_status,
@@ -170,6 +172,13 @@
               filter_type: "multi_select",
               select_type: 'chosen',
               filter_match_mode: 'exact'
+            })
+          } else if (columnTitle === 'Date Added') {
+            columnFilters.push({
+              column_number: i,
+              filter_type: "range_date",
+              datepicker_type: 'bootstrap-datetimepicker',
+              date_format: 'YYYY-MM-DD'
             })
           } else if (_.contains(columnsWithoutMultiSelect, columnTitle)) {
             columnFilters.push({
@@ -271,6 +280,8 @@
       var pPhase = params.phase;
       var pPriorIo = params.priorIo;
       var pStatus = params.programStatus;
+      var pDateAddedFrom = params.dateAddedFrom;
+      var pDateAddedTo = params.dateAddedTo;
 
       if (pTreatmentType) {
         yadcf.exFilterColumn(table, [[column_for('IO'), 'Yes']]);
@@ -302,6 +313,9 @@
         }
         yadcf.exFilterColumn(table, [[column_for('Status'), pStatus]]);
       }
+      if (pDateAddedFrom && pDateAddedTo) {
+          yadcf.exFilterColumn(table, [[column_for('Date Added'), {'from': pDateAddedFrom, 'to': pDateAddedTo}]]);
+      }
       if (pSearchTerm) {
         table = table.search(pSearchTerm).draw();
       }
@@ -325,6 +339,8 @@
       $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-crc-directed" %}', 'data-toggle': 'tooltip'});
       ix = column_for('IO');
       $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-immunotherapy" %}', 'data-toggle': 'tooltip'});
+      ix = column_for('Date Added');
+      $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-date-added" %}', 'data-toggle': 'tooltip'});
       ix = column_for('Phase');
       $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-phase" %}', 'data-toggle': 'tooltip'});
       ix = column_for('Geography');

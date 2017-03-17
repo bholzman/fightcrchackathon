@@ -55,6 +55,11 @@
           <div class="checkbox">
             <label><input type="checkbox" name="priorIo" value="yes">Allowed</label>
           </div>
+          <h5>Date Trial Added</h5>
+          <div class="form-group">
+            <span class="date-picker-label">From</span> <input type="text" class="form-control date-picker" name="dateAddedFrom" id="date-added-from" /><br>
+            <span class="date-picker-label">To</span> <input type="text" class="form-control date-picker" name="dateAddedTo" id="date-added-to" />
+          </div>
         </div>
         <div class="col-sm-4">
           <h5>Advanced search</h5>
@@ -100,6 +105,8 @@
     });
 
     $("#adv-status").chosen();
+
+    $(".date-picker").datetimepicker({format: 'YYYY-MM-DD'});
 
     // get and restore form data. taken from:
     // http://stackoverflow.com/questions/1489486/jquery-plugin-to-serialize-a-form-and-also-restore-populate-the-form/1490431#1490431

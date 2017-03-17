@@ -40,6 +40,16 @@ body {
   max-height: 100px;
 }
 
+.date-picker {
+    width: 102px;
+    display: inline-block;
+}
+
+.date-picker-label {
+    min-width: 36px;
+    display: inline-block;
+}
+
 /* hide the filters for now */
 #example .yadcf-filter-wrapper {
     display: none;
