@@ -19,9 +19,9 @@ class CRCTrialAdmin(admin.ModelAdmin):
         ('For Review', {'fields': (
             'is_crc_trial', 'is_immunotherapy_trial',
             'category', 'prior_io_ok',
-            'comments', 'resources', 'urls')}),
+            'comments', 'resources')}),
         ('Additional Information', {'fields': (
-            'title', 'program_status', 'locations',
+            'title', 'program_status', 'locations', 'urls',
             'date_trial_added', 'updated_date',
             'phase', 'intervention_types', 'drug_names',
             'description', 'min_age', 'max_age', 'gender',
@@ -38,6 +38,6 @@ class CRCTrialAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return ()
         return (
-            'title', 'program_status', 'locations', 'date_trial_added', 'updated_date', 'phase', 'intervention_types',
-            'drug_names', 'description', 'min_age', 'max_age', 'gender', 'inclusion_criteria', 'exclusion_criteria',
-            'contact_phones', 'contact_emails')
+            'title', 'program_status', 'locations', 'urls', 'date_trial_added', 'updated_date', 'phase',
+            'intervention_types', 'drug_names', 'description', 'min_age', 'max_age', 'gender', 'inclusion_criteria',
+            'exclusion_criteria', 'contact_phones', 'contact_emails')
