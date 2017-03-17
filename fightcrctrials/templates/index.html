@@ -302,10 +302,7 @@
         yadcf.exFilterColumn(table, [[column_for('Phase'), pPhase]]);
       }
       if (pTherapyName) {
-        // get all drug names that match pTherapyName
-        var re = new RegExp(pTherapyName, 'i');
-        var matched = _.filter(drug_names, function(drug) { return re.test(drug) });
-        yadcf.exFilterColumn(table, [[column_for('Drug(s)'), matched]]);
+        yadcf.exFilterColumn(table, [[column_for('Drug(s)'), [pTherapyName]]]);
       }
       if (pStatus) {
         if (!_.isArray(pStatus)) {
