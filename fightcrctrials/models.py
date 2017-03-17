@@ -42,7 +42,7 @@ class CRCTrial(models.Model):
     comments = models.TextField(null=True, blank=True)
     resources = ArrayField(models.URLField(max_length=250), null=True, blank=True)
     resources.verbose_name = 'Publications'
-    urls = ArrayField(models.URLField(max_length=200), null=True, blank=True)
+    drug_brand_names = ArrayField(models.CharField(max_length=300), null=True, blank=True)
     title = models.CharField(max_length=300, null=True, blank=True)
     program_status = models.CharField(max_length=30, choices=(
         ("Temporarily not available", "Temporarily not available"),
@@ -60,6 +60,7 @@ class CRCTrial(models.Model):
         ("Not yet recruiting", "Not yet recruiting"),
         ("Terminated", "Terminated")), null=True, blank=True)
     locations = ArrayField(models.CharField(max_length=100), null=True, blank=True)
+    urls = ArrayField(models.URLField(max_length=200), null=True, blank=True)
     date_trial_added = models.DateField(null=True, blank=True)
     updated_date = models.DateField(null=True, blank=True)
     phase = models.CharField(max_length=20, choices=(
@@ -101,6 +102,7 @@ class CRCTrial(models.Model):
              'is_immunotherapy_trial': r.is_immunotherapy_trial,
              'intervention_types': r.intervention_types,
              'drug_names': r.drug_names,
+             'drug_brand_names': r.drug_brand_names,
              'subtype': r.category,
              'title': r.title,
              'program_status': r.program_status,

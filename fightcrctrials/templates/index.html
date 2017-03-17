@@ -63,7 +63,8 @@
           {title: 'Comments', visible: false},
           {title: 'Description', visible: false},
           {title: 'Inclusion Criteria', visible: false},
-          {title: 'Exclusion Criteria', visible: false}
+          {title: 'Exclusion Criteria', visible: false},
+          {title: 'Drug Brand Names', visible: false}
       ];
 
       function column_for(name) {
@@ -84,7 +85,8 @@
                     trial.comments,
                     trial.description,
                     trial.inclusion_criteria,
-                    trial.exclusion_criteria] }),
+                    trial.exclusion_criteria,
+                    trial.drug_brand_names ? trial.drug_brand_names.join(', ') : []] }),
         columns: columns,
         columnDefs: [
         ],
@@ -407,6 +409,10 @@
                     <tr>
                         <th>Drug Name(s)</th>
                         <td id="detail-drug_names"></td>
+                    </tr>
+                    <tr>
+                        <th>Drug Brand Name(s)</th>
+                        <td id="detail-drug_brand_names"></td>
                     </tr>
                     <tr>
                         <th>Description</th>
