@@ -4,12 +4,13 @@ import re
 class AACTrialSerializer(object):
     """Serialzizes an AACT trial object into a dictionary of attributes used
     by a CRCTrial object"""
-    def __init__(self, aact_trial):
+    def __init__(self, aact_trial, classifiers=False):
         self.aact_trial = aact_trial
+        self.classifiers = classifiers
 
     def serialize(self):
-       aact_trial = self.aact_trial
-       return {
+        aact_trial = self.aact_trial
+        serialized = {
             'updated_date': aact_trial.last_changed_date,
             'date_trial_added': aact_trial.date_trial_added,
             'brief_title': self.sanitize_title(aact_trial.brief_title),
@@ -26,10 +27,13 @@ class AACTrialSerializer(object):
             'contact_emails': self.sanitize_emails(aact_trial.contact_emails),
             'urls': self.sanitize_urls(aact_trial.urls),
             'description': "%s" % aact_trial.trial_description,
-            'is_crc_trial': aact_trial.is_crc_trial,
-            'is_immunotherapy_trial': aact_trial.is_immunotherapy_trial,
             'drug_names': self.sanitize_drug_names(aact_trial.drug_names),
         }
+        if self.classifiers:
+            serialized['is_crc_trial'] = aact_trial.is_crc_trial
+            serialized['is_immunotherapy_trial'] = aact_trial.is_immunotherapy_trial
+
+        return serialized
 
     def sanitize_urls(self, urls):
         if urls is None: return None
@@ -51,20 +55,19 @@ class AACTrialSerializer(object):
 
         return ["%s" % location for location in locations]
 
-
     def sanitize_gender(self, gender):
         if gender is None: return None
 
         if gender == 'Female':
-          return "F"
+            return "F"
         elif gender == 'Male':
-          return 'M'
+            return 'M'
         elif gender == "All":
-          return "A"
+            return "A"
         else:
-          # TODO(Bkies): add more gender types
-          raise Exception("%s is not a valid gender" % gender)
-          return None
+            # TODO(Bkies): add more gender types
+            raise Exception("%s is not a valid gender" % gender)
+            return None
 
     def sanitize_title(self, string):
         if string is None: return ""
