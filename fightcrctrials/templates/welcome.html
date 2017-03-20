@@ -172,9 +172,9 @@
     if (existingCookie !== undefined) {
       //don't reset from cookies until multiselect is working
        $("#searchForm").values(existingCookie);
-       geoSelect[0].selectize.setValue(existingCookie.location);
-       advPhaseSelect[0].selectize.setValue(existingCookie.phase);
-       statusSelect[0].selectize.setValue(existingCookie.programStatus)
+       geoSelect[0].selectize.setValue(existingCookie.location[0]);
+       advPhaseSelect[0].selectize.setValue(existingCookie.phase[0]);
+       statusSelect[0].selectize.setValue(existingCookie.programStatus[0])
     }
 
     $("#searchForm").submit(function(e) {
