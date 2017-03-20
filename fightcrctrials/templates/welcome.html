@@ -74,7 +74,8 @@
       </div>
       <br/>
       <div class="row centered">
-        <button class="btn btn-primary btn-md col-sm-3 col-md-offset-9" type="submit">Search</button>
+        <button id="reset" class="btn btn-default btn-md col-sm-1 col-md-offset-7" type="button">Reset</button>
+        <button class="btn btn-primary btn-md col-sm-3 col-md-offset-0"  style="margin-left:10px;" type="submit">Search</button>
       </div>
     </form>
   </div>
@@ -90,14 +91,14 @@
       geoSelect.append($('<option/>', {value: location, text: location}));
     });
 
-     $("#geo").selectize();
+    $("#geo").selectize();
 
     var phaseSelect = $('#adv-phase');
     _.forEach(phases, function(phase) {
       phaseSelect.append($('<option/>', {value: phase, text: phase}));
     });
 
-    $("#adv-phase").selectize();
+    var advPhaseSelect = $("#adv-phase").selectize();
 
     var statusSelect = $('#adv-status');
     _.forEach(statuses, function(status) {
@@ -110,9 +111,9 @@
 
     // get and restore form data. taken from:
     // http://stackoverflow.com/questions/1489486/jquery-plugin-to-serialize-a-form-and-also-restore-populate-the-form/1490431#1490431
-    // (and subsequently modified to actually work)
     $.fn.values = function(data) {
         var els = this.find(':input').get();
+
         if(arguments.length === 0) {
             // return all data
             data = {};
@@ -121,7 +122,10 @@
                 if (this.name && !this.disabled && (this.checked
                                 || /select|textarea/i.test(this.nodeName)
                                 || /text|hidden|password/i.test(this.type))) {
-                    data[this.name] = $(this).val();
+                    if(data[this.name] == undefined){
+                        data[this.name] = [];
+                    }
+                    data[this.name].push($(this).val());
                 }
             });
             return data;
@@ -130,21 +134,21 @@
                 if (this.name && data[this.name]) {
                     var names = data[this.name];
                     var $this = $(this);
+                    if(Object.prototype.toString.call(names) !== '[object Array]'){
+                        names = [names]; //backwards compat to old version of this code
+                    }
                     if(this.type == 'checkbox' || this.type == 'radio') {
                         var val = $this.val();
                         var found = false;
-                        if (!_.isArray(names)) {
-                            names = [names];
-                        }
                         for(var i = 0; i < names.length; i++){
                             if(names[i] == val){
                                 found = true;
                                 break;
                             }
                         }
-                        $this.prop("checked", found);
+                        $this.attr("checked", found);
                     } else {
-                        $this.val(names);
+                        $this.val(names[0]);
                     }
                 }
             });
@@ -152,13 +156,25 @@
         }
     };
 
+    var resetForm = function() {
+      var $form = $('#searchForm');
+      $form.find('input:text, input:password, input:file, select, textarea').val('');
+      $form.find('input:radio, input:checkbox')
+          .removeAttr('checked').removeAttr('selected');
+      geoSelect[0].selectize.clear();
+      advPhaseSelect[0].selectize.clear();
+      statusSelect[0].selectize.clear();
+    }
+
+    $('#reset').on("click", resetForm )
 
     var existingCookie = Cookies.getJSON('search-query');
     if (existingCookie !== undefined) {
       //don't reset from cookies until multiselect is working
-      //  $("#searchForm").values(existingCookie);
-      //  $('select').trigger("chosen:updated");
-
+       $("#searchForm").values(existingCookie);
+       geoSelect[0].selectize.setValue(existingCookie.location);
+       advPhaseSelect[0].selectize.setValue(existingCookie.phase);
+       statusSelect[0].selectize.setValue(existingCookie.programStatus)
     }
 
     $("#searchForm").submit(function(e) {
