@@ -12,7 +12,7 @@ from django.utils import timezone
 
 from fightcrctrials.aact import AACT
 from fightcrctrials.email import send_email
-from fightcrctrials.models import CRCTrial, ScriptRuns
+from fightcrctrials.models import CRCTrial, DeletedCRCTrial, ScriptRuns
 from fightcrctrials.scripts.trial_importer import update_or_create
 
 SCRIPT = 'download_new_trials'
@@ -31,6 +31,9 @@ class CRCTrialDownloader(object):
 
         try:
             existing_ids = set([k['nct_id'] for k in CRCTrial.objects.all().values('nct_id')])
+
+            # do not re-download any trials that have been deleted
+            existing_ids.update([k['nct_id'] for k in DeletedCRCTrial.objects.all().values('nct_id')])
 
             # Create an un-approved trial for eah new aac_trial
             nct_ids = self.aact.engine.execute(self.aact.newly_added_trials(self.cutoff_days)).fetchall()

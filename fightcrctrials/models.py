@@ -29,6 +29,11 @@ class FAQ(models.Model):
         return self.question
 
 
+class DeletedCRCTrial(models.Model):
+    deleted_at = models.DateField(auto_now_add=True)
+    nct_id = models.CharField(unique=True, max_length=100)
+
+
 class CRCTrial(models.Model):
     nct_id = models.CharField("NCT ID", unique=True, max_length=100)
     trial_link = models.URLField(max_length=200, null=True, blank=True,
@@ -235,3 +240,5 @@ class CRCTrials(object):
             'header': self._header,
             'data': data
         })
+
+import signals
