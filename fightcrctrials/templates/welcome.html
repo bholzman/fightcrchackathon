@@ -157,6 +157,7 @@
     };
 
     var resetForm = function() {
+      Cookies.remove('search-query');
       var $form = $('#searchForm');
       $form.find('input:text, input:password, input:file, select, textarea').val('');
       $form.find('input:radio, input:checkbox')
@@ -166,7 +167,7 @@
       statusSelect[0].selectize.clear();
     }
 
-    $('#reset').on("click", resetForm )
+    $('#reset').on("click", resetForm)
 
     var existingCookie = Cookies.getJSON('search-query');
     if (existingCookie !== undefined) {
