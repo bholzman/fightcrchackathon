@@ -65,7 +65,6 @@ class AACTrialSerializer(object):
         elif gender == "All":
             return "A"
         else:
-            # TODO(Bkies): add more gender types
             raise Exception("%s is not a valid gender" % gender)
             return None
 

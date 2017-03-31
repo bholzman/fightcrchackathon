@@ -8,16 +8,16 @@ from sendgrid.helpers.mail import Email, Content, Mail
 
 from .email import send_email
 from .forms import ContactUsForm
-from .models import Greeting, CRCTrial, FAQ
+from .models import CRCTrial, FAQ
 
 
 # Create your views here.
 @ensure_csrf_cookie
 def index(request):
-    # return HttpResponse('Hello from Python!')
     return render(request, 'index.html', {'trials': CRCTrial.trials_json()})
 
 
+@ensure_csrf_cookie
 def welcome(request):
     return render(request, 'welcome.html', {'trials': CRCTrial.trials_json()})
 
@@ -25,15 +25,6 @@ def welcome(request):
 def faq(request):
     faqs = FAQ.objects.all()
     return render(request, 'faq.html', {'faqs': faqs})
-
-def db(request):
-
-    greeting = Greeting()
-    greeting.save()
-
-    greetings = Greeting.objects.all()
-
-    return render(request, 'db.html', {'greetings': greetings})
 
 
 def send_trial_closed_email(request):
