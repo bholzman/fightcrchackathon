@@ -7,7 +7,6 @@ from django.forms import Textarea
 from .models import UserText, FAQ, CRCTrial
 
 admin.site.register(UserText)
-admin.site.register(FAQ)
 
 @admin.register(CRCTrial)
 class CRCTrialAdmin(admin.ModelAdmin):
@@ -41,3 +40,7 @@ class CRCTrialAdmin(admin.ModelAdmin):
             'title', 'program_status', 'locations', 'urls', 'date_trial_added', 'updated_date', 'phase',
             'intervention_types', 'drug_names', 'description', 'min_age', 'max_age', 'gender', 'inclusion_criteria',
             'exclusion_criteria', 'contact_phones', 'contact_emails')
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    ordering = ('id',)
