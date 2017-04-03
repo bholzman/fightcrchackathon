@@ -70,20 +70,20 @@
           return _.findIndex(columns, function (c) { return c.title === name });
       }
 
-      var drug_names = []
-
-      if (trial.drug_names) {
-        drug_names = drug_names.concat(trial.drug_names);
-      }
-
-      if (trial.drug_brand_names) {
-        drug_names = drug_names.concat(trial.drug_brand_names);
-      }
-
-      drug_names.sort();
-
       var table = $('#example').DataTable( {
         data: _.map(trials, function(trial) {
+            var drug_names = [];
+
+            if (trial.drug_names) {
+              drug_names = drug_names.concat(trial.drug_names);
+            }
+
+            if (trial.drug_brand_names) {
+              drug_names = drug_names.concat(trial.drug_brand_names);
+            }
+
+            drug_names.sort();
+
             return [trial.nct_id,
                     trial.is_crc_trial ? "Yes" : "No",
                     trial.is_immunotherapy_trial ? "Yes" : "No",
