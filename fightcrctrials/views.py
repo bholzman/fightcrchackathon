@@ -23,7 +23,7 @@ def welcome(request):
 
 
 def faq(request):
-    faqs = FAQ.objects.all()
+    faqs = FAQ.objects.order_by('id').all()
     return render(request, 'faq.html', {'faqs': faqs})
 
 
