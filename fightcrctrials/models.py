@@ -86,6 +86,9 @@ class CRCTrial(models.Model):
     def __str__(self):
         return '%s (%s)' % (self.brief_title, self.nct_id)
 
+    def __unicode__(self):
+        return u'%s (%s)' % (self.brief_title, self.nct_id)
+
     @classmethod
     def trials_json(cls):
         reviewed = CRCTrial.objects.filter(reviewed=True)
