@@ -63,13 +63,24 @@
           {title: 'Comments', visible: false},
           {title: 'Description', visible: false},
           {title: 'Inclusion Criteria', visible: false},
-          {title: 'Exclusion Criteria', visible: false},
-          {title: 'Drug Brand Names', visible: false}
+          {title: 'Exclusion Criteria', visible: false}
       ];
 
       function column_for(name) {
           return _.findIndex(columns, function (c) { return c.title === name });
       }
+
+      var drug_names = []
+
+      if (trial.drug_names) {
+        drug_names = drug_names.concat(trial.drug_names);
+      }
+
+      if (trial.drug_brand_names) {
+        drug_names = drug_names.concat(trial.drug_brand_names);
+      }
+
+      drug_names.sort();
 
       var table = $('#example').DataTable( {
         data: _.map(trials, function(trial) {
@@ -82,12 +93,11 @@
                     trial.program_status,
                     trial.locations ? trial.locations.join(', ') : [],
                     trial.prior_io_ok ? "Yes" : "",
-                    trial.drug_names ? trial.drug_names.join(', ') : [],
+                    drug_names.join(', '),
                     trial.comments,
                     trial.description,
                     trial.inclusion_criteria,
-                    trial.exclusion_criteria,
-                    trial.drug_brand_names ? trial.drug_brand_names.join(', ') : []] }),
+                    trial.exclusion_criteria]}),
         columns: columns,
         columnDefs: [
         ],
