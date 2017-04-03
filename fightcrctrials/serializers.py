@@ -72,6 +72,7 @@ class AACTrialSerializer(object):
         if string is None: return ""
         truncated = string[:300]
         truncated = re.sub(u'\xae', '(R)', truncated)
+        truncated = re.sub(u'\u2122', '(TM)', truncated)
         return truncated
 
     def sanitize_drug_names(self, drug_names):
