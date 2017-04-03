@@ -251,7 +251,7 @@ class AACT(object):
         studies = self.studies()
         conditions = self.conditions()
         keywords = self.keywords()
-        terms = ['cancer', 'neoplasm', 'tumor']
+        terms = ['cancer', 'neoplasm', 'tumor', 'tumour', 'malignan', 'carcinoma', 'metast']
         fields = [studies.c.official_title, conditions.c.name, keywords.c.name]
         term_clauses = [field.ilike('%' + term + '%') for field in fields for term in terms]
 
