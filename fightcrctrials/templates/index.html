@@ -335,10 +335,14 @@
       $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-date-added" %}', 'data-toggle': 'tooltip'});
       ix = column_for('Phase');
       $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-phase" %}', 'data-toggle': 'tooltip'});
+      ix = column_for('Status');
+      $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-status" %}', 'data-toggle': 'tooltip'});
       ix = column_for('Geography');
       $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-geography" %}', 'data-toggle': 'tooltip'});
       ix = column_for('Prior IO OK?');
       $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-prior-io-ok" %}', 'data-toggle': 'tooltip'});
+      ix = column_for('Drug(s)');
+      $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-drugs" %}', 'data-toggle': 'tooltip'});
       $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     } );
   </script>
