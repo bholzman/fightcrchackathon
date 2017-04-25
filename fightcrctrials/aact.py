@@ -256,7 +256,7 @@ class AACT(object):
         term_clauses = [field.ilike('%' + term + '%') for field in fields for term in terms]
 
         return select([
-            studies.c.nct_id
+            distinct(studies.c.nct_id)
         ]).select_from(
             studies.outerjoin(
                 conditions, conditions.c.nct_id == studies.c.nct_id

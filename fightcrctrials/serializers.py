@@ -14,7 +14,7 @@ class AACTrialSerializer(object):
             'updated_date': aact_trial.last_changed_date,
             'date_trial_added': aact_trial.date_trial_added,
             'brief_title': self.sanitize_title(aact_trial.brief_title),
-            'title': self.sanitize_title(aact_trial.official_title),
+            'title': self.sanitize_title(aact_trial.official_title, length=500),
             'program_status': "%s" % aact_trial.program_status,
             'phase': "%s" % aact_trial.eligible_cancer_phase,
             'min_age': self.sanitize_min_age(aact_trial.minimum_age),
@@ -68,9 +68,9 @@ class AACTrialSerializer(object):
             raise Exception("%s is not a valid gender" % gender)
             return None
 
-    def sanitize_title(self, string):
+    def sanitize_title(self, string, length=300):
         if string is None: return ""
-        truncated = string[:300]
+        truncated = string[:length]
         truncated = re.sub(u'\xae', '(R)', truncated)
         truncated = re.sub(u'\u2122', '(TM)', truncated)
         return truncated
