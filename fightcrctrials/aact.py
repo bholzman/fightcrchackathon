@@ -266,6 +266,7 @@ class AACT(object):
         ).where(
             and_(
                 studies.c.created_at >= func.date(func.current_date() - cutoff_days),
+                studies.c.first_received_date >= '2017-02-01',
                 studies.c.study_type == 'Interventional',
                 studies.c.overall_status.in_([
                     'Recruiting','Enrolling by invitation','Not yet recruiting','Available']),
