@@ -265,7 +265,7 @@ class AACT(object):
             )
         ).where(
             and_(
-                studies.c.first_received_date >= func.date(func.current_date() - cutoff_days),
+                studies.c.created_at >= func.date(func.current_date() - cutoff_days),
                 studies.c.study_type == 'Interventional',
                 studies.c.overall_status.in_([
                     'Recruiting','Enrolling by invitation','Not yet recruiting','Available']),
@@ -276,5 +276,5 @@ class AACT(object):
     def add_newly_updated_condition(self, query, cutoff_days):
         studies = self.studies()
         return query.where(
-            studies.c.last_changed_date >= func.date(func.current_date() - cutoff_days)
+            studies.c.updated_at >= func.date(func.current_date() - cutoff_days)
         )
