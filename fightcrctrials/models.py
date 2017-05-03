@@ -45,6 +45,7 @@ class CRCTrial(models.Model):
     resources.verbose_name = 'Publications'
     drug_brand_names = ArrayField(models.CharField(max_length=300), null=True, blank=True)
     title = models.CharField(max_length=500, null=True, blank=True)
+    conditions = ArrayField(models.CharField(max_length=300), null=True, blank=True)
     program_status = models.CharField(max_length=30, choices=(
         ("Temporarily not available", "Temporarily not available"),
         ("Active, not recruiting", "Active, not recruiting"),
@@ -108,6 +109,7 @@ class CRCTrial(models.Model):
              'drug_names': r.drug_names,
              'drug_brand_names': r.drug_brand_names,
              'subtype': r.category,
+             'conditions': r.conditions,
              'title': r.title,
              'program_status': r.program_status,
              'phase': r.phase,

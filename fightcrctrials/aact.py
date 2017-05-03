@@ -65,15 +65,6 @@ class AACT(object):
             conditions.c.nct_id == nct_id
         ).group_by(conditions.c.nct_id).alias('cond_query')
 
-        intervention_query = select([
-            interventions.c.nct_id,
-            func.array_agg(
-                distinct(interventions.c.intervention_type + ': ' + interventions.c.name)
-            ).label('interventions')
-        ]).where(
-            interventions.c.nct_id == nct_id
-        ).group_by(interventions.c.nct_id).alias('intervention_query')
-
         loc_query = select([
             facilities.c.nct_id,
             func.array_agg(
@@ -161,6 +152,7 @@ class AACT(object):
             loc_query.c.locations,
             email_phone_query.c.contact_phones,
             email_phone_query.c.contact_emails,
+            cond_query.c.conditions,
             link_query.c.urls,
             description.c.description.label('trial_description'),
             drug_query.c.drug_names,
@@ -177,6 +169,8 @@ class AACT(object):
                 description, description.c.nct_id == studies.c.nct_id
             ).outerjoin(
                 drug_query, drug_query.c.nct_id == studies.c.nct_id
+            ).outerjoin(
+                cond_query, cond_query.c.nct_id == studies.c.nct_id
             )
         ).where(studies.c.nct_id == nct_id)
 

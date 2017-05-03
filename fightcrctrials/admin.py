@@ -20,9 +20,8 @@ class CRCTrialAdmin(admin.ModelAdmin):
             'category', 'prior_io_ok',
             'comments', 'resources', 'drug_brand_names')}),
         ('Additional Information', {'fields': (
-            'title', 'program_status', 'locations', 'urls',
-            'date_trial_added', 'updated_date',
-            'phase', 'intervention_types', 'drug_names',
+            'title', 'conditions', 'drug_names', 'program_status', 'locations',
+            'urls', 'date_trial_added', 'updated_date', 'phase', 'intervention_types',
             'description', 'min_age', 'max_age', 'gender',
             'inclusion_criteria', 'exclusion_criteria',
             'contact_phones', 'contact_emails')}))

@@ -15,6 +15,7 @@ class AACTrialSerializer(object):
             'date_trial_added': aact_trial.date_trial_added,
             'brief_title': self.sanitize_title(aact_trial.brief_title),
             'title': self.sanitize_title(aact_trial.official_title, length=500),
+            'conditions': self.sanitize_conditions(aact_trial.conditions),
             'program_status': "%s" % aact_trial.program_status,
             'phase': "%s" % aact_trial.eligible_cancer_phase,
             'min_age': self.sanitize_min_age(aact_trial.minimum_age),
@@ -54,6 +55,11 @@ class AACTrialSerializer(object):
         if locations is None: return None
 
         return ["%s" % location for location in locations]
+
+    def sanitize_conditions(self, conditions):
+        if conditions is None: return None
+
+        return ["%s" % condition for condition in conditions]
 
     def sanitize_gender(self, gender):
         if gender is None: return None
