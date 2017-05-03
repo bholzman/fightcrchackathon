@@ -56,6 +56,24 @@ class AACT(object):
         eligibilities = self.eligibilities()
         nct_id = bindparam('nct_id')
 
+        cond_query = select([
+            conditions.c.nct_id,
+            func.array_agg(
+                distinct(conditions.c.name)
+            ).label('conditions')
+        ]).where(
+            conditions.c.nct_id == nct_id
+        ).group_by(conditions.c.nct_id).alias('cond_query')
+
+        intervention_query = select([
+            interventions.c.nct_id,
+            func.array_agg(
+                distinct(interventions.c.intervention_type + ': ' + interventions.c.name)
+            ).label('interventions')
+        ]).where(
+            interventions.c.nct_id == nct_id
+        ).group_by(interventions.c.nct_id).alias('intervention_query')
+
         loc_query = select([
             facilities.c.nct_id,
             func.array_agg(
@@ -274,8 +292,9 @@ class AACT(object):
             )
         )
 
-    def add_newly_updated_condition(self, query, cutoff_days):
+    def add_newly_updated_condition(self, query, cutoff_days, stub_ids):
         studies = self.studies()
         return query.where(
-            studies.c.updated_at >= func.date(func.current_date() - cutoff_days)
+            or_(studies.c.updated_at >= func.date(func.current_date() - cutoff_days),
+                studies.c.nct_id.in_(stub_ids))
         )

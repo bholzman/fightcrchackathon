@@ -26,8 +26,16 @@ class CRCTrialsUpdater(object):
             # query trials that we have
             existing_ids = [k['nct_id'] for k in CRCTrial.objects.all().values('nct_id')]
 
+            # also look for trials that were added by hand as stubs
+            stub_ids = [k['nct_id'] for k in CRCTrial.objects.filter(
+                date_trial_added__isnull=True,
+                updated_date__isnull=True,
+                title='',
+                brief_title=''
+            ).values('nct_id')]
+
             trial_query = self.aact.trial_query()
-            trial_query = self.aact.add_newly_updated_condition(trial_query, self.cutoff_days)
+            trial_query = self.aact.add_newly_updated_condition(trial_query, self.cutoff_days, stub_ids)
             for nct_id in existing_ids:
                 result = self.aact.engine.execute(trial_query, nct_id=nct_id)
                 record = result.first()
