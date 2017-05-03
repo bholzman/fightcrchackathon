@@ -30,8 +30,6 @@ class CRCTrialsUpdater(object):
             stub_ids = [k['nct_id'] for k in CRCTrial.objects.filter(
                 date_trial_added__isnull=True,
                 updated_date__isnull=True,
-                title='',
-                brief_title=''
             ).values('nct_id')]
 
             trial_query = self.aact.trial_query()
