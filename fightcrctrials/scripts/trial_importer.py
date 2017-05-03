@@ -21,6 +21,7 @@ def update_or_create(record, include_classifiers=False):
         'urls': trial['urls'],
         'description': trial['description'],
         'drug_names': trial['drug_names'],
+        'conditions': trial['conditions'],
     }
     if include_classifiers:
         defaults['is_crc_trial'] = trial['is_crc_trial']
