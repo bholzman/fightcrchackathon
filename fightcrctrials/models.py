@@ -42,7 +42,7 @@ class CRCTrial(models.Model):
     prior_io_ok = models.BooleanField(default=False, blank=True)
     comments = models.TextField(null=True, blank=True)
     resources = ArrayField(models.URLField(max_length=250), null=True, blank=True)
-    resources.verbose_name = 'Publications'
+    resources.verbose_name = 'Helpful Links'
     drug_brand_names = ArrayField(models.CharField(max_length=300), null=True, blank=True)
     title = models.CharField(max_length=500, null=True, blank=True)
     conditions = ArrayField(models.CharField(max_length=300), null=True, blank=True)
