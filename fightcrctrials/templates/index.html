@@ -369,15 +369,31 @@
       $('#example thead th:eq(' + ix + ')').attr({'title': '{% tag "tooltip-drugs" %}', 'data-toggle': 'tooltip'});
       $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     } );
+
+    function print_detail() {
+        var pri = $('#detailprint').get(0).contentWindow;
+        pri.document.open();
+        pri.document.write('<html><head>');
+        pri.document.write('<style>* { font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 14px; line-height: 1.42857143 } th { vertical-align: top }</style>');
+        pri.document.write('<style media="print">.no-print { display: none }</style>');
+        pri.document.write('</head><body>');
+        pri.document.write($('#detail').get(0).innerHTML);
+        pri.document.write('</body>');
+        pri.document.close();
+        pri.focus();
+        pri.print();
+    }
   </script>
 
 <table id="example" class="display" cellspacing="0" width="100%">
 </table>
+<iframe id="detailprint" style="height: 0px; width: 0px; position: absolute"></iframe>
 <div id="detail" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button onclick="javascript:print_detail()" class="no-print">Print</button>
+                <button type="button" class="close no-print" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <div id="detail-heading" class="modal-title"></div>
             </div>
             <div class="modal-body">
@@ -477,7 +493,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <input id="trial-closed" type="button" class="btn btn-secondary" value="Report that this trial has closed.">
+                <input id="trial-closed" type="button" class="btn btn-secondary no-print" value="Report that this trial has closed.">
             </div>
         </div>
     </div>
