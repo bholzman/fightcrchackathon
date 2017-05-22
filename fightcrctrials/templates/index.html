@@ -3,10 +3,11 @@
 {% load user_text %}
 
 {% block content %}
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
-  <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
-  <script type="text/javascript" src="//cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.print.min.js"></script>
+  <script type="text/javascript" src="//cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
   <script src="../static/js/jquery.dataTables.yadcf.js"></script>
   <script type="text/javascript">
     function getQueryParams(queryString) {
@@ -124,6 +125,23 @@
           }, 
           {
             extend: 'csv',
+            filename: '*.csv',
+            exportOptions: {
+              columns: ['.filter-title', '.filter-nct_id', '.filter-drugs', '.filter-geography', '.filter-comments', '.filter-links'],
+              format: {
+                header: function (mDataProp, columnIdx) {
+                  var htmlText = '<span>' + mDataProp + '</span>';
+                  var jHtmlObject = jQuery(htmlText);
+                  jHtmlObject.find('div').remove();
+                  var newHtml = jHtmlObject.text();
+                  return newHtml;
+                }
+              }
+            }
+          },
+          {
+            extend: 'excel',
+            filename: '*.xlsx',
             exportOptions: {
               columns: ['.filter-title', '.filter-nct_id', '.filter-drugs', '.filter-geography', '.filter-comments', '.filter-links'],
               format: {
