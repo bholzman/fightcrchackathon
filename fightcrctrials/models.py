@@ -31,11 +31,20 @@ class DeletedCRCTrial(models.Model):
 
 
 class CRCTrial(models.Model):
+    class Meta:
+        permissions = (("phase_1", "Phase 1 reviewer"), ("phase_2", "Phase 2 reviewer"),)
+
     nct_id = models.CharField("NCT ID", unique=True, max_length=100)
     trial_link = models.URLField(max_length=200, null=True, blank=True,
         help_text="Optional, defaults to the page at clinicaltrials.gov for this NCT ID")
     brief_title = models.CharField(max_length=300, null=True, blank=True)
-    reviewed = models.BooleanField(default=False, blank=True)
+    screened = models.NullBooleanField(default=None, null=True, blank=True)
+    screened.verbose_name = 'Triaged'
+    reviewed = models.NullBooleanField(default=None, null=True, blank=True)
+    reviewed.verbose_name = 'Approved'
+    additional_review = models.BooleanField(default=False, blank=True)
+    additional_review.verbose_name = 'Needs Additional Review'
+    review_comments = models.TextField(null=True, blank=True)
     is_crc_trial = models.BooleanField('CRC-directed trial', default=False, blank=True)
     is_immunotherapy_trial = models.BooleanField('Immunotherapy trial', default=False, blank=True)
     category = models.CharField('Trial sub-type', max_length=100, null=True, blank=True)

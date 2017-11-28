@@ -234,3 +234,25 @@ h2 {
     margin-top: 6vh;
 
 }
+
+.detail-arrow-wrapper {
+    position: fixed;
+    top: 48px;
+    z-index: 1100;
+}
+
+.detail-arrow {
+    position: fixed;
+    font-size: 120px;
+    cursor: pointer;
+    opacity: 0.6;
+    color: white;
+}
+
+.d-a-left {
+    left: 30px;
+}
+
+.d-a-right {
+    right: 30px;
+}

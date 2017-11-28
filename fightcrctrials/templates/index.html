@@ -109,6 +109,20 @@
         buttons: [
           // JK: hack to prevent multi-select from messing with column headers when printing
           {
+            text: 'Expand',
+            action: function(e, dt, node, config) {
+                var button = $('a.dt-button').eq(0);
+                if (button.text() == 'Expand') {
+                    $('#example tr td').css('white-space', 'inherit');
+                    button.text('Collapse');
+                } else {
+                    $('#example tr td').css('white-space', 'nowrap');
+                    button.text('Expand');
+                }
+            },
+            visibility: true
+          },
+          {
             extend : 'print',
             exportOptions : {
               columns : ':visible',
@@ -261,19 +275,31 @@
       }
 
       var detail_data_ix;
-      $('#detail').on('keydown', function(event) {
-        if (event.which === 37) {
-            if (detail_data_ix > 0) {
-                detail_data_ix -= 1;
-            }
-            update_detail(detail_data_ix);
-        } else if (event.which === 39) {
+      function next_detail() {
             if (detail_data_ix < filtered_nct_ids.length - 1) {
                 detail_data_ix += 1;
             }
             update_detail(detail_data_ix);
+      }
+
+      function prev_detail() {
+            if (detail_data_ix > 0) {
+                detail_data_ix -= 1;
+            }
+            update_detail(detail_data_ix);
+      }
+
+      $('#next_detail').on('click', next_detail);
+      $('#prev_detail').on('click', prev_detail);
+    
+      $('#detail').on('keydown', function(event) {
+        if (event.which === 37) {
+            prev_detail()
+        } else if (event.which === 39) {
+            next_detail()
         }
       });
+
       table.on('click', 'tbody tr', function(event) {
         // do not open detail if they clicked on a link
         if ($(event.target).is('a')) {
@@ -389,6 +415,8 @@
 </table>
 <iframe id="detailprint" style="height: 0px; width: 0px; position: absolute"></iframe>
 <div id="detail" class="modal fade" role="dialog" tabindex="-1">
+    <div class="detail-arrow-wrapper"><div class="detail-arrow d-a-left" id="prev_detail">&lt;</div></div>
+    <div class="detail-arrow-wrapper"><div class="detail-arrow d-a-right" id="next_detail">&gt;</div></div>
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
