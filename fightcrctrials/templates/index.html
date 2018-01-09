@@ -42,23 +42,16 @@
     $(document).ready(function() {
       var trials = {{ trials|safe }};
 
-      function nct_createdCell(cell, cellData) {
-          var trial = _.findWhere(trials, {'nct_id': cellData});
-          trial_url = trial.trial_link || 'https://clinicaltrials.gov/ct2/show/' + cellData;
-          $(cell).html('<a target="_blank" href="' + trial_url + '">' + cellData + '</a>');
-      }
-
       var columns = [
-          {title: 'NCT ID', width: '88px', className: 'filter-nct_id',
-           createdCell: nct_createdCell},
-          {title: 'CRC', width: '40px', className: 'filter-crc-directed'},
-          {title: 'IO', width: '30px', className: 'filter-immunotherapy'},
-          {title: 'Date Added', width: '80px', className: 'filter-date-added'},
+          {title: 'NCT ID', width: '88px', className: 'filter-nct_id'},
           {title: 'Title', className: 'filter-title'},
           {title: 'Phase', width: '78px', className: 'filter-phase'},
-          {title: 'Status', width: '80px', className: 'filter-status'},
+          {title: 'Date Added', width: '80px', className: 'filter-date-added'},
           {title: 'Geography', width: '100px', className: 'filter-geography'},
+          {title: 'IO', width: '30px', className: 'filter-immunotherapy'},
           {title: 'Prior IO OK?', width: '70px', className: 'filter-prior_io_ok'},
+          {title: 'CRC', width: '40px', className: 'filter-crc-directed'},
+          {title: 'Status', width: '80px', className: 'filter-status'},
           {title: 'Drug(s)', className: 'filter-drugs'},
           // the rest of the columns are here for the text search only
           {title: 'Comments', visible: false, className: 'filter-comments'},
@@ -87,14 +80,14 @@
             drug_names.sort();
 
             return [trial.nct_id,
-                    trial.is_crc_trial ? "Yes" : "No",
-                    trial.is_immunotherapy_trial ? "Yes" : "No",
-                    trial.date_trial_added,
                     trial.brief_title ? trial.brief_title : trial.title,
                     trial.phase,
-                    trial.program_status,
+                    trial.date_trial_added,
                     trial.locations ? trial.locations.join(', ') : [],
+                    trial.is_immunotherapy_trial ? "Yes" : "No",
                     trial.prior_io_ok ? "Yes" : "",
+                    trial.is_crc_trial ? "Yes" : "No",
+                    trial.program_status,
                     drug_names.join(', '),
                     trial.comments,
                     trial.description,
@@ -291,13 +284,31 @@
 
       $('#next_detail').on('click', next_detail);
       $('#prev_detail').on('click', prev_detail);
-    
+
+      // handle left and right keypresses
       $('#detail').on('keydown', function(event) {
         if (event.which === 37) {
             prev_detail()
         } else if (event.which === 39) {
             next_detail()
         }
+      });
+
+      // handle left and right swipes
+      var touchStartX = 0;
+      var touchEndX = 0;
+
+      $('.modal-content').on('touchstart', function (event) {
+         touchStartX = event.changedTouches[0].screenX;
+      });
+
+      $('.modal-content').on('touchend', function (event) {
+         touchEndX = event.changedTouches[0].screenX;
+         if (touchEndX > touchStartX) {
+            next_detail();
+         } else if (touchEndX < touchStartX) {
+            prev_detail();
+         }
       });
 
       table.on('click', 'tbody tr', function(event) {

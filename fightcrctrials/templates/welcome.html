@@ -15,7 +15,7 @@
                    id="jumbo-search"
                    autofocus
                    name="searchTerm"
-                   placeholder="Search for open colorectal cancer clinical trials..." id="adv-texty">
+                   placeholder="&lt; Search for colorectal cancer clinical trials... &gt;" id="adv-texty">
           </div>
         </div>
       </div>
@@ -47,13 +47,11 @@
           </div>
         </div>
         <div class="col-sm-4">
-          <h5>Trial type</h5>
           <div class="checkbox">
             <label><input type="checkbox" name="treatmentType" value="immunotherapy">Immunotherapy only</label>
           </div>
-          <h5>Prior immunotherapy</h5>
           <div class="checkbox">
-            <label><input type="checkbox" name="priorIo" value="yes">Allowed</label>
+            <label><input type="checkbox" name="priorIo" value="yes">Prior immunotherapy allowed</label>
           </div>
           <h5>Date Trial Added</h5>
           <div class="form-group">
@@ -74,7 +72,8 @@
       </div>
       <br/>
       <div class="row centered">
-        <button id="reset" class="btn btn-default btn-md col-sm-1 col-md-offset-7" type="button">Reset</button>
+        <span class="col-sm-3"><input type="checkbox" name="savePreferences" checked="checked"> Save preferences?</span>
+        <button id="reset" class="btn btn-default btn-md col-sm-1 col-md-offset-3" type="button">Reset</button>
         <button class="btn btn-primary btn-md col-sm-3 col-md-offset-0"  style="margin-left:10px;" type="submit">Search</button>
       </div>
     </form>
@@ -178,9 +177,20 @@
        statusSelect[0].selectize.setValue(existingCookie.programStatus[0])
     }
 
+    var savePreferences = Cookies.getJSON('savePreferences');
+    if (savePreferences !== undefined) {
+        $('[name=savePreferences]').prop('checked', savePreferences);
+    }
+
     $("#searchForm").submit(function(e) {
        var serializedForm = $(this).values();
-       Cookies.set('search-query', serializedForm);
+       if ($('[name=savePreferences]').prop('checked')) {
+         Cookies.set('search-query', serializedForm);
+         Cookies.set('savePreferences', true);
+       } else {
+         Cookies.remove('search-query');
+         Cookies.set('savePreferences', false);
+       }
        return true;
     });
   </script>

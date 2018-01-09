@@ -12,12 +12,12 @@ admin.site.register(UserText)
 class Phase1ChangeList(ChangeList):
     def get_queryset(self, request):
         qs = super(Phase1ChangeList, self).get_queryset(request)
-        return qs.filter(screened__isnull=True)
+        return qs.filter(screened__isnull=True).exclude(reviewed=False)
 
 class Phase2ChangeList(ChangeList):
     def get_queryset(self, request):
         qs = super(Phase2ChangeList, self).get_queryset(request)
-        return qs.filter(screened__isnull=False).exclude(reviewed=False)
+        return qs.exclude(reviewed=False)
 
 
 @admin.register(CRCTrial)
@@ -34,7 +34,7 @@ class CRCTrialAdmin(admin.ModelAdmin):
         if request.user.has_perm('fightcrctrials.phase_1') and not request.user.is_superuser:
             return ('brief_title', 'nct_id', 'screened', 'updated_date', 'date_trial_added')
         elif request.user.has_perm('fightcrctrials.phase_2') and not request.user.is_superuser:
-            return ('brief_title', 'nct_id', 'reviewed', 'updated_date', 'date_trial_added')
+            return ('brief_title', 'nct_id', 'screened', 'reviewed', 'updated_date', 'date_trial_added')
         else:
             return ('brief_title', 'nct_id', 'screened', 'reviewed', 'additional_review', 'updated_date', 'date_trial_added')
 
@@ -43,7 +43,7 @@ class CRCTrialAdmin(admin.ModelAdmin):
 
     def get_fieldsets(self, request, obj=None):
         if request.user.has_perm('fightcrctrials.phase_1') and not request.user.is_superuser:
-            top_fields = (('nct_id','trial_link'),'brief_title','screened')
+            top_fields = (('nct_id','trial_link'),'brief_title','screened','review_comments')
         else:
             top_fields = (('nct_id','trial_link'),'brief_title','screened','reviewed',('additional_review','review_comments'))
 

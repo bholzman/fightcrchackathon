@@ -256,3 +256,11 @@ h2 {
 .d-a-right {
     right: 30px;
 }
+
+.filter-title {
+    color: #337ab7;
+}
+
+.filter-title:hover {
+    text-decoration: underline;
+}
