@@ -191,6 +191,7 @@
           if (columnTitle === 'Geography') {
             columnFilters.push({column_number: i,
               filter_type: "multi_select",
+              filter_match_mode: "regex",
               data: _.uniq(locations)
             })
           } else if (columnTitle === 'Phase') {
@@ -340,8 +341,10 @@
         yadcf.exFilterColumn(table, [[column_for('IO'), 'Yes']]);
       }
       if (pLocation) {
-        if (!_.isArray(pLocation)) {
-            pLocation = [pLocation];
+        if (_.isArray(pLocation)) {
+            pLocation = _.map(pLocation, function(l) { return '\\b' + l + '\\b' }).join('|');
+        } else {
+            pLocation = '\\b' + pLocation + '\\b'
         }
         yadcf.exFilterColumn(table, [[column_for('Geography'), pLocation]]);
       }
