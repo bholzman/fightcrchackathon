@@ -161,6 +161,13 @@
             }
           }
         ]
+      }).on('draw', function() {
+          var button = $('a.dt-button').eq(0);
+          if (button.text() == 'Expand') {
+              $('#example tr td').css('white-space', 'nowrap');
+          } else {
+              $('#example tr td').css('white-space', 'inherit');
+          }
       });
 
       var locations = [], phases = [], drug_names = [];
