@@ -38,6 +38,6 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function() {
-       pageModel.initialize();
+       this.pageModel.initialize();
     }
 };
