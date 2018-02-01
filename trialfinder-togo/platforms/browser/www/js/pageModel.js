@@ -1,10 +1,11 @@
-function Controller(pages) {
+function Controller(pages, data) {
     this.pages = pages;
     this.target = $('.app');
+    this.data = data;
 }
 
 Controller.prototype.initialize = function() {
-    this.pages[0].render(this.target);
+    this.pages[0].render(this.target, this.data);
     this.curPage = 0;
 };
 
@@ -12,25 +13,31 @@ Controller.prototype.nextPage = function() {
     if (this.curPage < this.pages.length - 1) {
         this.curPage = this.curPage + 1;
     }
-    this.pages[this.curPage].render(this.target);
+    this.pages[this.curPage].render(this.target, this.data);
 };
 
 Controller.prototype.prevPage = function() {
     if (this.curPage > 0) {
         this.curPage = this.curPage - 1;
     }
-    this.pages[this.curPage].render(this.target);
+    this.pages[this.curPage].render(this.target, this.data);
 };
 
 Controller.prototype.goToPage = function(name) {
     for (i = 0; i < this.pages.length; i++) {
         if (this.pages[i].name === name) {
             this.curPage = i;
-            this.pages[this.curPage].render(this.target);
+            this.pages[this.curPage].render(this.target, this.data);
             break;
         }
     }
 };
+
+var Footer;
+$.ajax('footer.html').done(function(content) {
+    Mustache.parse(content);
+    Footer = content;
+});
 
 function Page() {
     this.name = undefined;
@@ -38,15 +45,22 @@ function Page() {
     this.template = undefined;
 }
 
-Page.prototype.render = function(target) {
+Page.prototype.render = function(target, data) {
     if (typeof this.template === "undefined") {
         $.ajax(this.templatePath, {context: this})
          .done(function(content) {
              Mustache.parse(content);
              this.template = content;
-             this.render(target);
+             this.render(target, data);
          });
     } else {
-        target.html(Mustache.render(this.template));
+        if (typeof Footer !== 'undefined') {
+            var footer = Mustache.render(Footer, this.render_data(data));
+        }
+        target.html(Mustache.render(this.template, this.render_data(data), {'footer': footer}));
     }
-}
+};
+
+Page.prototype.render_data = function(data) {
+    return {'last_update': data.last_update()};
+};
