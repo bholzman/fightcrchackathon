@@ -13,6 +13,7 @@ import fightcrctrials.views
 urlpatterns = [
     url(r'^$', fightcrctrials.views.welcome, name='welcome'),
     url(r'^trials/', fightcrctrials.views.index, name='trials'),
+    url(r'^trials-json/', fightcrctrials.views.index_json, name='trials_json'),
     url(r'^send-trial-closed-email/', fightcrctrials.views.send_trial_closed_email),
     url(r'^favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
     url(r'^faq/', fightcrctrials.views.faq, name='faq'),

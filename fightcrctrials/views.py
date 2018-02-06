@@ -17,6 +17,10 @@ def index(request):
     return render(request, 'index.html', {'trials': CRCTrial.trials_json()})
 
 
+def index_json(request):
+    return HttpResponse(CRCTrial.trials_json())
+
+
 @ensure_csrf_cookie
 def welcome(request):
     return render(request, 'welcome.html', {'trials': CRCTrial.trials_json()})
