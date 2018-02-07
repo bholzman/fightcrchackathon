@@ -18,7 +18,9 @@ def index(request):
 
 
 def index_json(request):
-    return HttpResponse(CRCTrial.trials_json())
+    resp = HttpResponse(CRCTrial.trials_json())
+    resp['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 @ensure_csrf_cookie
