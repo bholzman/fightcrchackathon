@@ -6,13 +6,15 @@ FILTER SEARCH {{ count }} Trials FAVES
   <li class="trial">
     <a href="javascript:controller.pageCall('selectTrial', '{{ trial_id }}')"
         >{{ #selected }}\/{{ /selected }}{{ ^selected }}&gt;{{ /selected }}</a>
-    <div class="title">{{ title }}</div>
-    <span class="locations">{{ locations }}</span>
-    <span class="new">{{ new }}</span>
-    <span class="status">{{ program_status }}</span>
-    {{ #selected }}
-    <div class="description">{{ description }}</div>
-    {{ /selected }}
+    <div onclick="javascript:controller.goToPage('trialView', '{{ trial_id }}')">
+        <div class="title">{{ title }}</div>
+        <span class="locations">{{ locations }}</span>
+        <span class="new">{{ new }}</span>
+        <span class="status">{{ program_status }}</span>
+        {{ #selected }}
+        <div class="description">{{ description }}</div>
+        {{ /selected }}
+    </div>
   </li>
 {{/trials}}
 </ul>

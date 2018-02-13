@@ -1,0 +1,45 @@
+<div class="header">
+&lt; <a href="javascript:controller.goToPage('trialList')">Back</a>
+</div>
+<div class="trial">
+{{ #trial }}
+    <div class="title">{{ title }}</div>
+    <div class="section">
+        <div class="heading">Description</div>
+        <div>{{ description }}</div>
+    </div>
+    <div class="section">
+        <div class="heading">Locations</div>
+        <div>{{ locations }}</div>
+    </div>
+    <div class="section">
+        <div class="heading">Gender</div>
+        <div>{{ gender }}</div>
+    </div>
+    <div class="section">
+        <div class="heading">Comments</div>
+        <div>{{ comments }}</div>
+    </div>
+    {{ #min_age }}
+    <div class="section">
+        <div class="heading">Minimum Age</div>
+        <div>{{ min_age }}</div>
+    </div>
+    {{ /min_age }}
+    {{ #max_age }}
+    <div class="section">
+        <div class="heading">Maximum Age</div>
+        <div>{{ max_age }}</div>
+    </div>
+    {{ /max_age }}
+    <div class="section">
+        <div class="heading">Inclusion Criteria</div>
+        <div>{{ inclusion_criteria }}</div>
+    </div>
+    <div class="section">
+        <div class="heading">Exclusion Criteria</div>
+        <div>{{ exclusion_criteria }}</div>
+    </div>
+{{ /trial }}
+</div>
+{{>footer}}

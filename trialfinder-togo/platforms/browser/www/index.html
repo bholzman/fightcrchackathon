@@ -55,6 +55,7 @@
     <script type="text/javascript" src="js/splashScreen.js"></script>
     <script type="text/javascript" src="js/wizard.js"></script>
     <script type="text/javascript" src="js/trialList.js"></script>
+    <script type="text/javascript" src="js/trialView.js"></script>
     <script type="text/javascript">
         var controller;
         new DataHandler('http://trialfinder.fightcrc.org/').loadTrials().done(function(trials) {
@@ -73,7 +74,8 @@
             controller = new Controller([
                 new SplashScreen(),
                 new Wizard(),
-                new TrialList()
+                new TrialList(),
+                new TrialView()
             ], data);
             app.initialize(controller);
         });

@@ -27,6 +27,7 @@ Controller.prototype.goToPage = function(name) {
     for (i = 0; i < this.pages.length; i++) {
         if (this.pages[i].name === name) {
             this.curPage = i;
+            this.data.pageArgs = [].slice.call(arguments, 1);
             this.pages[this.curPage].render(this.target, this.data);
             break;
         }
