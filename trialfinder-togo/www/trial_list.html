@@ -1,0 +1,19 @@
+<div class="header">
+FILTER SEARCH {{ count }} Trials FAVES
+</div>
+<ul class="trial-list">
+{{#trials}}
+  <li class="trial">
+    <a href="javascript:controller.pageCall('selectTrial', '{{ trial_id }}')"
+        >{{ #selected }}\/{{ /selected }}{{ ^selected }}&gt;{{ /selected }}</a>
+    <div class="title">{{ title }}</div>
+    <span class="locations">{{ locations }}</span>
+    <span class="new">{{ new }}</span>
+    <span class="status">{{ program_status }}</span>
+    {{ #selected }}
+    <div class="description">{{ description }}</div>
+    {{ /selected }}
+  </li>
+{{/trials}}
+</ul>
+{{>footer}}

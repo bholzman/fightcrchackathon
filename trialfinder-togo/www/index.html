@@ -49,12 +49,17 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/dataHandler.js"></script>
     <script type="text/javascript" src="js/dataModel.js"></script>
     <script type="text/javascript" src="js/pageModel.js"></script>
     <script type="text/javascript" src="js/splashScreen.js"></script>
     <script type="text/javascript" src="js/wizard.js"></script>
+    <script type="text/javascript" src="js/trialList.js"></script>
     <script type="text/javascript">
-        var data = new Data([new Trial(
+        var controller;
+        new DataHandler('http://trialfinder.fightcrc.org/').loadTrials().done(function(trials) {
+            var data = new Data(trials,
+        /*var data = new Data([new Trial(
             'NCT01061515', true, false, 'CRC-directed Trial', true, 'A novel technique CRC-directed trial. This study is to test escalating doses of *intraperitoneal (IP)-dosed* oxaliplatin in conjunction with systemic bevacizumab and capecitabine in patients with *Peritoneal Carcinomatosis (PC)* from CRC that have been adequately cytoreduced and have undergone a peritoneal scan demonstrating patency of at least one of the intraperitoneal ports that were placed at the time of debulking.',
             [], ['http://www.siteman.wustl.edu'], 'A Phase I Dose-Escalation Trial of Biweekly Intraperitoneal Oxaliplatin With Systemic Capecitabine and Bevacizumab Following Cytoreduction in Patients With Peritoneal Carcinomatosis From Appendiceal or Colorectal Cancer',
             'Recruiting', ['Missouri'], '2010-02-01', '2018-01-04', 'Phase 1',
@@ -63,13 +68,15 @@
             '-  To determine the maximum tolerated dose of IP oxaliplatin with systemic intravenous bevacizumab and oral capecitabine after adequate surgical debulking and peritoneal scan documenting function of intraperitoneal ports in patients with peritoneal carcinomatosis of appendiceal or colorectal etiology.\n-  To assess the safety and tolerability of repeated delayed intraperitoneal chemotherapy with oxaliplatin and systemic intravenous bevacizumab and oral capecitabine after adequate surgical debulking and peritoneal scan documenting function of intraperitoneal ports in patients with peritoneal carcinomatosis of appendiceal or colorectal etiology.\n-  To describe the progression rate, progression-free survival and overall survival in patients treated with this regimen.',
             undefined, undefined, 'Any',
             '-  Histological Diagnosis: Patients must have a histologically documented peritoneal carcinomatosis from either colorectal or appendiceal adenocarcinoma.\n-  Prior Surgical Debulking: Patients must have undergone debulking surgery with peritonectomy and have been allowed at least 4 weeks to recover prior to receiving chemotherapy.\n-  Port Placement: Intraperitoneal ports may be placed during or at any time separate from surgical debulking. Provided the patient has been allowed at least 4 weeks to recover from surgical debulking, no additional recovery time is required for port placement.\n-  Active port: Patients must undergo a peritoneal scan documenting at least one working intraperitoneal port prior to receiving chemotherapy.\n-  Patients may have received prior chemotherapy.\n-  Age: Patients must be ≥18 years of age. Because no dosing or toxicity data are currently available on the use of oxaliplatin in patients <18 years of age.\n-  Performance Status: (Eastern cooperativeOncology Group) ECOG 0-2.\n-  Recovery from Intercurrent Illness: Patients must have recovered from uncontrolled intercurrent illness including, but not limited to, ongoing or active infection, symptomatic congestive heart failure, unstable angina pectoris, or cardiac arrhythmias.\n-  Informed Consent: All patients must be consented prior to chemotherapy. The patient should not have any serious medical of psychiatric illness that would prevent either the giving of informed consent or the receipt of treatment.\n-  Hematological Status:\n-  absolute neutrophil count ≥1,500/mm³\n-  platelet count ≥100,000/mm³\n-  hemoglobin ≥8 g/dl.\n-  Hepatic function:\n-  Total bilirubin must be <2X the institutional upper limit of normal (ULN)\n-  Transaminases (SGOT and/or SGPT) must be ≤3X the institutional upper limit of normal (ULN)\n-  Alkaline phosphatase must be ≤4X the institutional upper limit of normal (ULN)\n-  Renal Function: Patients must have adequate renal function prior to chemotherapy defined as serum creatinine ≤ 2.0 mg/dl or creatinine clearance ≥60 ml.min/1.73 m² for patients with creatinine levels above 2.0 mg/dl.',
-            '-  Pregnant or breast feeding: For all sexually active patients, the use of adequate contraception (hormonal or barrier method of birth control) will be required during therapy, prior to study entry, and for the duration of study participation.  Non-pregnant status will be determined in all women of childbearing potential.\n-  Prior history of hypersensitivity reactions to oxaliplatin, bevacizumab, 5-FU or capecitabine.\n-  Gastrointestinal ailments that may alter the absorption of oral medications (i.e.  bowel obstruction, short-gut syndrome).\n-  Patients receiving antiretroviral therapy Highly Active Anti Retroviral Treatment (HAART) for HIV infection are excluded from the study because of possible pharmacokinetic interactions. Appropriate studies will be undertaken in patients receiving HAART therapy, when indicated.\n-  Patients with Grade 2 or higher peripheral neuropathy.')],
-     new Preferences({}, {'wizard': 0}));
-        var controller = new Controller([
-            new SplashScreen(),
-            new Wizard()
-        ], data);
-        app.initialize(controller);
+            '-  Pregnant or breast feeding: For all sexually active patients, the use of adequate contraception (hormonal or barrier method of birth control) will be required during therapy, prior to study entry, and for the duration of study participation.  Non-pregnant status will be determined in all women of childbearing potential.\n-  Prior history of hypersensitivity reactions to oxaliplatin, bevacizumab, 5-FU or capecitabine.\n-  Gastrointestinal ailments that may alter the absorption of oral medications (i.e.  bowel obstruction, short-gut syndrome).\n-  Patients receiving antiretroviral therapy Highly Active Anti Retroviral Treatment (HAART) for HIV infection are excluded from the study because of possible pharmacokinetic interactions. Appropriate studies will be undertaken in patients receiving HAART therapy, when indicated.\n-  Patients with Grade 2 or higher peripheral neuropathy.')], */
+            new Preferences({}, {'wizard': 0, 'lastVisited': '2017-12-01'}));
+            controller = new Controller([
+                new SplashScreen(),
+                new Wizard(),
+                new TrialList()
+            ], data);
+            app.initialize(controller);
+        });
     </script>
 </body>
 
