@@ -4,11 +4,13 @@
 <div class="trial">
 {{ #trial }}
     <div class="title">{{ title }}</div>
-    <div class="section">
+    <div class="section"
+         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'description')">
         <div class="heading">Description</div>
         <div>{{ description }}</div>
     </div>
-    <div class="section">
+    <div class="section"
+         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'locations')">
         <div class="heading">Locations</div>
         <div>{{ locations }}</div>
     </div>
@@ -16,7 +18,8 @@
         <div class="heading">Gender</div>
         <div>{{ gender }}</div>
     </div>
-    <div class="section">
+    <div class="section"
+         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'comments')">
         <div class="heading">Comments</div>
         <div>{{ comments }}</div>
     </div>
@@ -32,11 +35,13 @@
         <div>{{ max_age }}</div>
     </div>
     {{ /max_age }}
-    <div class="section">
+    <div class="section"
+         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'inclusion_criteria')">
         <div class="heading">Inclusion Criteria</div>
         <div>{{ inclusion_criteria }}</div>
     </div>
-    <div class="section">
+    <div class="section"
+         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'exclusion_criteria')">
         <div class="heading">Exclusion Criteria</div>
         <div>{{ exclusion_criteria }}</div>
     </div>
