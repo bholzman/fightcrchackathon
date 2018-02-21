@@ -24,6 +24,15 @@ class FAQ(models.Model):
     def __str__(self):
         return self.question
 
+    @classmethod
+    def faq_json(cls):
+        faqs = cls.objects.order_by('id').all()
+        raw_data = [{
+            'question': faq.question,
+            'answer': faq.answer
+        } for faq in faqs]
+        return json.dumps(raw_data)
+
 
 class DeletedCRCTrial(models.Model):
     deleted_at = models.DateField(auto_now_add=True)

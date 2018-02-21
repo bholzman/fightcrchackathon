@@ -33,6 +33,12 @@ def faq(request):
     return render(request, 'faq.html', {'faqs': faqs})
 
 
+def faq_json(request):
+    resp = HttpResponse(FAQ.faq_json())
+    resp['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
 def send_trial_closed_email(request):
     if request.method == 'POST':
         title = request.POST.get('title')
