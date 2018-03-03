@@ -55,6 +55,14 @@ body {
     padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
     margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
                                    /* offset horizontal: half of text area width */
+
+    /* Added by Andrew */
+    height: 100vh;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
 }
 
 /* Landscape layout (with min-width) */
@@ -64,6 +72,11 @@ body {
         padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
         margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
                                       /* offset horizontal: half of image width and text area width */
+
+
+        /* Added by Andrew */
+        padding: 0;
+        margin: 0;
     }
 }
 
@@ -110,4 +123,105 @@ h1 {
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
+}
+
+header {
+    background-color: rgb(76, 80, 211);
+    color: white;
+    height: 33px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+footer {
+    background-color: rgb(75, 88, 113);
+    color: rgb(210, 213, 220);
+    font-size: 7px;
+    padding: 6px 0 3px 0;
+}
+
+.icon-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.icon-wrapper img {
+    height: 22px;
+}
+
+.icon {
+    cursor: pointer;
+}
+
+.last-updated {
+    margin-top: 7px;
+}
+
+.active-icon {
+    color: rgb(121, 169, 241);
+}
+
+.trial-list-wrapper {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+.trial-list {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.trial {
+    border-bottom: 0.8px solid lightgray;
+    padding: 4px;
+    display: flex;
+}
+
+.arrow-icon-wrapper {
+    width: 20px;
+}
+
+.arrow {
+    transform: rotate(0);
+    transition: 1s;
+}
+
+@keyframes spin { 100% { transform:rotate(90deg); } }
+.down {
+    transform: rotate(90deg);
+}
+
+.trial-content {
+    width: calc(100% - 20px);
+}
+
+.trial .title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.second-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+}
+
+.second-line > *:not(:first-child) {
+    margin-left: 5px;
+}
+
+.locations {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.description {
+    text-align: left;
+    font-size: 8px;
 }

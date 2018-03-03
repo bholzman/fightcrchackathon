@@ -20,7 +20,7 @@ function Trial(trial_id, is_crc_trial, is_immunotherapy_trial, subtype,
     this.intervention_types = intervention_types;
     this.drug_names = drug_names;
     this.drug_brand_names = drug_brand_names;
-    this.description = description;
+    this.description = convertDescriptionToParagraphs(description);
     this.min_age = min_age;
     this.max_age = max_age;
     this.gender = gender;
@@ -51,3 +51,18 @@ Data.prototype.last_update = function() {
     }
     return last_update;
 };
+
+function convertDescriptionToParagraphs(description) {
+    // TODO - Refactor
+    return description
+            .split('\n')
+            .map(s => s.trim())
+            .map(s => s || '\n')
+            .join(' ')
+            .split('\n')
+            .map(s => s.trim())
+            .filter(s => !!s)
+            .map(s => ({
+                paragraph: s,
+            }));
+}
