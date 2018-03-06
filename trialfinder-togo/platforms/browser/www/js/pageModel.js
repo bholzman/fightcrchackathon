@@ -37,9 +37,13 @@ Controller.prototype.goToPage = function(name) {
 Controller.prototype.pageCall = function(func) {
     var page = this.pages[this.curPage];
     var render_data = page.render_data(this.data);
-    page[func].apply(page, [render_data].concat([].slice.call(arguments, 1)));
+    var rerender = page[func].apply(page, [render_data].concat([].slice.call(arguments, 1)));
+
     // re-render as state may have changed
-    page.render(this.target, this.data);
+    if (rerender) {
+        page.render(this.target, this.data);
+    }
+
 };
 
 var Footer;
