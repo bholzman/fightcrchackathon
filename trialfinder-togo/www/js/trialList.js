@@ -33,4 +33,5 @@ TrialList.prototype.selectTrial = function(data, id) {
             delete t['selected'];
         }
     });
+    return true;
 };
