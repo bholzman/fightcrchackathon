@@ -7,7 +7,7 @@
   {{#trials}}
     <li class="trial">
       <a href="javascript:controller.pageCall('selectTrial', '{{ trial_id }}')" class="arrow-icon-wrapper">
-          <img src="/icons/arrow_right.svg" class="arrow {{ #selected }}down{{ /selected }}">
+          <img src="./icons/arrow_right.svg" class="arrow {{ #selected }}down{{ /selected }}">
       </a>
       <div onclick="javascript:controller.goToPage('trialView', '{{ trial_id }}')" class="trial-content">
         <div class="title">{{ title }}</div>
