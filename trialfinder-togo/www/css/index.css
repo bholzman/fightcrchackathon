@@ -50,6 +50,8 @@ html, body, .app {
     margin: 0;
     padding: 0;
     height: 100%;
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:12px;
 }
 
 /* Portrait layout (default) */
@@ -284,3 +286,7 @@ footer {
     margin-bottom: 9px;
 }
 
+.small-text {
+    text-align: center;
+    padding: 0 20px;
+}
