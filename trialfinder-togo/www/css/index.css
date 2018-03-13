@@ -24,6 +24,7 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    /*
     background-color:#E4E4E4;
     background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -42,10 +43,17 @@ body {
     margin:0px;
     padding:0px;
     width:100%;
+    */
+}
+
+html, body, .app {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
 /* Portrait layout (default) */
-.app {
+.xapp {
     position:absolute;             /* position in the center of the screen */
     left:50%;
     top:50%;
@@ -67,7 +75,7 @@ body {
 
 /* Landscape layout (with min-width) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
+    .xapp {
         background-position:left center;
         padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
         margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
@@ -158,10 +166,17 @@ footer {
 
 .last-updated {
     margin-top: 7px;
+    text-align: center;
 }
 
 .active-icon {
     color: rgb(121, 169, 241);
+}
+
+.trial-list-screen {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .trial-list-wrapper {
@@ -237,6 +252,12 @@ footer {
 
 .splash-logo {
     width: 50%;
+}
+
+.splash-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .splash-footer {
