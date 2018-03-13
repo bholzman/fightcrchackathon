@@ -14,5 +14,5 @@ ImmunoTherapy.prototype.render_data = function(data) {
 
 ImmunoTherapy.prototype.onQuestionSubmit = function(data, answer) {
   data.data.prefs.search.hasImmunoTherapy = answer;
-  controller.goToPage('trialList');
+  controller.goToPage('locationSelect');
 };

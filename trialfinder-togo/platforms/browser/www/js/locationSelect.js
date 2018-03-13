@@ -30,5 +30,7 @@ LocationSelect.prototype.updateLocations = function(data) {
     var args = [0, data.selected_locations.length].concat($('[name=locations]').val());
 
     [].splice.apply(data.selected_locations, args)
+
+    return true;
 };
 
