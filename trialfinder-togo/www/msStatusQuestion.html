@@ -9,7 +9,10 @@
 <a href="#"> Learn more </a>
 
 
-<button onclick="javascript:controller.pageCall('onQuestionSubmit', true)" type="button"> Yes </button>
-<button onclick="javascript:controller.pageCall('onQuestionSubmit', false)" type="button"> No </button>
+<div style="display: flex">
+<button class="yes-button" onclick="javascript:controller.pageCall('onQuestionSubmit', true)" type="button"> Yes </button>
+<button class="no-button" onclick="javascript:controller.pageCall('onQuestionSubmit', false)" type="button"> No </button>
+</div>
+
 
 {{> footer }}
