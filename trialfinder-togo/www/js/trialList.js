@@ -8,7 +8,7 @@ TrialList.prototype.render_data = function(data) {
     var page_render_data = Page.prototype.render_data.call(this, data);
     var lastVisited = data.prefs.app.lastVisited;
     data.trials.forEach(function (t) {
-        t['new'] = t.date_trial_added > lastVisited ? '[NEW]' : t.updated_date > lastVisited ? '[UPDATED]' : '';
+        t['new'] = t.date_trial_added > lastVisited ? 'NEW' : t.updated_date > lastVisited ? 'UPDATED' : '';
     });
     page_render_data.trials = data.trials.sort(
         function(a, b) {
