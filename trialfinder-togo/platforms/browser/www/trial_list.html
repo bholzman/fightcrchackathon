@@ -10,12 +10,14 @@
             <img src="./icons/arrow_right.svg" class="arrow {{ #selected }}down{{ /selected }}">
         </a>
         <div onclick="javascript:controller.goToPage('trialView', '{{ trial_id }}')" class="trial-content">
-          <div class="title">{{ title }}</div>
+          <div class="title">{{ brief_title }}</div>
           <div class="second-line">
             <span class="locations">{{ matched_location }}</span>
-            <span class="new">
-              <span class="badge">{{ new }}</span>
-            </span>
+            {{#new}}
+              <span class="new">
+                <span class="badge">{{ new }}</span>
+              </span>
+            {{/new}}
             <span class="status">{{ program_status }}</span>
           </div>
           {{ #selected }}

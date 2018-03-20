@@ -1,5 +1,5 @@
 function Trial(trial_id, is_crc_trial, is_immunotherapy_trial, subtype,
-               prior_io_ok, comments, publications, urls, title, program_status,
+               prior_io_ok, comments, publications, urls, brief_title, title, program_status,
                locations, date_trial_added, updated_date, phase, intervention_types,
                drug_names, drug_brand_names, description, min_age, max_age, gender,
                inclusion_criteria, exclusion_criteria) {
@@ -11,6 +11,7 @@ function Trial(trial_id, is_crc_trial, is_immunotherapy_trial, subtype,
     this.comments = comments;
     this.publications = publications;
     this.urls = urls;
+    this.brief_title = brief_title;
     this.title = title;
     this.program_status = program_status;
     this.locations = locations;
@@ -20,7 +21,11 @@ function Trial(trial_id, is_crc_trial, is_immunotherapy_trial, subtype,
     this.intervention_types = intervention_types;
     this.drug_names = drug_names;
     this.drug_brand_names = drug_brand_names;
-    this.description = convertDescriptionToParagraphs(description);
+    if (description != '' && description != 'None') {
+        this.description = convertDescriptionToParagraphs(description);
+    } else {
+        this.description = convertDescriptionToParagraphs(title);
+    }
     this.min_age = min_age;
     this.max_age = max_age;
     this.gender = gender;

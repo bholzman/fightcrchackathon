@@ -22,6 +22,13 @@ LocationSelect.prototype.render_data = function(data) {
             page_render_data.locations.push({'location': loc, 'selected': locations[loc]});
         }
     }
+    page_render_data.locations.sort(
+        function (a, b) {
+            return a['location'] < b['location'] ? -1
+                 : a['location'] > b['location'] ? 1
+                 : 0
+        }
+    );
     page_render_data.matching_trials = Search(data.trials, data.prefs.search).length;
     return page_render_data;
 };
