@@ -8,9 +8,11 @@ TrialList.prototype.render_data = function(data) {
     var page_render_data = Page.prototype.render_data.call(this, data);
     var lastVisited = data.prefs.app.lastVisited;
     data.trials.forEach(function (t) {
-        t['new'] = t.date_trial_added > lastVisited ? '[NEW]' : t.updated_date > lastVisited ? '[UPDATED]' : '';
+        t['new'] = t.date_trial_added > lastVisited ? 'NEW' : t.updated_date > lastVisited ? 'UPDATED' : '';
     });
-    page_render_data.trials = data.trials.sort(
+    var matching_trials = Search(data.trials, data.prefs.search);
+
+    page_render_data.trials = matching_trials.sort(
         function(a, b) {
             return a.updated_date > b.updated_date
                    ? -1
@@ -21,7 +23,7 @@ TrialList.prototype.render_data = function(data) {
                        : b.trial_id > a.trial_id
                          ? -1
                          : 0 });
-    page_render_data.count = data.trials.length;
+    page_render_data.count = matching_trials.length;
     return page_render_data;
 };
 

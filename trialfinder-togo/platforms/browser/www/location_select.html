@@ -4,6 +4,13 @@
 </div>
 <div class="title">Location Preferences</div>
 <p>Enter your preferred location(s) for receiving treatment</p>
+<ul class="selectedLocations">
+{{#locations}}
+{{#selected}}
+<li>{{ location }}</li>
+{{/selected}}
+{{/locations}}
+</ul>
 <div>
 <select multiple="multiple" name="locations"
         onchange="javascript:controller.pageCall('updateLocations')">
