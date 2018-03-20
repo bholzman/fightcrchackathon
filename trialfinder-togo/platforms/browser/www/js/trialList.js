@@ -12,6 +12,21 @@ TrialList.prototype.render_data = function(data) {
     });
     var matching_trials = Search(data.trials, data.prefs.search);
 
+    matching_trials.forEach(function (t) {
+        if (t.locations) {
+            t['matched_location'] = t.locations[0];
+            for (var i = 0; i < t.locations.length; i++) {
+                var l = t.locations[i];
+                if (data.prefs.search.locations.indexOf(l) > -1) {
+                    t['matched_location'] = l;
+                    break;
+                }
+            }
+        } else {
+            t['matched_location'] = 'N/A';
+        }
+    });
+
     page_render_data.trials = matching_trials.sort(
         function(a, b) {
             return a.updated_date > b.updated_date
