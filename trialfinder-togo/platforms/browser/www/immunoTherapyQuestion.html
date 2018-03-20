@@ -1,14 +1,18 @@
-<a class="back-button" href="javascript:controller.goToPage('msStatusQuestion')">< Back</a>
-<div class="question-wrapper">
-    <h3> Do you know your MSI or MSS Status </h3>
+<div class="question-screen">
+	<div class="question-header">
+		<a class="back-button" href="javascript:controller.goToPage('msStatusQuestion')">< Back</a>
+	</div>
 
+	<div class="question-wrapper">
+	    <p class="question">Are you only interested in immunotherapy?</p>
+	    <div class="mss-description question-body">Immunotherapy is treatment that uses your body's own immune system to help fight cancer, and is among the most promising cancer treatments.</div>
+	    <a href="#" class="learn-more">Learn more</a>
+	</div>
 
-    <div class="mss-description"> Immunotherapy is treatment that uses your body's own immune system to help fight cancer, and is among the most promising cancer treatments.</div>
+	<div style="display: flex">
+	    <button class="yes-button choice-button" onclick="javascript:controller.pageCall('onQuestionSubmit', true)" type="button">Yes</button>
+	    <button class="no-button choice-button" onclick="javascript:controller.pageCall('onQuestionSubmit', false)" type="button">No</button>
+	</div>
 
-    <a href="#"> Learn more </a>
-</div>
-
-<div style="display: flex">
-    <button class="choice-button yes-button" onclick="javascript:controller.pageCall('onQuestionSubmit', true)" type="button"> Yes </button>
-    <button class="choice-button no-button" onclick="javascript:controller.pageCall('onQuestionSubmit', false)" type="button"> No </button>
+	<div class="question-number">Question 2 of 3</div>
 </div>
