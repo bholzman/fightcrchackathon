@@ -225,3 +225,80 @@ footer {
     text-align: left;
     font-size: 8px;
 }
+
+.question-wrapper {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    background-color: #f3f3f3;  /* TODO - this is just an approximation of the grey used in the mocks */
+}
+
+
+.choice-button {
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    width: 50%;
+    height: 30vh;
+}
+
+.yes-button {
+    background-color: rgb(1, 149, 255);
+}
+
+.no-button {
+    background-color: rgb(76, 80, 211);
+}
+
+.back-button {
+    background-color: rgb(76, 80, 211);
+    color: white;
+    text-align: left;
+    padding-left: 4px;
+    display: inline-block;
+}
+
+.splash-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f3f3;  /* TODO - this is just an approximation of the grey used in the mocks */
+    height: 100%;
+}
+
+.splash-logo {
+    width: 50%;
+}
+
+.splash-footer {
+    background-color: rgb(1, 149, 255);
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+
+    height: 60px;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.big-text {
+    font-size: 20px;
+}
+
+.medium-text {
+    font-size: 17px;
+    margin-bottom: 9px;
+}
+
+.mss-description {
+    font-size: 14px;
+}
+

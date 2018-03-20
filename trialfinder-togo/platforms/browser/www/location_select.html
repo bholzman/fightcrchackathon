@@ -1,0 +1,18 @@
+<a class="back-button" href="javascript:controller.goToPage('immunoTherapy')">< Back</a>
+<div class="header">
+<a href="javascript:controller.goToPage('trialList')">Next</a> &gt;
+</div>
+<div class="title">Location Preferences</div>
+<p>Enter your preferred location(s) for receiving treatment</p>
+<div>
+<select multiple="multiple" name="locations"
+        onchange="javascript:controller.pageCall('updateLocations')">
+{{#locations}}
+  <option {{#selected}}selected="selected"{{/selected}}>{{ location }}</option>
+{{/locations}}
+</select>
+</div>
+{{ matching_trials }} Trials Available
+<div class="footer">
+Question 4 of 4
+</div>

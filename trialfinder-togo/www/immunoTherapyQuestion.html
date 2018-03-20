@@ -1,12 +1,14 @@
-<a href="javascript:controller.prevPage()">BACK</a>
+<a class="back-button" href="javascript:controller.goToPage('msStatusQuestion')">< Back</a>
+<div class="question-wrapper">
+    <h3> Do you know your MSI or MSS Status </h3>
 
-<h3> Are you only interested in immunotherapy? </h3>
 
-<div>Immunotherapy is treatment that uses your body's own immune system to help fight cancer, and is among the most promising cancer treatments.</div>
+    <div class="mss-description"> Immunotherapy is treatment that uses your body's own immune system to help fight cancer, and is among the most promising cancer treatments.</div>
 
-<a href="#"> Learn more </a>
+    <a href="#"> Learn more </a>
+</div>
 
-<button onclick="javascript:controller.pageCall('onQuestionSubmit', true)" type="button"> Yes </button>
-<button onclick="javascript:controller.pageCall('onQuestionSubmit', false)" type="button"> No </button>
-
-{{> footer }}
+<div style="display: flex">
+    <button class="choice-button yes-button" onclick="javascript:controller.pageCall('onQuestionSubmit', true)" type="button"> Yes </button>
+    <button class="choice-button no-button" onclick="javascript:controller.pageCall('onQuestionSubmit', false)" type="button"> No </button>
+</div>
