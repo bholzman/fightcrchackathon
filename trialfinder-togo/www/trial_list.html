@@ -1,31 +1,34 @@
-<header>
-  <span>{{ count }} Trials</span>
-</header>
-
-<div class="trial-list-wrapper">
-  <ul class="trial-list">
-  {{#trials}}
-    <li class="trial">
-      <a href="javascript:controller.pageCall('selectTrial', '{{ trial_id }}')" class="arrow-icon-wrapper">
-          <img src="/icons/arrow_right.svg" class="arrow {{ #selected }}down{{ /selected }}">
-      </a>
-      <div onclick="javascript:controller.goToPage('trialView', '{{ trial_id }}')" class="trial-content">
-        <div class="title">{{ title }}</div>
-        <div class="second-line">
-          <span class="locations">{{ locations }}</span>
-          <span class="new">{{ new }}</span>
-          <span class="status">{{ program_status }}</span>
-        </div>
-        {{ #selected }}
-          <div class="description">
-            {{ #description }}
-              <p>{{ paragraph }}</p>
-            {{ /description }}
+<div class="trial-list-screen">
+  <header>
+    <span>{{ count }} Trials</span>
+  </header>
+  <div class="trial-list-wrapper">
+    <ul class="trial-list">
+    {{#trials}}
+      <li class="trial">
+        <a href="javascript:controller.pageCall('selectTrial', '{{ trial_id }}')" class="arrow-icon-wrapper">
+            <img src="./icons/arrow_right.svg" class="arrow {{ #selected }}down{{ /selected }}">
+        </a>
+        <div onclick="javascript:controller.goToPage('trialView', '{{ trial_id }}')" class="trial-content">
+          <div class="title">{{ title }}</div>
+          <div class="second-line">
+            <span class="locations">{{ locations }}</span>
+            <span class="new">
+              <span class="badge">{{ new }}</span>
+            </span>
+            <span class="status">{{ program_status }}</span>
           </div>
-        {{ /selected }}
-      </div>
-    </li>
-  {{/trials}}
-  </ul>
+          {{ #selected }}
+            <div class="description">
+              {{ #description }}
+                <p>{{ paragraph }}</p>
+              {{ /description }}
+            </div>
+          {{ /selected }}
+        </div>
+      </li>
+    {{/trials}}
+    </ul>
+  </div>
+  {{>footer}}
 </div>
-{{>footer}}

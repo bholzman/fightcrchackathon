@@ -13,7 +13,7 @@ function Trial(trial_id, is_crc_trial, is_immunotherapy_trial, subtype,
     this.urls = urls;
     this.title = title;
     this.program_status = program_status;
-    this.locations = locations;
+    this.locations = [(locations && locations[0]) || 'N/A'];  // TODO - This is temporary while we figure out how we want to display locations
     this.date_trial_added = date_trial_added;
     this.updated_date = updated_date;
     this.phase = phase;
