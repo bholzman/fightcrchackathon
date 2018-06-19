@@ -3,7 +3,7 @@ from sqlalchemy.sql.expression import func
 
 class AACT(object):
     def __init__(self):
-        self.engine = create_engine('postgresql://aact:aact@aact-db.ctti-clinicaltrials.org/aact')
+        self.engine = create_engine('postgresql://fightcrchackathon:flatironfightscrc200@aact-db.ctti-clinicaltrials.org/aact')
         self.meta = MetaData(bind=self.engine)
 
     def _table(self, name):
