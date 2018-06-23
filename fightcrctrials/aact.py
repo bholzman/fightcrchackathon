@@ -127,7 +127,7 @@ class AACT(object):
 
         return select([
             studies.c.nct_id,
-            studies.c.first_received_date.label('date_trial_added'),
+            studies.c.study_first_posted_date.label('date_trial_added'),
             studies.c.brief_title,
             studies.c.official_title,
             studies.c.overall_status.label('program_status'),
@@ -148,7 +148,7 @@ class AACT(object):
                 # capture from the first exclusion section to the end
                 '.*?((?:Exclusion|Major exclusion|EXCLUSION).*)',
                 '\\1')).label('exclusion_criteria'),
-            studies.c.last_changed_date,
+            studies.c.last_updated_posted_date,
             loc_query.c.locations,
             email_phone_query.c.contact_phones,
             email_phone_query.c.contact_emails,
@@ -278,7 +278,7 @@ class AACT(object):
         ).where(
             and_(
                 studies.c.created_at >= func.date(func.current_date() - cutoff_days),
-                studies.c.first_received_date >= '2017-02-01',
+                studies.c.study_first_posted_date >= '2017-02-01',
                 studies.c.study_type == 'Interventional',
                 studies.c.overall_status.in_([
                     'Recruiting','Enrolling by invitation','Not yet recruiting','Available']),
