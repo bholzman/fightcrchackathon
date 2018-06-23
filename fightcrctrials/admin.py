@@ -22,6 +22,8 @@ class Phase2ChangeList(ChangeList):
 
 @admin.register(CRCTrial)
 class CRCTrialAdmin(admin.ModelAdmin):
+    save_on_top = True
+
     def get_changelist(self, request):
         if request.user.has_perm('fightcrctrials.phase_1') and not request.user.is_superuser:
             return Phase1ChangeList
