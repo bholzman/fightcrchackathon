@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import sendgrid
 from sendgrid.helpers.mail import Email, Content, Mail
@@ -13,5 +14,5 @@ def send_email(subject, message, reply_to=None):
     try:
         return sg.client.mail.send.post(request_body=mail.get())
     except Exception as e:
-        print "Could not send email to {}: {}\nSUBJECT: {}\nMESSAGE: {}\n".format(
-            to_email.email, e, subject, message)
+        print("Could not send email to {}: {}\nSUBJECT: {}\nMESSAGE: {}\n".format(
+            to_email.email, e, subject, message))
