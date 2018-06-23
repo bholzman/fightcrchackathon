@@ -148,7 +148,7 @@ class AACT(object):
                 # capture from the first exclusion section to the end
                 '.*?((?:Exclusion|Major exclusion|EXCLUSION).*)',
                 '\\1')).label('exclusion_criteria'),
-            studies.c.last_update_posted_date,
+            studies.c.last_update_posted_date.label('last_changed_date'),
             loc_query.c.locations,
             email_phone_query.c.contact_phones,
             email_phone_query.c.contact_emails,
