@@ -54,7 +54,7 @@ class CRCTrialAdmin(admin.ModelAdmin):
             ('For Review', {'fields': (
                 'is_crc_trial', 'is_immunotherapy_trial',
                 'category', 'prior_io_ok',
-                'comments', 'resources', 'drug_brand_names')}),
+                'comments', 'resources', 'keywords', 'drug_brand_names')}),
             ('Additional Information', {'fields': (
                 'title', 'drug_names', 'program_status', 'locations',
                 'urls', 'date_trial_added', 'updated_date', 'phase', 'intervention_types',
