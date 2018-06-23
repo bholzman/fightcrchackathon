@@ -380,7 +380,8 @@
           yadcf.exFilterColumn(table, [[column_for('Date Added'), {'from': pDateAddedFrom, 'to': pDateAddedTo}]]);
       }
       if (pSearchTerm) {
-        table = table.columns(['.filter-title', '.filter-description']).search(pSearchTerm); //.draw();
+        table = table.search(pSearchTerm);
+        table = table.columns(['.filter-title', '.filter-description']).search(pSearchTerm);
       }
       table.draw();
 
