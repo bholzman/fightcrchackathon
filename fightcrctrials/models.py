@@ -144,6 +144,7 @@ class CRCTrial(models.Model):
              'prior_io_ok': r.prior_io_ok,
              'description': r.description,
              'comments': r.comments,
+             'keywords': r.keywords,
              'publications': r.resources} for r in reviewed]
         return json.dumps(raw_data)
 
