@@ -43,9 +43,9 @@ class CRCTrialAdmin(admin.ModelAdmin):
 
     def get_fieldsets(self, request, obj=None):
         if request.user.has_perm('fightcrctrials.phase_1') and not request.user.is_superuser:
-            top_fields = (('nct_id','trial_link'),'brief_title','screened','review_comments')
+            top_fields = (('nct_id','trial_link'),('brief_title','conditions'),'screened','review_comments')
         else:
-            top_fields = (('nct_id','trial_link'),'brief_title','screened','reviewed',('additional_review','review_comments'))
+            top_fields = (('nct_id','trial_link'),('brief_title','conditions'),'screened','reviewed',('additional_review','review_comments'))
 
         return (
             (None, {'fields': top_fields}),
@@ -54,7 +54,7 @@ class CRCTrialAdmin(admin.ModelAdmin):
                 'category', 'prior_io_ok',
                 'comments', 'resources', 'drug_brand_names')}),
             ('Additional Information', {'fields': (
-                'title', 'conditions', 'drug_names', 'program_status', 'locations',
+                'title', 'drug_names', 'program_status', 'locations',
                 'urls', 'date_trial_added', 'updated_date', 'phase', 'intervention_types',
                 'description', 'min_age', 'max_age', 'gender',
                 'inclusion_criteria', 'exclusion_criteria',
