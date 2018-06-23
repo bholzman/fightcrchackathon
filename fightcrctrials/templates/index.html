@@ -53,10 +53,11 @@
           {title: 'CRC', width: '40px', className: 'filter-crc-directed'},
           {title: 'Status', width: '80px', className: 'filter-status'},
           {title: 'Drug(s)', className: 'filter-drugs'},
-          // the rest of the columns are here for the text search only
+          // the rest of the columns are here for the text search and export/print
           {title: 'Comments', visible: false, className: 'filter-comments'},
           {title: 'Description', className: 'filter-description', visible: false},
-          {title: 'Helpful Links', visible: false, className: 'filter-links'}
+          {title: 'Helpful Links', visible: false, className: 'filter-links'},
+          {title: 'Keywords', visible: false, className: 'filter-keywords'}
       ];
 
       function column_for(name) {
@@ -89,7 +90,8 @@
                     drug_names.join(', '),
                     trial.comments,
                     trial.description,
-                    trial.publications ? trial.publications.join(', ') : '']}),
+                    trial.publications ? trial.publications.join(', ') : '',
+                    trial.keywords ? trial.keywords.join(', ') : '']}),
         columns: columns,
         columnDefs: [
         ],
