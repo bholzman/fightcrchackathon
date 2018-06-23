@@ -118,7 +118,7 @@
           {
             extend : 'print',
             exportOptions : {
-              columns : ':visible',
+              columns : [':visible', '.filter-comments', '.filter-links'],
               format : {
                 header : function (mDataProp, columnIdx) {
                   var htmlText = '<span>' + mDataProp + '</span>';
