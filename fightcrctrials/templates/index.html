@@ -55,7 +55,7 @@
           {title: 'Drug(s)', className: 'filter-drugs'},
           // the rest of the columns are here for the text search only
           {title: 'Comments', visible: false, className: 'filter-comments'},
-          {title: 'Description', visible: false},
+          {title: 'Description', className: 'filter-description', visible: false},
           {title: 'Inclusion Criteria', visible: false},
           {title: 'Exclusion Criteria', visible: false},
           {title: 'Helpful Links', visible: false, className: 'filter-links'}
@@ -380,7 +380,7 @@
           yadcf.exFilterColumn(table, [[column_for('Date Added'), {'from': pDateAddedFrom, 'to': pDateAddedTo}]]);
       }
       if (pSearchTerm) {
-        table = table.search(pSearchTerm).draw();
+        table = table.columns(['.filter-title', '.filter-description']).search(pSearchTerm); //.draw();
       }
       table.draw();
 
