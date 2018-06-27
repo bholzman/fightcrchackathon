@@ -64,9 +64,10 @@
     <script type="text/javascript" src="js/search.js"></script>
     <script type="text/javascript">
         var controller;
+        var prefs = new Preferences({}, {});
+        prefs.restore();
         new DataHandler('http://trialfinder.fightcrc.org/').loadTrials().done(function(trials) {
-            var data = new Data(trials,
-            new Preferences({'hasImmunoTherapy': false, 'doesKnowMsStatus': false, 'locations': []}, {'wizard': 0, 'lastVisited': '2017-12-01'}));
+            var data = new Data(trials, prefs);
             controller = new Controller([
                 new SplashScreen(),
                 new Wizard(),

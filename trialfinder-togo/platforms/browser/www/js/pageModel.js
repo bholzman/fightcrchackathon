@@ -5,8 +5,12 @@ function Controller(pages, data) {
 }
 
 Controller.prototype.initialize = function() {
-    this.pages[0].render(this.target, this.data);
-    this.curPage = 0;
+    if (this.data.prefs.app.onTrialList) {
+        this.goToPage('trialList');
+    } else {
+        this.pages[0].render(this.target, this.data);
+        this.curPage = 0;
+    }
 };
 
 Controller.prototype.nextPage = function() {
@@ -29,6 +33,7 @@ Controller.prototype.goToPage = function(name) {
             this.curPage = i;
             this.data.pageArgs = [].slice.call(arguments, 1);
             this.pages[this.curPage].render(this.target, this.data);
+            this.data.prefs.save();
             break;
         }
     }
@@ -38,6 +43,8 @@ Controller.prototype.pageCall = function(func) {
     var page = this.pages[this.curPage];
     var render_data = page.render_data(this.data);
     var rerender = page[func].apply(page, [render_data].concat([].slice.call(arguments, 1)));
+
+    this.data.prefs.save();
 
     // re-render as state may have changed
     if (rerender) {

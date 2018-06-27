@@ -6,6 +6,8 @@ function TrialList() {
 TrialList.prototype = Object.create(Page.prototype);
 TrialList.prototype.render_data = function(data) {
     var page_render_data = Page.prototype.render_data.call(this, data);
+    data.prefs.app.onTrialList = true;
+    data.prefs.save();
     var lastVisited = data.prefs.app.lastVisited;
     data.trials.forEach(function (t) {
         t['new'] = t.date_trial_added > lastVisited ? 'NEW' : t.updated_date > lastVisited ? 'UPDATED' : '';

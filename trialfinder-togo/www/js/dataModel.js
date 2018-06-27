@@ -40,6 +40,33 @@ function Preferences(search, app) {
     this.app = app;
 }
 
+Preferences.prototype.save = function() {
+    window.localStorage.setItem("__fightcrc_trialfinder.prefs.search", JSON.stringify(this.search));
+    // update lastVisited only in the data we save to local storage
+    var app = JSON.parse(JSON.stringify(this.app));
+    app.lastVisited = new Date();
+    window.localStorage.setItem("__fightcrc_trialfinder.prefs.app", JSON.stringify(app));
+};
+
+Preferences.prototype.restore = function() {
+    var savedSearch = window.localStorage.getItem("__fightcrc_trialfinder.prefs.search");
+    if (savedSearch) {
+        this.search = JSON.parse(savedSearch);
+    } else {
+        this.search = {
+            'hasImmunoTherapy': false,
+            'doesKnowMsStatus': false,
+            'locations': []
+        };
+    }
+    var savedApp = window.localStorage.getItem("__fightcrc_trialfinder.prefs.app");
+    if (savedApp) {
+        this.app = JSON.parse(savedApp);
+    } else {
+        this.app = {'onTrialList': false, 'lastVisited': new Date()};
+    }
+};
+
 function Data(trials, prefs) {
     console.assert($.isArray(trials));
     this.trials = trials;
