@@ -41,6 +41,8 @@ TrialList.prototype.render_data = function(data) {
                          ? -1
                          : 0 });
     page_render_data.count = matching_trials.length;
+
+    page_render_data.home_selected = '-selected';
     return page_render_data;
 };
 

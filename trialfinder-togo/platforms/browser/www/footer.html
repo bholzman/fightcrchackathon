@@ -1,9 +1,9 @@
 <footer>
     <div class="icon-wrapper">
-        <img src="./icons/home.svg" alt="Home" class="icon" onclick="javascript:controller.goToPage('trialList')">
-        <img src="./icons/controls.svg" alt="Filters" class="icon" onclick="javascript:controller.goToPage('locationSelect')">
-        <img src="./icons/search.svg" alt="Search" class="icon">
-        <img src="./icons/star.svg" alt="Star" class="icon">
+        <img src="./icons/home{{ home_selected }}.svg" alt="Home" class="icon" onclick="javascript:controller.goToPage('trialList')">
+        <img src="./icons/controls{{ filters_selected }}.svg" alt="Filters" class="icon" onclick="javascript:controller.goToPage('locationSelect')">
+        <img src="./icons/search{{ search_selected }}.svg" alt="Search" class="icon">
+        <img src="./icons/star{{ star_selected }}.svg" alt="Star" class="icon">
     </div>
     <div class="last-updated">Last Updated by FightCRC On {{ last_update }}</div>
 </footer>
