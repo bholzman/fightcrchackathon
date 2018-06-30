@@ -42,10 +42,7 @@ function Preferences(search, app) {
 
 Preferences.prototype.save = function() {
     window.localStorage.setItem("__fightcrc_trialfinder.prefs.search", JSON.stringify(this.search));
-    // update lastVisited only in the data we save to local storage
-    var app = JSON.parse(JSON.stringify(this.app));
-    app.lastVisited = new Date();
-    window.localStorage.setItem("__fightcrc_trialfinder.prefs.app", JSON.stringify(app));
+    window.localStorage.setItem("__fightcrc_trialfinder.prefs.app", JSON.stringify(this.app));
 };
 
 Preferences.prototype.restore = function() {
@@ -59,11 +56,12 @@ Preferences.prototype.restore = function() {
             'locations': []
         };
     }
+
     var savedApp = window.localStorage.getItem("__fightcrc_trialfinder.prefs.app");
     if (savedApp) {
         this.app = JSON.parse(savedApp);
     } else {
-        this.app = {'onTrialList': false, 'lastVisited': new Date()};
+        this.app = {'onTrialList': false, 'lastVisited': '0000-00-00'};
     }
 };
 

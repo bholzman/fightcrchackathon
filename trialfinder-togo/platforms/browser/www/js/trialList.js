@@ -6,11 +6,9 @@ function TrialList() {
 TrialList.prototype = Object.create(Page.prototype);
 TrialList.prototype.render_data = function(data) {
     var page_render_data = Page.prototype.render_data.call(this, data);
-    data.prefs.app.onTrialList = true;
-    data.prefs.save();
     var lastVisited = data.prefs.app.lastVisited;
     data.trials.forEach(function (t) {
-        t['new'] = t.date_trial_added > lastVisited ? 'NEW' : t.updated_date > lastVisited ? 'UPDATED' : '';
+        t['new'] = t.date_trial_added >= lastVisited ? 'NEW' : t.updated_date >= lastVisited ? 'UPDATED' : '';
     });
     var matching_trials = Search(data.trials, data.prefs.search);
 
@@ -31,19 +29,31 @@ TrialList.prototype.render_data = function(data) {
 
     page_render_data.trials = matching_trials.sort(
         function(a, b) {
-            return a.updated_date > b.updated_date
+            return a.date_trial_added > lastVisited && b.date_trial_added <= lastVisited
                    ? -1
-                   : b.updated_date > a.updated_date
+                   : b.date_trial_added > lastVisited && a.date_trial_added <= lastVisited
                      ? 1
-                     : a.trial_id > b.trial_id
-                       ? 1
-                       : b.trial_id > a.trial_id
-                         ? -1
-                         : 0 });
+                     : a.updated_date > b.updated_date
+                       ? -1
+                       : b.updated_date > a.updated_date
+                         ? 1
+                         : a.trial_id > b.trial_id
+                           ? 1
+                           : b.trial_id > a.trial_id
+                             ? -1
+                             : 0 });
     page_render_data.count = matching_trials.length;
 
     page_render_data.home_selected = '-selected';
     return page_render_data;
+};
+
+TrialList.prototype.after_render = function(data) {
+    data.prefs.app.onTrialList = true;
+
+    var visitDate = new Date();
+    data.prefs.app.lastVisited = visitDate.toISOString().slice(0, 10);
+    data.prefs.save();
 };
 
 TrialList.prototype.selectTrial = function(data, id) {

@@ -74,13 +74,18 @@ Page.prototype.render = function(target, data) {
              this.render(target, data);
          });
     } else {
+        var render_data = this.render_data(data);
         if (typeof Footer !== 'undefined') {
-            var footer = Mustache.render(Footer, this.render_data(data));
+            var footer = Mustache.render(Footer, render_data);
         }
-        target.html(Mustache.render(this.template, this.render_data(data), {'footer': footer}));
+        target.html(Mustache.render(this.template, render_data, {'footer': footer}));
+
+        this.after_render(data);
     }
 };
 
 Page.prototype.render_data = function(data) {
     return {'last_update': data.last_update()};
 };
+
+Page.prototype.after_render = function(data) { };
