@@ -10,6 +10,11 @@ TrialList.prototype.render_data = function(data) {
     data.trials.forEach(function (t) {
         t['new'] = t.date_trial_added >= lastVisited ? 'NEW' : t.updated_date >= lastVisited ? 'UPDATED' : '';
     });
+
+    if (data.pageArgs[0] == 'clearSearch') {
+        data.prefs.search.search = undefined;
+    }
+
     var matching_trials = Search(data.trials, data.prefs.search);
 
     matching_trials.forEach(function (t) {
@@ -26,6 +31,8 @@ TrialList.prototype.render_data = function(data) {
             t['matched_location'] = 'N/A';
         }
     });
+
+    page_render_data.search = data.prefs.search.search;
 
     page_render_data.trials = matching_trials.sort(
         function(a, b) {
@@ -44,7 +51,11 @@ TrialList.prototype.render_data = function(data) {
                              : 0 });
     page_render_data.count = matching_trials.length;
 
-    page_render_data.home_selected = '-selected';
+    if (data.prefs.search.search) {
+        page_render_data.search_selected = '-selected';
+    } else {
+        page_render_data.home_selected = '-selected';
+    }
     return page_render_data;
 };
 

@@ -486,3 +486,26 @@ footer {
     margin-top: 5px;
 
 }
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.search {
+    position: absolute;
+    border: 6px solid rgb(70, 80, 211);
+    border-radius: 0 0 6px 6px;
+    width: 40%;
+}
+
+.search input {
+    width: 100%;
+}
+
+.cancel-search {
+    position: absolute;
+    right: -0px;
+    top: 1em;
+}

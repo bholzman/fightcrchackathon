@@ -53,7 +53,8 @@ Preferences.prototype.restore = function() {
         this.search = {
             'hasImmunoTherapy': false,
             'doesKnowMsStatus': false,
-            'locations': []
+            'locations': [],
+            'search': ''
         };
     }
 

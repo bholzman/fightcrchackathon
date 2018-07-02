@@ -6,7 +6,11 @@ function Controller(pages, data) {
 
 Controller.prototype.initialize = function() {
     if (this.data.prefs.app.onTrialList) {
-        this.goToPage('trialList');
+        if (this.data.prefs.search.search) {
+            this.goToPage('trialSearch');
+        } else {
+            this.goToPage('trialList');
+        }
     } else {
         this.pages[0].render(this.target, this.data);
         this.curPage = 0;

@@ -1,7 +1,21 @@
 <div class="trial-list-screen">
   <header>
-    <span>{{ count }} Trials</span>
+    <span>{{ count }} Trials
+    {{ #inSearch }}
+      <button class="cancel-search" onclick="javascript:controller.goToPage('trialList', 'clearSearch')">Cancel</button>
+    {{ /inSearch }}
+    </span>
   </header>
+  {{ #inSearch }}
+  <div class="search-wrapper">
+    <div class="search"><input
+     type="text" id="search" name="search" value="{{ search }}"
+     autofocus
+     placeholder="Search NCT or Drug Name"
+     onkeyup="javascript:controller.pageCall('searchChanged', event)"
+    /></div>
+  </div>
+  {{ /inSearch }}
   <div class="trial-list-wrapper">
     <ul class="trial-list">
     {{#trials}}
