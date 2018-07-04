@@ -1,0 +1,22 @@
+<div class="location-preferences">Location Preferences</div>
+
+<p class="location-prompt">Enter your preferred location(s) for receiving treatment</p>
+
+<div class="location-body">
+    <div class="location-list">
+        <select multiple="multiple" name="locations"
+                onchange="javascript:controller.pageCall('updateLocations')">
+        {{#locations}}
+          <option {{#selected}}selected="selected"{{/selected}}>{{ location }}</option>
+        {{/locations}}
+        </select>
+    </div>
+
+    <ul class="selectedLocations">
+        {{#locations}}
+        {{#selected}}
+        <li class="badge selected-location">{{ location }}</li>
+        {{/selected}}
+        {{/locations}}
+    </ul>
+</div>

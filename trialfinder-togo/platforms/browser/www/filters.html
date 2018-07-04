@@ -1,0 +1,18 @@
+<div class="filters-screen">
+  <header>
+    <span>Filters</span>
+  </header>
+  <div class="filters-wrapper">
+    <ul class="filters-list">
+    {{#filters}}
+      <li class="filter">
+        <div onclick="javascript:controller.goToPage('filter-{{ tag }}')" class="filter-content">
+          <div class="title">{{ name }}</div>
+          <div class="second-line">{{ value }}</div>
+        </div>
+      </li>
+    {{/filters}}
+    </ul>
+  </div>
+  {{>footer}}
+</div>

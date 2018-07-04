@@ -51,10 +51,14 @@ Preferences.prototype.restore = function() {
         this.search = JSON.parse(savedSearch);
     } else {
         this.search = {
-            'hasImmunoTherapy': false,
-            'doesKnowMsStatus': false,
+            'hasImmunoTherapy': undefined,
+            'doesKnowMsStatus': undefined,
+            'hasPreviouslyUsedImmunoTherapy': undefined,
+            'is_immunotherapy_trial': undefined,
+            'prior_io_ok': undefined,
             'locations': [],
-            'search': ''
+            'search': '',
+            'recruitment_statuses': undefined
         };
     }
 

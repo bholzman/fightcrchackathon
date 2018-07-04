@@ -79,14 +79,19 @@ Page.prototype.render = function(target, data) {
          });
     } else {
         var render_data = this.render_data(data);
-        if (typeof Footer !== 'undefined') {
-            var footer = Mustache.render(Footer, render_data);
-        }
-        target.html(Mustache.render(this.template, render_data, {'footer': footer}));
+        var deps = this.dependencies(render_data);
+        target.html(Mustache.render(this.template, render_data, deps));
 
         this.after_render(data);
     }
 };
+
+Page.prototype.dependencies = function(render_data) {
+    if (typeof Footer !== 'undefined') {
+        var footer = Mustache.render(Footer, render_data);
+    }
+    return {'footer': footer};
+}
 
 Page.prototype.render_data = function(data) {
     return {'last_update': data.last_update()};

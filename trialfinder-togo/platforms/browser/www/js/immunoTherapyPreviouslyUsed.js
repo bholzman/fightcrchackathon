@@ -14,5 +14,8 @@ ImmunoTherapyPreviouslyUsed.prototype.render_data = function(data) {
 
 ImmunoTherapyPreviouslyUsed.prototype.onQuestionSubmit = function(data, answer) {
   data.data.prefs.search.hasPreviouslyUsedImmunoTherapy = answer;
+  if (answer) {
+    data.data.prefs.search.prior_io_ok = true;
+  }
   controller.goToPage('locationSelect');
 };

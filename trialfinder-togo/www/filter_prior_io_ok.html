@@ -1,0 +1,20 @@
+<div class="filter-screen">
+  <header>
+    <span onclick="javascript:controller.goToPage('filters')">&lt; Filters List</span>
+  </header>
+  <div class="question-wrapper">
+    <div class="question-wrapper">
+        <p class="question">Only Show If Prior Immunotherapy Use Is Allowed</p>
+        <div class="question-body">...</div>
+    </div>
+    <div class="toggle-list">
+      <button name="prior_io_ok" value="true" class="toggle {{ true_selected }}"
+              onclick="javascript:controller.pageCall('update', this)">Allowed</button><br>
+      <button name="prior_io_ok" value="false" class="toggle {{ false_selected }}"
+              onclick="javascript:controller.pageCall('update', this)">Not allowed</button><br>
+      <button name="prior_io_ok" class="toggle {{ none_selected }}"
+              onclick="javascript:controller.pageCall('update', this)">Show all trials</button><br>
+    </div>
+  </div>
+  {{>footer}}
+</div>
