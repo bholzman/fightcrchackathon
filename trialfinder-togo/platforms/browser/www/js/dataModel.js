@@ -58,7 +58,10 @@ Preferences.prototype.restore = function() {
             'prior_io_ok': undefined,
             'locations': [],
             'search': '',
-            'recruitment_statuses': undefined
+            'recruitment_statuses': undefined,
+            'phases': undefined,
+            'date_added': undefined,
+            'therapy_names': undefined
         };
     }
 

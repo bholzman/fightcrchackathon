@@ -1,0 +1,13 @@
+<div class="filter-screen">
+  <header>
+    <span onclick="javascript:controller.goToPage('filters')">&lt; Filters List</span>
+  </header>
+  <div class="question-wrapper">
+      <p class="question">Therapy Name</p>
+      <div class="question-body">Enter a therapy name to search for.</div>
+      <a href="#" class="learn-more">Learn more</a>
+      <input type="text" value="{{ therapy_names }}"
+             onblur="javascript:controller.pageCall('update', this)" />
+  </div>
+  {{>footer}}
+</div>

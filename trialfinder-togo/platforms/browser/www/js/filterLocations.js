@@ -13,6 +13,7 @@ FilterLocations.prototype = Object.create(Page.prototype);
 FilterLocations.prototype.render_data = function(data) {
     var page_render_data = Page.prototype.render_data.call(this, data);
     page_render_data = Object.assign(page_render_data, this.locationWidgetPage.render_data(data));
+    page_render_data.filters_selected = '-selected';
     return page_render_data;
 };
 

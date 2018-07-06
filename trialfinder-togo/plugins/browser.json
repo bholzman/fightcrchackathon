@@ -13,9 +13,6 @@
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "org.fightcrc.trialfinder"
         },
-        "cordova-plugin-media-capture": {
-            "PACKAGE_NAME": "org.fightcrc.trialfinder"
-        },
         "cordova-plugin-console": {
             "PACKAGE_NAME": "org.fightcrc.trialfinder"
         },
@@ -47,6 +44,9 @@
             "PACKAGE_NAME": "org.fightcrc.trialfinder"
         },
         "cordova-plugin-media": {
+            "PACKAGE_NAME": "org.fightcrc.trialfinder"
+        },
+        "cordova-plugin-media-capture": {
             "PACKAGE_NAME": "org.fightcrc.trialfinder"
         },
         "cordova-plugin-network-information": {

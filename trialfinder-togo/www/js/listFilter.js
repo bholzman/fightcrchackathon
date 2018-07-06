@@ -3,7 +3,7 @@ function ListFilter() {
     // subclasses have to set field and then call this constructor
     this.name = 'filter-' + this.field
     this.templatePath = 'filter_' + this.field + '.html';
-    // subclasses can also set "trial_field" if it is different
+    // subclasses can also set "trial_field" if it is different (or even a "trial_fields" array)
 }
 
 ListFilter.prototype = Object.create(Page.prototype);
@@ -12,22 +12,26 @@ ListFilter.prototype.render_data = function(data) {
 
     var selected_values = data.prefs.search[this.field] || [];
 
-    var trial_field = this.trial_field || this.field;
+    var trial_fields = this.trial_fields || [this.trial_field || this.field];
 
     var values = {};
     data.trials.forEach(function (trial) {
-        if (!(trial[trial_field] in values)) {
-            values[trial[trial_field]] = {
-                value: trial[trial_field],
-                selected: selected_values.includes(trial[trial_field]) ? 'selected' : ''
-            };
-        }
+        trial_fields.forEach(function (trial_field) {
+            if (!(trial[trial_field] in values)) {
+                values[trial[trial_field]] = {
+                    value: trial[trial_field],
+                    selected: selected_values.includes(trial[trial_field]) ? 'selected' : ''
+                };
+            }
+        });
     });
     page_render_data[this.field] = Object.values(values).sort(
         function (a, b) { return a.value < b.value ? -1 : a.value > b.value ? 1 : 0; }
     );
 
     page_render_data.prefs = data.prefs;
+
+    page_render_data.filters_selected = '-selected';
 
     return page_render_data;
 };

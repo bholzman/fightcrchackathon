@@ -25,6 +25,37 @@ var Search = function(trials, search) {
             }
         }
 
+        if (search.date_added) {
+            if (t.date_trial_added < search.date_added) {
+                return;
+            }
+        }
+
+        if (search.therapy_names) {
+            var names = search.therapy_names.split(new RegExp('\b'));
+            var found = false;
+            for (var i = 0; i < names.length && !found; i++) {
+                var name = names[i].toUpperCase();
+                if (t.drug_names) {
+                    for (var j = 0; j < t.drug_names.length && !found; j++) {
+                        if (t.drug_names[j].toUpperCase().includes(name)) {
+                            found = true;
+                        }
+                    }
+                }
+                if (!found && t.drug_brand_names) {
+                    for (var j = 0; j < t.drug_brand_names.length && !found; j++) {
+                        if (t.drug_brand_names[j].toUpperCase().includes(name)) {
+                            found = true;
+                        }
+                    }
+                }
+            }
+            if (!found) {
+                return;
+            }
+        }
+
         if (search.search) {
             var searchText = [
                 t.trial_id, t.subtype, t.comments, t.publications, t.title, t.brief_title, t.drug_names, t.drug_brand_names, t.description

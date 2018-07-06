@@ -20,6 +20,8 @@ TristateBooleanFilter.prototype.render_data = function(data) {
 
     page_render_data.prefs = data.prefs;
 
+    page_render_data.filters_selected = '-selected';
+
     return page_render_data;
 };
 

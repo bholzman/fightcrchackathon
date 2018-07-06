@@ -72,6 +72,8 @@
     <script type="text/javascript" src="js/filterIsImmunotherapyTrial.js"></script>
     <script type="text/javascript" src="js/filterPriorIOOk.js"></script>
     <script type="text/javascript" src="js/filterPhase.js"></script>
+    <script type="text/javascript" src="js/filterDateAdded.js"></script>
+    <script type="text/javascript" src="js/filterTherapyNames.js"></script>
     <script type="text/javascript">
         var controller;
         var prefs = new Preferences({}, {});
@@ -94,7 +96,9 @@
                 new FilterRecruitmentStatus(),
                 new FilterIsImmunotherapyTrial(),
                 new FilterPriorIOOk(),
-                new FilterPhase()
+                new FilterPhase(),
+                new FilterDateAdded(),
+                new FilterTherapyNames()
             ], data);
             app.initialize(controller);
         });
