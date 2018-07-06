@@ -6,12 +6,12 @@
     <feature name="Device">
         <param name="browser-package" value="Device" />
     </feature>
-    <name>trialfinder-togo</name>
+    <name>FightCRC TrialFinder</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        This trial finder is a one-stop place to find and learn more about high-impact clinical trials for CRC patients. The Late Stage MSS-CRC Trial Finder is a place you can search for clinical trials that are open in your geography, and for which you may be eligible. The current data are limited to MSS (microsatellite-stable) and stage IV CRC patients. The list of trials curated here is sourced from the ClinicalTrials.gov website.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="CommTeam@FightCRC.org" href="http://fightcolorectalcancer.org/">
+        Fight Colorectal Cancer
     </author>
     <content src="index.html" />
     <access origin="*" />
