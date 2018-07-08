@@ -19,6 +19,7 @@
 var app = {
     // Application Constructor
     initialize: function(pageModel) {
+alert('initialize');
         this.pageModel = pageModel;
         this.bindEvents();
     },
