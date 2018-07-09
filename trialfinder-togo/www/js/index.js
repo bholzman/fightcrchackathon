@@ -19,7 +19,6 @@
 var app = {
     // Application Constructor
     initialize: function(pageModel) {
-alert('initialize');
         this.pageModel = pageModel;
         this.bindEvents();
     },
@@ -36,7 +35,7 @@ alert('initialize');
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent();
-        navigator.splashscreen.hide();
+        window.setTimeout(navigator.splashscreen.hide, 500);
     },
     // Update DOM on a Received Event
     receivedEvent: function() {
