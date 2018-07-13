@@ -3,7 +3,10 @@
     <span onclick="javascript:controller.goToPage('trialList')">&lt; Trials List</span>
   </header>
   {{ #trial }}
-    <div class="trial-view-title">{{ title }}</div>
+    <div class="trial-view-title">
+      <div class="trial-name">{{ title }}</div>
+      <img src="./icons/star.svg" class="trial-star">
+    </div>
     <div class="trial-view-wrapper">
       <table border="0" cellspacing="0" cellpadding="0">
         <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'description')">

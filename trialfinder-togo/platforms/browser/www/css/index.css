@@ -556,10 +556,22 @@ td .centered-content {
 }
 
 .trial-view-title {
+    padding: 15px;
+    display: block;
+}
+
+.trial-view-title .trial-name {
     font-size: 20px;
     font-weight: normal;
     text-align: left;
-    padding: 15px;
+    padding-right: 10px;
+    float: left;
+    width: 85%;
+}
+
+.trial-view-title .trial-star {
+    width: 40px;
+    float: right;
 }
 
 .back-page-header {
