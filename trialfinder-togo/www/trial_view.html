@@ -1,50 +1,77 @@
-<div class="header">
-&lt; <a href="javascript:controller.goToPage('trialList')">Back</a>
+<div class="trial-view-screen">
+  <header class="trial-view-header">
+    &lt; <a href="javascript:controller.goToPage('trialList')">Trials List</a>
+  </header>
+  {{ #trial }}
+    <div class="trial-view-title">{{ title }}</div>
+    <div class="trial-view-wrapper">
+      <table border="0" cellspacing="0" cellpadding="0">
+        <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'description')">
+          <td>
+            <div class="heading">Description</div>
+            <div class="content">
+            {{ #description }}
+              <p>{{ paragraph }}</p>
+            {{ /description }}
+            </div>
+          </td>
+        </tr>
+        <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'locations')">
+          <td>
+            <div class="heading">Locations</div>
+            <p class="centered-content">
+              {{ locations }}
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="heading">Gender</div>
+            <p class="centered-content">
+              {{ gender }}
+            </p>
+          </td>
+        </tr>
+        <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'comments')">
+          <td>
+            <div class="heading">Comments</div>
+            <p class="content">{{ comments }}</p>
+          </td>
+        </tr>
+        {{ #min_age }}
+        <tr>
+          <td>
+            <div class="heading">Minimum Age</div>
+            <p class="centered-content">
+              {{ min_age }}
+            </p>
+          </td>
+        </tr>
+        {{ /min_age }}
+        {{ #max_age }}
+        <tr>
+          <td>
+            <div class="heading">Maximum Age</div>
+            <p class="centered-content">
+              {{ max_age }}
+            </p>
+          </td>
+        </tr>
+        {{ /max_age }}
+        <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'inclusion_criteria')">
+          <td>
+            <div class="heading">Inclusion Criteria</div>
+            <p class="content">{{ inclusion_criteria }}</p>
+          </td>
+        </tr>
+        <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'exclusion_criteria')">
+          <td>
+            <div class="heading">Exclusion Criteria</div>
+            <p class="content">{{ exclusion_criteria }}</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  {{ /trial }}
+  {{>footer}}
 </div>
-<div class="trial">
-{{ #trial }}
-    <div class="title">{{ title }}</div>
-    <div class="section"
-         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'description')">
-        <div class="heading">Description</div>
-        <div>{{ description }}</div>
-    </div>
-    <div class="section"
-         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'locations')">
-        <div class="heading">Locations</div>
-        <div>{{ locations }}</div>
-    </div>
-    <div class="section">
-        <div class="heading">Gender</div>
-        <div>{{ gender }}</div>
-    </div>
-    <div class="section"
-         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'comments')">
-        <div class="heading">Comments</div>
-        <div>{{ comments }}</div>
-    </div>
-    {{ #min_age }}
-    <div class="section">
-        <div class="heading">Minimum Age</div>
-        <div>{{ min_age }}</div>
-    </div>
-    {{ /min_age }}
-    {{ #max_age }}
-    <div class="section">
-        <div class="heading">Maximum Age</div>
-        <div>{{ max_age }}</div>
-    </div>
-    {{ /max_age }}
-    <div class="section"
-         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'inclusion_criteria')">
-        <div class="heading">Inclusion Criteria</div>
-        <div>{{ inclusion_criteria }}</div>
-    </div>
-    <div class="section"
-         onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'exclusion_criteria')">
-        <div class="heading">Exclusion Criteria</div>
-        <div>{{ exclusion_criteria }}</div>
-    </div>
-{{ /trial }}
-</div>
-{{>footer}}

@@ -23,6 +23,7 @@ function Trial(trial_id, is_crc_trial, is_immunotherapy_trial, subtype,
     this.drug_brand_names = drug_brand_names;
     if (description != '' && description != 'None') {
         this.description = convertDescriptionToParagraphs(description);
+        console.log(this.description);
     } else {
         this.description = convertDescriptionToParagraphs(title);
     }

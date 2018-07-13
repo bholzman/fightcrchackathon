@@ -17,6 +17,11 @@ TrialView.prototype.render_data = function(data) {
             } else if (trial.gender == 'F') {
                 trial.gender = 'Female';
             }
+
+            if (trial.locations == null) {
+                trial.locations = 'N/A';
+            }
+
             page_render_data.trial = trial;
         }
     });
