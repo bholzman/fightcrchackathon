@@ -147,12 +147,6 @@ header {
     flex-shrink: 0;
 }
 
-header a {
-    color: white;
-    text-decoration: none;
-    padding-left: 3px;
-}
-
 footer {
     background-color: rgb(75, 88, 113);
     color: rgb(210, 213, 220);
@@ -231,10 +225,6 @@ td .centered-content {
     border-bottom: 0.8px solid lightgray;
     padding: 4px;
     display: flex;
-}
-
-.filter-screen header {
-    justify-content: left;
 }
 
 .arrow-icon-wrapper {
@@ -572,7 +562,7 @@ td .centered-content {
     padding: 15px;
 }
 
-.trial-view-header {
+.back-page-header {
   padding-left: 10px;
   justify-content: left;
   align-items: left;
