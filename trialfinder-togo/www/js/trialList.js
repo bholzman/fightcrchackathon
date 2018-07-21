@@ -65,9 +65,13 @@ TrialList.prototype.after_render = function(data) {
     var visitDate = new Date();
     data.prefs.app.lastVisited = visitDate.toISOString().slice(0, 10);
     data.prefs.save();
+    if (this.last_selected_trial) {
+        $('#trial-' + this.last_selected_trial).get(0).scrollIntoView();
+    }
 };
 
 TrialList.prototype.selectTrial = function(data, id) {
+    this.last_selected_trial = id;
     data.trials.forEach(function (t) {
         if (t['trial_id'] === id) {
             t['selected'] = !t['selected'];
