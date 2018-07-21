@@ -9,6 +9,7 @@ TrialView.prototype.render_data = function(data) {
     var trial_id = data.pageArgs[0];
     data.trials.forEach(function (t) {
         if (t.trial_id === trial_id) {
+            page_render_data.orig_trial = t;
             var trial = JSON.parse(JSON.stringify(t));
             if (trial.gender == 'A') {
                 trial.gender = 'Male, Female';
@@ -25,5 +26,20 @@ TrialView.prototype.render_data = function(data) {
             page_render_data.trial = trial;
         }
     });
+    page_render_data.prefs = data.prefs;
     return page_render_data;
+};
+
+TrialView.prototype.toggleFavorite = function(data, trial_id) {
+    if (data.trial.favorite) {
+        data.orig_trial.favorite = false;
+        delete data.prefs.app.favorites[trial_id];
+    } else {
+        data.orig_trial.favorite = true;
+        data.prefs.app.favorites[trial_id] = true;
+    }
+
+    data.prefs.save();
+
+    return true;
 };

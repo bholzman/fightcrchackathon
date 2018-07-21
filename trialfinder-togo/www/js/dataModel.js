@@ -23,7 +23,6 @@ function Trial(trial_id, is_crc_trial, is_immunotherapy_trial, subtype,
     this.drug_brand_names = drug_brand_names;
     if (description != '' && description != 'None') {
         this.description = convertDescriptionToParagraphs(description);
-        console.log(this.description);
     } else {
         this.description = convertDescriptionToParagraphs(title);
     }
@@ -71,7 +70,7 @@ Preferences.prototype.restore = function() {
     if (savedApp) {
         this.app = JSON.parse(savedApp);
     } else {
-        this.app = {'onTrialList': false, 'lastVisited': '0000-00-00'};
+        this.app = {'onTrialList': false, 'lastVisited': '0000-00-00', 'favorites': {}};
     }
 };
 
@@ -80,6 +79,11 @@ function Data(trials, prefs) {
     this.trials = trials;
     console.assert(prefs instanceof Preferences);
     this.prefs = prefs;
+    // set "favorite" attribute of trials that are in the "favorites" list
+    var favorites = this.prefs.app.favorites;
+    this.trials.forEach(function (t) {
+        t.favorite = t.trial_id in favorites;
+    });
 }
 
 Data.prototype.last_update = function() {

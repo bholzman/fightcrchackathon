@@ -4,6 +4,11 @@ function TrialList() {
 }
 
 TrialList.prototype = Object.create(Page.prototype);
+
+TrialList.prototype.trials = function(data) {
+    return Search(data.trials, data.prefs.search);
+}
+
 TrialList.prototype.render_data = function(data) {
     var page_render_data = Page.prototype.render_data.call(this, data);
     var lastVisited = data.prefs.app.lastVisited;
@@ -15,7 +20,7 @@ TrialList.prototype.render_data = function(data) {
         data.prefs.search.search = undefined;
     }
 
-    var matching_trials = Search(data.trials, data.prefs.search);
+    var matching_trials = this.trials(data);
 
     matching_trials.forEach(function (t) {
         if (t.locations) {

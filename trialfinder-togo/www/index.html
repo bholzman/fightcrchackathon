@@ -64,6 +64,7 @@
     <script type="text/javascript" src="js/locationSelect.js"></script>
     <script type="text/javascript" src="js/locationWidget.js"></script>
     <script type="text/javascript" src="js/search.js"></script>
+    <script type="text/javascript" src="js/favorites.js"></script>
     <script type="text/javascript" src="js/filters.js"></script>
     <script type="text/javascript" src="js/tristateBooleanFilter.js"></script>
     <script type="text/javascript" src="js/listFilter.js"></script>
@@ -98,7 +99,8 @@
                 new FilterPriorIOOk(),
                 new FilterPhase(),
                 new FilterDateAdded(),
-                new FilterTherapyNames()
+                new FilterTherapyNames(),
+                new Favorites()
             ], data);
             app.initialize(controller);
         });
