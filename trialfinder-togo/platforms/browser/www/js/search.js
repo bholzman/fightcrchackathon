@@ -74,9 +74,14 @@ var Search = function(trials, search) {
             }
             if (locationsMatch) {
                 matching.push(t);
+                t.matches_selected_locations = true;
+            } else if (search.display_trials_outside_locations) {
+                matching.push(t);
+                t.matches_selected_locations = false;
             }
         } else {
             matching.push(t);
+            t.matches_selected_locations = false;
         }
 
     });

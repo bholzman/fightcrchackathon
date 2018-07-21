@@ -11,7 +11,6 @@ TrialDetailView.prototype.render_data = function(data) {
     data.trials.forEach(function (t) {
         if (t.trial_id === trial_id) {
             var trial = JSON.parse(JSON.stringify(t));
-            console.log(JSON.parse(JSON.stringify(t)));
             if (trial.gender == 'A') {
                 trial.gender = 'Male, Female';
             } else if (trial.gender == 'M') {

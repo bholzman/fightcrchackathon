@@ -30,6 +30,8 @@ LocationWidget.prototype.render_data = function(data) {
         }
     );
     page_render_data.matching_trials = Search(data.trials, data.prefs.search).length;
+    page_render_data.display_trials_outside_locations = data.prefs.search.display_trials_outside_locations;
+    page_render_data.prefs = data.prefs;
     return page_render_data;
 };
 
@@ -39,4 +41,8 @@ LocationWidget.prototype.updateLocations = function(data) {
     [].splice.apply(data.selected_locations, args)
 
     return true;
+};
+
+LocationWidget.prototype.updateDisplayTrialsOutsideLocations = function(data, elem) {
+    data.prefs.search.display_trials_outside_locations = $(elem).prop('checked');
 };

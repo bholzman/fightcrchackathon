@@ -36,19 +36,24 @@ TrialList.prototype.render_data = function(data) {
 
     page_render_data.trials = matching_trials.sort(
         function(a, b) {
-            return a.date_trial_added > lastVisited && b.date_trial_added <= lastVisited
-                   ? -1
-                   : b.date_trial_added > lastVisited && a.date_trial_added <= lastVisited
-                     ? 1
-                     : a.updated_date > b.updated_date
-                       ? -1
-                       : b.updated_date > a.updated_date
-                         ? 1
-                         : a.trial_id > b.trial_id
-                           ? 1
-                           : b.trial_id > a.trial_id
-                             ? -1
-                             : 0 });
+            return a.matches_selected_locations && !b.matches_selected_locations 
+                ? -1
+                : b.matches_selected_locations && !a.matches_selected_locations
+                  ? 1
+                  : a.date_trial_added > lastVisited && b.date_trial_added <= lastVisited
+                    ? -1
+                    : b.date_trial_added > lastVisited && a.date_trial_added <= lastVisited
+                      ? 1
+                      : a.updated_date > b.updated_date
+                        ? -1
+                        : b.updated_date > a.updated_date
+                          ? 1
+                          : a.trial_id > b.trial_id
+                            ? 1
+                            : b.trial_id > a.trial_id
+                              ? -1
+                              : 0 });
+
     page_render_data.count = matching_trials.length;
 
     if (data.prefs.search.search) {

@@ -58,6 +58,7 @@ Preferences.prototype.restore = function() {
             'is_immunotherapy_trial': undefined,
             'prior_io_ok': undefined,
             'locations': [],
+            'display_trials_outside_locations': false,
             'search': '',
             'recruitment_statuses': undefined,
             'phases': undefined,

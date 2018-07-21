@@ -19,4 +19,11 @@
         {{/selected}}
         {{/locations}}
     </ul>
+
+    <div>
+        <input type="checkbox" id="display_trials_outside_locations"
+               onchange="javascript:controller.pageCall('updateDisplayTrialsOutsideLocations', this)"
+               {{#display_trials_outside_locations}}checked="checked"{{/display_trials_outside_locations}}>
+        <label for="display_trials_outside_locations">Display Trials Outside These Locations?</label>
+    </div>
 </div>

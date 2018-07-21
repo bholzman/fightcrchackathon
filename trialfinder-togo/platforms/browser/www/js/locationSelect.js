@@ -26,3 +26,6 @@ LocationSelect.prototype.updateLocations = function(data) {
     return this.locationWidgetPage.updateLocations(data);
 };
 
+LocationSelect.prototype.updateDisplayTrialsOutsideLocations = function(data, elem) {
+    return this.locationWidgetPage.updateDisplayTrialsOutsideLocations(data, elem);
+};

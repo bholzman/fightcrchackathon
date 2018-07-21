@@ -25,3 +25,7 @@ FilterLocations.prototype.dependencies = function(render_data) {
 FilterLocations.prototype.updateLocations = function(data) {
     return this.locationWidgetPage.updateLocations(data);
 };
+
+FilterLocations.prototype.updateDisplayTrialsOutsideLocations = function(data, elem) {
+    return this.locationWidgetPage.updateDisplayTrialsOutsideLocations(data, elem);
+};
