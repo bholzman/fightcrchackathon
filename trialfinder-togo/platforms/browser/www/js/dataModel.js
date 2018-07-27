@@ -80,7 +80,7 @@ function Data(trials, prefs) {
     console.assert(prefs instanceof Preferences);
     this.prefs = prefs;
     // set "favorite" attribute of trials that are in the "favorites" list
-    var favorites = this.prefs.app.favorites;
+    var favorites = this.prefs.app.favorites || {};
     this.trials.forEach(function (t) {
         t.favorite = t.trial_id in favorites;
     });
