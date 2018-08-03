@@ -1,9 +1,10 @@
 dj-database-url==0.4.1
 Django==1.9.7
 gunicorn==19.6.0
-psycopg2==2.6.1
+psycopg2==2.7.5
 whitenoise==2.0.6
 sendgrid==3.6.3
 SQLAlchemy==1.1.6
 django-extensions==1.7.7
 newrelic==2.80.1.61
+google-api-python-client==1.6.2

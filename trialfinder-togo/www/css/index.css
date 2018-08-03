@@ -579,3 +579,7 @@ td .centered-content {
   justify-content: left;
   align-items: left;
 }
+
+.search-icon {
+  height: 80%;
+}
