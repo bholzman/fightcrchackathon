@@ -37,10 +37,6 @@ Filters.prototype.render_data = function(data) {
         tag: 'date_added',
         name: 'Date Added',
         value: search_prefs.date_added || 'No filters'
-    }, {
-        tag: 'therapy_names',
-        name: 'Therapy Names',
-        value: search_prefs.therapy_names || 'No filters'
     }];
 
     page_render_data.filters_selected = '-selected';

@@ -74,7 +74,6 @@
     <script type="text/javascript" src="js/filterPriorIOOk.js"></script>
     <script type="text/javascript" src="js/filterPhase.js"></script>
     <script type="text/javascript" src="js/filterDateAdded.js"></script>
-    <script type="text/javascript" src="js/filterTherapyNames.js"></script>
     <script type="text/javascript">
         var controller;
         var prefs = new Preferences({}, {});
@@ -99,7 +98,6 @@
                 new FilterPriorIOOk(),
                 new FilterPhase(),
                 new FilterDateAdded(),
-                new FilterTherapyNames(),
                 new Favorites()
             ], data);
             app.initialize(controller);

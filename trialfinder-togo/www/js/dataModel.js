@@ -61,8 +61,7 @@ Preferences.prototype.restore = function() {
             'search': '',
             'recruitment_statuses': undefined,
             'phases': undefined,
-            'date_added': undefined,
-            'therapy_names': undefined
+            'date_added': undefined
         };
     }
 
