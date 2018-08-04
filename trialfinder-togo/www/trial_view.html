@@ -4,9 +4,14 @@
   </header>
   {{ #trial }}
     <div class="trial-view-title">
-      <div class="trial-name">{{ title }}</div>
-      <img src="./icons/star{{ #favorite }}-selected{{ /favorite }}.svg" class="trial-star"
-           onclick="javascript:controller.pageCall('toggleFavorite', '{{ trial_id }}')">
+      <div class="title-and-star">
+        <div class="trial-name">{{ title }}</div>
+        <img src="./icons/star{{ #favorite }}-selected{{ /favorite }}.svg" class="trial-star"
+             onclick="javascript:controller.pageCall('toggleFavorite', '{{ trial_id }}')">
+      </div>
+      <div class="share">
+        <input type="button" value="Share" onclick="javascript:controller.pageCall('shareTrial', '{{ trial_id }}')" />
+      </div>
     </div>
     <div class="trial-view-wrapper">
       <table border="0" cellspacing="0" cellpadding="0">

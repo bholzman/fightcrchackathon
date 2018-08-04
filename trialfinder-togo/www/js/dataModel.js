@@ -1,9 +1,10 @@
-function Trial(trial_id, is_crc_trial, is_immunotherapy_trial, subtype,
+function Trial(trial_id, trial_link, is_crc_trial, is_immunotherapy_trial, subtype,
                prior_io_ok, comments, publications, urls, brief_title, title, program_status,
                locations, date_trial_added, updated_date, phase, intervention_types,
                drug_names, drug_brand_names, description, min_age, max_age, gender,
                inclusion_criteria, exclusion_criteria) {
     this.trial_id = trial_id;
+    this.trial_link = trial_link;
     this.is_crc_trial = is_crc_trial;
     this.is_immunotherapy_trial = is_immunotherapy_trial;
     this.subtype = subtype;

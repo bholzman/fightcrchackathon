@@ -43,3 +43,16 @@ TrialView.prototype.toggleFavorite = function(data, trial_id) {
 
     return true;
 };
+
+TrialView.prototype.shareTrial = function(data) {
+    var options = {
+        subject: 'Trial found on the FightCRC TrialFinder',
+        message: data.trial.brief_title + ' (' + data.trial.trial_id + ')',
+        url: data.trial.trial_link
+    };
+    window.plugins.socialsharing.shareWithOptions(
+        options,
+        function(result) { console.log("Completed?", result.completed, "App:", result.app); },
+        function(msg) { console.log("Failed:", msg); }
+    );
+};

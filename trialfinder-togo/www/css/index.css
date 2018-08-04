@@ -574,6 +574,14 @@ td .centered-content {
     float: right;
 }
 
+.title-and-star {
+    display: inline-block;
+}
+
+.share {
+    float: right;
+}
+
 .back-page-header {
   padding-left: 10px;
   justify-content: left;
