@@ -13,6 +13,7 @@ LocationSelect.prototype = Object.create(Page.prototype);
 LocationSelect.prototype.render_data = function(data) {
     var page_render_data = Page.prototype.render_data.call(this, data);
     page_render_data = Object.assign(page_render_data, this.locationWidgetPage.render_data(data));
+    page_render_data.total_trials = data.trials.length;
     page_render_data.matching_trials = Search(data.trials, data.prefs.search).length;
     return page_render_data;
 };

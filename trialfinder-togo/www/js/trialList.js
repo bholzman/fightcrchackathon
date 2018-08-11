@@ -20,6 +20,8 @@ TrialList.prototype.render_data = function(data) {
         data.prefs.search.search = undefined;
     }
 
+    page_render_data.total_count = data.trials.length;
+
     var matching_trials = this.trials(data);
 
     matching_trials.forEach(function (t) {
