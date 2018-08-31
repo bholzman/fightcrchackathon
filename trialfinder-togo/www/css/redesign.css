@@ -1,0 +1,280 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+/*
+COLORS
+- Blue: #00549f
+- Purple: #5a245a
+- Green: #acbd27
+- Light blue: #009bdb
+- Orange: #e98300
+- Grey: #adadad
+*/
+
+/* ANIMATIONS */
+@keyframes slideInSearch {
+    0% {
+        margin-top: -8vh;
+    }
+    
+    100% {
+        margin-top: 0;
+    }
+}
+
+@keyframes slideOutSearch {
+    0% {
+        margin-top: 0;
+    }
+    
+    100% {
+        margin-top: -8vh;
+    }
+}
+
+/* GENERAL */
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* HEADER + SEARCH */
+header {
+    height: 8vh;
+}
+
+header span {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+header .search-icon {
+    position: absolute;
+    right: 10px;
+    height: 22px;
+}
+
+header.back-page-header span {
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.search-wrapper {
+    margin-bottom: 8vh;
+    animation: slideInSearch;
+    animation-duration: 0.4s;
+    z-index: -1;
+}
+
+.search-wrapper.slideOutSearch {
+    animation: slideOutSearch;
+    animation-duration: 0.4s;
+    margin-top: -8vh;
+}
+
+.search-wrapper .search {
+    z-index: 999;
+    width: 100%;
+    height: 8vh;
+    border-color: #00549f;
+}
+
+.search-wrapper .search input {
+    height: 100%;
+    font-size: 1.4rem;
+    padding: 0 8px;
+}
+
+header span .cancel-search {
+    right: 0px;
+    top: 0;
+    height: 8vh;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: #ffffff;
+    border: none;
+    z-index: 999;
+}
+
+header, header span .cancel-search, .search-wrapper .search {
+    background-color: #00549f;
+}
+
+/* TRIAL LIST */
+.trial-list-wrapper {
+    transition: all 1s ease-in;
+}
+
+.app div ul li {
+    padding: 1.2rem 0.8rem;
+}
+
+.trial .arrow-icon-wrapper {
+    width: 14px;
+}
+
+.trial .trial-content {
+    padding-left: 5px;
+}
+
+.trial .trial-content .title {
+    font-size: 1.2rem;
+}
+
+.trial .trial-content .second-line {
+    display: block;
+    justify-content: unset;
+}
+
+.trial .trial-content .second-line .locations {
+    display: inline-block;
+    float: left;
+    font-size: 1rem;
+}
+
+.trial .trial-content .second-line .status {
+    display: inline-block;
+    float: right;
+    font-size: 1rem;
+}
+
+.trial .trial-content .second-line .new {
+    margin-top: 5px;
+    display: inline-block;
+    float: right;
+    clear: right;
+    font-size: 1rem;
+}
+
+/* TRIAL VIEW */
+.trial-view-screen .trial-view-wrapper {
+    overflow-y: auto;
+}
+
+.trial-view-screen .trial-view-wrapper .trial-name {
+    font-size: 1.6rem;
+}
+
+.trial-view-screen .trial-view-wrapper .share input {
+    padding-right: 0.3rem;
+    font-size: 1rem;
+}
+
+.trial-view-screen .trial-view-wrapper .heading {
+    color: #00549f;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.trial-view-screen .trial-view-wrapper .content.keep-formatting {
+    white-space: pre-line;
+}
+
+/* FILTER SCREEN */
+.filter-wrapper {
+    display: flex;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    background-color: #f3f3f3;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.filter-screen .question-wrapper .question-content .question,
+.filter-screen .question-content .question,
+.filter-screen .question-wrapper .question,
+.filter-screen .filter-wrapper .location-preferences {
+    font-size: 2.4rem;
+}
+
+.filter-screen .question-wrapper .question-content .question-body,
+.filter-screen .question-content .question-body,
+.filter-screen .question-wrapper .question-body {
+    margin-top: 1rem;
+    font-size: 1.6rem;
+}
+.filter-screen .question-wrapper .question-content .learn-more,
+.filter-screen .question-wrapper .learn-more {
+    font-size: 1.6rem;
+}
+
+.filter-screen .question-wrapper .toggle-list {
+    align-items: center;
+}
+
+.filter-screen .question-wrapper .toggle-list button.toggle {
+    height: 4rem;
+    width: 100%;
+    font-size: 1.4rem;
+}
+
+.filter-screen .question-wrapper .toggle-list button.toggle.selected {
+    background-color: #009bdb;
+}
+
+.filter-screen .question-wrapper .date-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filter-screen .question-wrapper .date-picker input {
+    margin-bottom: 100px;
+    height: 4rem;
+    font-size: 1.4rem;
+}
+
+.filter-screen .question-wrapper .date-picker button {
+    font-size: 1.4rem;
+}
+
+/* LOCATION PREFERENCES */
+.location-prompt,
+.location-body {
+    background-color: inherit;
+}
+
+.location-body .location-list select option {
+    height: 2rem;
+    font-size: 1.4rem;
+}
+
+.location-body .selectedLocations li {
+    background-color: #009bdb;
+}
+
+.location-body input#display_trials_outside_locations {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+
+.location-body label[for="display_trials_outside_locations"] {
+    font-size: 1.4rem;
+    vertical-align: middle;
+}
+
+/* FOOTER */
+footer {
+    background-color: #adadad;
+}

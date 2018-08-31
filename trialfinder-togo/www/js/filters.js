@@ -15,7 +15,7 @@ Filters.prototype.render_data = function(data) {
 
     page_render_data.filters = [{
         tag: 'locations',
-        name: 'Geography',
+        name: 'Location Preferences',
         value: (search_prefs.locations || []).join(', ')
     }, {
         tag: 'is_immunotherapy_trial',

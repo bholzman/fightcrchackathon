@@ -22,6 +22,11 @@ TrialView.prototype.render_data = function(data) {
             if (trial.locations == null) {
                 trial.locations = 'N/A';
             }
+            else {
+                for (var i = 1; i < trial.locations.length; i++) {
+                    trial.locations[i] = " " + trial.locations[i];
+                }
+            }
 
             page_render_data.trial = trial;
         }

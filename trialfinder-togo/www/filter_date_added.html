@@ -1,13 +1,17 @@
 <div class="filter-screen">
   <header class="back-page-header">
-    <span onclick="javascript:controller.goToPage('filters')">&lt; Filters List</span>
+    <span onclick="javascript:controller.goToPage('filters')">&lt; Filters</span>
   </header>
   <div class="question-wrapper">
-      <p class="question">Date Added</p>
-      <div class="question-body">Only show trials added to clinicaltrials.gov after this date.</div>
-      <input type="date" name="date_added" value="{{ date_added }}"
-             onchange="javascript:controller.pageCall('update', this)" />
-      <button onclick="javascript:controller.pageCall('clear')">Reset</button>
+      <div class="question-content">
+          <p class="question">Date Added</p>
+          <div class="question-body">Only show trials added to clinicaltrials.gov after this date.</div>
+      </div>
+      <div class="date-picker">
+          <input type="date" name="date_added" value="{{ date_added }}"
+                 onchange="javascript:controller.pageCall('update', this)" />
+          <button onclick="javascript:controller.pageCall('clear')">Reset</button>
+      </div>
   </div>
   {{>footer}}
 </div>
