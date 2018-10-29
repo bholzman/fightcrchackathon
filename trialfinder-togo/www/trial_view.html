@@ -15,7 +15,7 @@
           </div>
         </div>
         <table border="0" cellspacing="0" cellpadding="0">
-            <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'description')">
+            <tr>
               <td>
                 <div class="heading">Description</div>
                 <div class="content">
@@ -25,7 +25,7 @@
                 </div>
               </td>
             </tr>
-            <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'locations')">
+            <tr>
               <td>
                 <div class="heading">Locations</div>
                 <p class="centered-content">
@@ -41,7 +41,7 @@
                 </p>
               </td>
             </tr>
-            <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'comments')">
+            <tr>
               <td>
                 <div class="heading">Comments</div>
                 <p class="content">{{ comments }}</p>
@@ -67,13 +67,13 @@
               </td>
             </tr>
             {{ /max_age }}
-            <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'inclusion_criteria')">
+            <tr>
               <td>
                 <div class="heading">Inclusion Criteria</div>
                 <p class="content keep-formatting">{{ inclusion_criteria }}</p>
               </td>
             </tr>
-            <tr onclick="javascript:controller.goToPage('trialDetailView', '{{ trial_id }}', 'exclusion_criteria')">
+            <tr>
               <td>
                 <div class="heading">Exclusion Criteria</div>
                 <p class="content keep-formatting">{{ exclusion_criteria }}</p>
