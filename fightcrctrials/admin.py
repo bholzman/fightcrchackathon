@@ -5,7 +5,7 @@ from django.forms import Textarea
 
 
 # Register your models here.
-from .models import UserText, FAQ, CRCTrial
+from .models import UserText, FAQ, CRCTrial, MobileFAQ
 
 admin.site.register(UserText)
 
@@ -79,3 +79,7 @@ class CRCTrialAdmin(admin.ModelAdmin):
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
     ordering = ('id',)
+
+@admin.register(MobileFAQ)
+class MobileFAQAdmin(FAQAdmin):
+    pass

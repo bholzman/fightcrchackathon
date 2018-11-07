@@ -33,6 +33,8 @@ class FAQ(models.Model):
         } for faq in faqs]
         return json.dumps(raw_data)
 
+class MobileFAQ(FAQ):
+    pass
 
 class DeletedCRCTrial(models.Model):
     deleted_at = models.DateField(auto_now_add=True)

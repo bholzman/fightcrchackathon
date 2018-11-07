@@ -8,7 +8,7 @@ from sendgrid.helpers.mail import Email, Content, Mail
 
 from .email import send_email
 from .forms import ContactUsForm
-from .models import CRCTrial, FAQ
+from .models import CRCTrial, FAQ, MobileFAQ
 
 
 # Create your views here.
@@ -28,15 +28,30 @@ def welcome(request):
     return render(request, 'welcome.html', {'trials': CRCTrial.trials_json()})
 
 
-def faq(request):
-    faqs = FAQ.objects.order_by('id').all()
+def _faq(request, model):
+    faqs = model.objects.order_by('id').all()
     return render(request, 'faq.html', {'faqs': faqs})
+    
+def _faq_json(request, model):
+    resp = HttpResponse(model.faq_json())
+    resp['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
+def faq(request):
+    return _faq(request, FAQ)
 
 
 def faq_json(request):
-    resp = HttpResponse(FAQ.faq_json())
-    resp['Access-Control-Allow-Origin'] = '*'
-    return resp
+    return _faq_json(request, FAQ)
+
+
+def mobile_faq(request):
+    return _faq(request, MobileFAQ)
+
+
+def mobile_faq_json(request):
+    return _faq_json(request, MobileFAQ)
 
 
 def send_trial_closed_email(request):
