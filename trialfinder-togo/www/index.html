@@ -75,33 +75,38 @@
     <script type="text/javascript" src="js/filterPhase.js"></script>
     <script type="text/javascript" src="js/filterDateAdded.js"></script>
     <script type="text/javascript" src="js/learnMore.js"></script>
+    <script type="text/javascript" src="js/FAQ.js"></script>
     <script type="text/javascript">
         var controller;
         var prefs = new Preferences({}, {});
         prefs.restore();
-        new DataHandler('http://trialfinder.fightcrc.org/').loadTrials().done(function(trials) {
-            var data = new Data(trials, prefs);
-            controller = new Controller([
-                new SplashScreen(),
-                new Wizard(),
-                new MsStatus(),
-                new ImmunoTherapy(),
-                new ImmunoTherapyPreviouslyUsed(),
-                new LocationSelect(),
-                new TrialList(),
-                new TrialView(),
-                new TrialSearch(),
-                new Filters(),
-                new FilterLocations(),
-                new FilterRecruitmentStatus(),
-                new FilterIsImmunotherapyTrial(),
-                new FilterPriorIOOk(),
-                new FilterPhase(),
-                new FilterDateAdded(),
-                new Favorites(),
-                new LearnMore()
-            ], data);
-            app.initialize(controller);
+        var dh = new DataHandler('http://trialfinder.fightcrc.org/')
+        dh.loadTrials().done(function(trials) {
+            dh.loadFAQ().done(function(faqs) {  
+                var data = new Data(trials, faqs, prefs);
+                controller = new Controller([
+                    new SplashScreen(),
+                    new Wizard(),
+                    new MsStatus(),
+                    new ImmunoTherapy(),
+                    new ImmunoTherapyPreviouslyUsed(),
+                    new LocationSelect(),
+                    new TrialList(),
+                    new TrialView(),
+                    new TrialSearch(),
+                    new Filters(),
+                    new FilterLocations(),
+                    new FilterRecruitmentStatus(),
+                    new FilterIsImmunotherapyTrial(),
+                    new FilterPriorIOOk(),
+                    new FilterPhase(),
+                    new FilterDateAdded(),
+                    new Favorites(),
+                    new LearnMore(),
+                    new FAQ()
+                ], data);
+                app.initialize(controller);
+            });
         });
     </script>
 </body>

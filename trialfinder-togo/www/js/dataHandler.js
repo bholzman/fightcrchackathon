@@ -20,3 +20,16 @@ DataHandler.prototype.loadTrials = function() {
     });
     return deferred.promise();
 };
+
+DataHandler.prototype.loadFAQ = function() {
+    var deferred = $.Deferred();
+    $.ajax(this.source + 'mobile-faq-json/', {dataType: 'json'}).done(function(content) {
+        var faqs = [];
+        for (var i = 0; i < content.length; i++) {
+            var c = content[i];
+            faqs.push(new FAQItem(c.question, c.answer))
+        }
+        deferred.resolve(faqs);
+    });
+    return deferred.promise();
+};

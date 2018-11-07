@@ -34,6 +34,11 @@ function Trial(trial_id, trial_link, is_crc_trial, is_immunotherapy_trial, subty
     this.exclusion_criteria = exclusion_criteria;
 }
 
+function FAQItem(question, answer) {
+    this.question = question;
+    this.answer = answer;
+}
+
 function Preferences(search, app) {
     console.assert($.isPlainObject(search));
     this.search = search;
@@ -74,9 +79,11 @@ Preferences.prototype.restore = function() {
     }
 };
 
-function Data(trials, prefs) {
+function Data(trials, faqs, prefs) {
     console.assert($.isArray(trials));
     this.trials = trials;
+    console.assert($.isArray(faqs));
+    this.faqs = faqs;
     console.assert(prefs instanceof Preferences);
     this.prefs = prefs;
     // set "favorite" attribute of trials that are in the "favorites" list
