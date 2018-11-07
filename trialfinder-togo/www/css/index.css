@@ -205,18 +205,18 @@ td .centered-content {
     color: rgb(121, 169, 241);
 }
 
-.trial-list-screen, .filters-screen, .filter-screen, .trial-view-screen {
+.trial-list-screen, .filters-screen, .filter-screen, .trial-view-screen, .faq-screen {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-.trial-list-wrapper, .filters-wrapper, .filter-wrapper, .trial-view-wrapper {
+.trial-list-wrapper, .filters-wrapper, .filter-wrapper, .trial-view-wrapper, .faq-wrapper {
     flex: 1 1 auto;
     overflow-y: auto;
 }
 
-.trial-list, .filters-list {
+.trial-list, .filters-list, .faq {
     margin: 0;
     padding: 0;
     background-color: white;
