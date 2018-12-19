@@ -7,7 +7,7 @@
         <div class="trial-view-title">
           <div class="title-and-star">
             <div class="trial-name">{{ title }}</div>
-            <img src="./icons/star{{ #favorite }}-selected{{ /favorite }}.svg" class="trial-star"
+            <img src="./icons/star{{ #favorite }}-selected{{ /favorite }}{{ ^favorite }}-unselected{{ /favorite }}.svg" class="trial-star"
                  onclick="javascript:controller.pageCall('toggleFavorite', '{{ trial_id }}')">
           </div>
           <div class="share">

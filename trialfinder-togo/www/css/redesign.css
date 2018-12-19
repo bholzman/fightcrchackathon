@@ -65,7 +65,6 @@ header {
 
 header span {
     font-size: 1.8rem;
-    font-weight: 700;
 }
 
 header .search-icon {
@@ -105,7 +104,7 @@ header.back-page-header span {
     padding: 0 8px;
 }
 
-header span .cancel-search {
+header .cancel-search {
     right: 0px;
     top: 0;
     height: 8vh;
@@ -116,8 +115,12 @@ header span .cancel-search {
     z-index: 999;
 }
 
-header, header span .cancel-search, .search-wrapper .search {
+header, header .cancel-search, .search-wrapper .search {
     background-color: #00549f;
+}
+
+.back-button {
+    text-decoration: none;
 }
 
 /* TRIAL LIST */
@@ -134,7 +137,7 @@ header, header span .cancel-search, .search-wrapper .search {
 }
 
 .trial .trial-content {
-    padding-left: 5px;
+    width: 100%;
 }
 
 .trial .trial-content .title {
@@ -276,5 +279,9 @@ header, header span .cancel-search, .search-wrapper .search {
 
 /* FOOTER */
 footer {
-    background-color: #00549f;
+    background-color: #adadad;
+}
+
+footer .last-updated {
+    color: #ffffff;
 }

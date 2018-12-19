@@ -1,10 +1,9 @@
 <div class="trial-list-screen">
   <header>
-    <span>{{ count }} Trials Out Of {{ total_count }} Total Trials
+      <span><strong>{{ count }} Trials</strong> (of {{ total_count }} total)</span>
     {{ #inSearch }}
       <button class="cancel-search" onclick="javascript:controller.goToPage('trialList', 'clearSearch')">Cancel</button>
     {{ /inSearch }}
-    </span>
     <img src="./icons/search.svg" alt="Search" class="icon search-icon" onclick="javascript:controller.goToPage('trialSearch')">
   </header>
   {{ #inSearch }}
