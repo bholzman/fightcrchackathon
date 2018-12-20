@@ -23,20 +23,20 @@ TrialList.prototype.render_data = function(data) {
     page_render_data.total_count = data.trials.length;
 
     var matching_trials = this.trials(data);
-
-    matching_trials.forEach(function (t) {
-        if (t.locations) {
-            t['matched_location'] = t.locations[0];
-            for (var i = 0; i < t.locations.length; i++) {
-                var l = t.locations[i];
-                if (data.prefs.search.locations.indexOf(l) > -1) {
-                    t['matched_location'] = l;
-                    break;
+    matching_trials.forEach(function (trial) {
+        var matched_locations = [];
+        if (trial.locations) {
+            trial['matched_location'] = trial.locations[0];
+            for (var i = 0; i < trial.locations.length; i++) {
+                var location = trial.locations[i];
+                if (data.prefs.search.locations.indexOf(location) > -1) {
+                    matched_locations.push(location);
                 }
             }
         } else {
-            t['matched_location'] = 'N/A';
+            trial['matched_location'] = 'N/A';
         }
+        trial['matched_location'] = matched_locations.join(', ');
     });
 
     page_render_data.search = data.prefs.search.search;

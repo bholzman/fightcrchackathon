@@ -266,7 +266,8 @@ td .centered-content {
 
 .locations, .new, .status {
     flex-grow: 1;
-    flex-basis: 0;
+    flex-shrink: 1;
+    white-space: nowrap;
 }
 
 .new {
