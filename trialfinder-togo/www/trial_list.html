@@ -23,7 +23,10 @@
         <div onclick="javascript:controller.goToPage('trialView', '{{ trial_id }}')" class="trial-content">
           <div class="title">{{ brief_title }}</div>
           <div class="second-line">
-            <span class="locations">{{ matched_location }}</span>
+            <span class="locations">
+              <img src="./icons/location.svg" alt="Location" class="icon">
+              {{ matched_location }}
+            </span>
             <span class="status">{{ program_status }}</span>
             {{#new}}
               <span class="new">
