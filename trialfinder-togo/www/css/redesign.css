@@ -181,7 +181,15 @@ header, header .cancel-search, .search-wrapper .search {
     white-space: pre-line;
 }
 
-/* FILTER SCREEN */
+/* FILTER(S) SCREEN */
+.filters-wrapper .filters-list .filter .title {
+    font-size: 1.3em;
+}
+
+.filters-wrapper .filters-list .filter .second-line {
+    font-size: 1.1em;
+}
+
 .filter-wrapper {
     display: flex;
     flex: 1 1 auto;
@@ -195,7 +203,7 @@ header, header .cancel-search, .search-wrapper .search {
 .filter-screen .question-content .question,
 .filter-screen .question-wrapper .question,
 .filter-screen .filter-wrapper .location-preferences {
-    font-size: 2.4em;
+    font-size: 2em;
 }
 
 .filter-screen .question-wrapper .question-content .question-body,
@@ -243,6 +251,7 @@ header, header .cancel-search, .search-wrapper .search {
 .location-prompt,
 .location-body {
     background-color: inherit;
+    font-size: 1.3em;
 }
 
 .location-body .location-list select option {
@@ -261,7 +270,6 @@ header, header .cancel-search, .search-wrapper .search {
 }
 
 .location-body label[for="display_trials_outside_locations"] {
-    font-size: 1.4em;
     vertical-align: middle;
 }
 
