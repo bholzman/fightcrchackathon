@@ -145,7 +145,7 @@ header, header .cancel-search, .search-wrapper .search {
 }
 
 .trial .trial-content .second-line {
-    display: block;
+    display: flex;
     justify-content: unset;
 }
 
