@@ -259,6 +259,11 @@ header, header .cancel-search, .search-wrapper .search {
     font-size: 1.4em;
 }
 
+.location-body .selectedLocations span {
+    width: 100%;
+    text-align: center;
+}
+
 .location-body .selectedLocations li {
     background-color: #009bdb;
 }
