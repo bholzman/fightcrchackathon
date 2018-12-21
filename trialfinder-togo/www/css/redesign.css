@@ -27,34 +27,18 @@ COLORS
 - Grey: #adadad
 */
 
-/* ANIMATIONS */
-@keyframes slideInSearch {
-    0% {
-        margin-top: -8vh;
-    }
-    
-    100% {
-        margin-top: 0;
-    }
-}
-
-@keyframes slideOutSearch {
-    0% {
-        margin-top: 0;
-    }
-    
-    100% {
-        margin-top: -8vh;
-    }
-}
-
 /* GENERAL */
+html {
+    font-size: 16px;
+    overflow-y: scroll; /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch;
+}
+
 body {
     font-family: 'Arial', 'Helvetica', sans-serif;
 }
 
 p {
-    font-size: 16px;
     font-weight: 400;
 }
 
@@ -64,8 +48,7 @@ header {
 }
 
 header span {
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 1.4em;
 }
 
 header .search-icon {
@@ -75,21 +58,14 @@ header .search-icon {
 }
 
 header.back-page-header span {
-    font-size: 1.6rem;
+    font-size: 1.3em;
     font-weight: 400;
 }
 
 .search-wrapper {
     margin-bottom: 8vh;
-    animation: slideInSearch;
     animation-duration: 0.4s;
     z-index: -1;
-}
-
-.search-wrapper.slideOutSearch {
-    animation: slideOutSearch;
-    animation-duration: 0.4s;
-    margin-top: -8vh;
 }
 
 .search-wrapper .search {
@@ -101,23 +77,27 @@ header.back-page-header span {
 
 .search-wrapper .search input {
     height: 100%;
-    font-size: 1.4rem;
+    font-size: 1.4em;
     padding: 0 8px;
 }
 
-header span .cancel-search {
+header .cancel-search {
     right: 0px;
-    top: 0;
+    top: 0.1em;
     height: 8vh;
-    font-size: 1.4rem;
+    font-size: 1em;
     font-weight: 300;
     color: #ffffff;
     border: none;
     z-index: 999;
 }
 
-header, header span .cancel-search, .search-wrapper .search {
+header, header .cancel-search, .search-wrapper .search {
     background-color: #00549f;
+}
+
+.back-button {
+    text-decoration: none;
 }
 
 /* TRIAL LIST */
@@ -126,7 +106,7 @@ header, header span .cancel-search, .search-wrapper .search {
 }
 
 .app div ul li {
-    padding: 1.2rem 0.8rem;
+    padding: 1.2em 0.8em;
 }
 
 .trial .arrow-icon-wrapper {
@@ -134,28 +114,34 @@ header, header span .cancel-search, .search-wrapper .search {
 }
 
 .trial .trial-content {
-    padding-left: 5px;
+    width: 100%;
 }
 
 .trial .trial-content .title {
-    font-size: 1.2rem;
+    font-size: 1.3em;
 }
 
 .trial .trial-content .second-line {
-    display: block;
+    display: flex;
     justify-content: unset;
 }
 
 .trial .trial-content .second-line .locations {
     display: inline-block;
     float: left;
-    font-size: 1rem;
+    font-size: 1.1em;
+}
+
+.trial .trial-content .second-line .locations img {
+    height: 14px;
+    width: auto;
+    vertical-align: text-top;
 }
 
 .trial .trial-content .second-line .status {
     display: inline-block;
     float: right;
-    font-size: 1rem;
+    font-size: 1.1em;
 }
 
 .trial .trial-content .second-line .new {
@@ -163,7 +149,7 @@ header, header span .cancel-search, .search-wrapper .search {
     display: inline-block;
     float: right;
     clear: right;
-    font-size: 1rem;
+    font-size: 1em;
 }
 
 /* TRIAL VIEW */
@@ -172,25 +158,38 @@ header, header span .cancel-search, .search-wrapper .search {
 }
 
 .trial-view-screen .trial-view-wrapper .trial-name {
-    font-size: 1.6rem;
+    font-size: 1.6em;
 }
 
 .trial-view-screen .trial-view-wrapper .share input {
-    padding-right: 0.3rem;
-    font-size: 1rem;
+    padding-right: 0.3em;
+    font-size: 1em;
 }
 
 .trial-view-screen .trial-view-wrapper .heading {
     color: #00549f;
+    font-size: 1.4em;
     font-weight: 700;
     text-transform: uppercase;
+}
+
+.trial-view-screen .trial-view-wrapper p {
+    font-size: 1.3em;
 }
 
 .trial-view-screen .trial-view-wrapper .content.keep-formatting {
     white-space: pre-line;
 }
 
-/* FILTER SCREEN */
+/* FILTER(S) SCREEN */
+.filters-wrapper .filters-list .filter .title {
+    font-size: 1.3em;
+}
+
+.filters-wrapper .filters-list .filter .second-line {
+    font-size: 1.1em;
+}
+
 .filter-wrapper {
     display: flex;
     flex: 1 1 auto;
@@ -204,18 +203,18 @@ header, header span .cancel-search, .search-wrapper .search {
 .filter-screen .question-content .question,
 .filter-screen .question-wrapper .question,
 .filter-screen .filter-wrapper .location-preferences {
-    font-size: 2.4rem;
+    font-size: 2em;
 }
 
 .filter-screen .question-wrapper .question-content .question-body,
 .filter-screen .question-content .question-body,
 .filter-screen .question-wrapper .question-body {
-    margin-top: 1rem;
-    font-size: 1.6rem;
+    margin-top: 1em;
+    font-size: 1.6em;
 }
 .filter-screen .question-wrapper .question-content .learn-more,
 .filter-screen .question-wrapper .learn-more {
-    font-size: 1.6rem;
+    font-size: 1.6em;
 }
 
 .filter-screen .question-wrapper .toggle-list {
@@ -223,9 +222,9 @@ header, header span .cancel-search, .search-wrapper .search {
 }
 
 .filter-screen .question-wrapper .toggle-list button.toggle {
-    height: 4rem;
+    height: 4em;
     width: 100%;
-    font-size: 1.4rem;
+    font-size: 1.4em;
 }
 
 .filter-screen .question-wrapper .toggle-list button.toggle.selected {
@@ -240,23 +239,29 @@ header, header span .cancel-search, .search-wrapper .search {
 
 .filter-screen .question-wrapper .date-picker input {
     margin-bottom: 100px;
-    height: 4rem;
-    font-size: 1.4rem;
+    height: 4em;
+    font-size: 1.4em;
 }
 
 .filter-screen .question-wrapper .date-picker button {
-    font-size: 1.4rem;
+    font-size: 1.4em;
 }
 
 /* LOCATION PREFERENCES */
 .location-prompt,
 .location-body {
     background-color: inherit;
+    font-size: 1.3em;
 }
 
 .location-body .location-list select option {
-    height: 2rem;
-    font-size: 1.4rem;
+    height: 2em;
+    font-size: 1.4em;
+}
+
+.location-body .selectedLocations span {
+    width: 100%;
+    text-align: center;
 }
 
 .location-body .selectedLocations li {
@@ -270,11 +275,14 @@ header, header span .cancel-search, .search-wrapper .search {
 }
 
 .location-body label[for="display_trials_outside_locations"] {
-    font-size: 1.4rem;
     vertical-align: middle;
 }
 
 /* FOOTER */
 footer {
-    background-color: #00549f;
+    background-color: #adadad;
+}
+
+footer .last-updated {
+    color: #ffffff;
 }
