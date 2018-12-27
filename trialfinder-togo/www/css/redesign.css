@@ -122,7 +122,7 @@ header, header .cancel-search, .search-wrapper .search {
 }
 
 .trial .trial-content .second-line {
-    display: flex;
+    display: block;
     justify-content: unset;
 }
 
@@ -145,11 +145,18 @@ header, header .cancel-search, .search-wrapper .search {
 }
 
 .trial .trial-content .second-line .new {
-    margin-top: 5px;
+    margin-top: 3px;
     display: inline-block;
     float: right;
     clear: right;
-    font-size: 1em;
+    font-size: 0.9em;
+    flex-grow: unset;
+    flex-shrink: unset;
+    white-space: unset;
+}
+
+.trial .trial-content .second-line .new .badge {
+    font-size: unset;
 }
 
 /* TRIAL VIEW */
