@@ -36,6 +36,8 @@ html {
 
 body {
     font-family: 'Arial', 'Helvetica', sans-serif;
+    padding-top: constant(safe-area-inset-top); /* iOS 11.0 */
+    padding-top: env(safe-area-inset-top); /* iOS 11.2 */
 }
 
 p {
@@ -122,7 +124,7 @@ header, header .cancel-search, .search-wrapper .search {
 }
 
 .trial .trial-content .second-line {
-    display: flex;
+    display: block;
     justify-content: unset;
 }
 
@@ -145,11 +147,18 @@ header, header .cancel-search, .search-wrapper .search {
 }
 
 .trial .trial-content .second-line .new {
-    margin-top: 5px;
+    margin-top: 3px;
     display: inline-block;
     float: right;
     clear: right;
-    font-size: 1em;
+    font-size: 0.9em;
+    flex-grow: unset;
+    flex-shrink: unset;
+    white-space: unset;
+}
+
+.trial .trial-content .second-line .new .badge {
+    font-size: unset;
 }
 
 /* TRIAL VIEW */
@@ -281,6 +290,8 @@ header, header .cancel-search, .search-wrapper .search {
 /* FOOTER */
 footer {
     background-color: #adadad;
+    margin-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+    margin-bottom: env(safe-area-inset-bottom); /* iOS 11.2 */
 }
 
 footer .last-updated {
