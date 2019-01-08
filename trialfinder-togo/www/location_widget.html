@@ -16,7 +16,7 @@
         <span>Selected Locations</span>
         {{#locations}}
         {{#selected}}
-        <li class="badge selected-location">{{ location }}</li>
+        <li class="badge selected-location">{{ location }}<button class="remove-selected-location"></button></li>
         {{/selected}}
         {{/locations}}
     </ul>

@@ -274,7 +274,25 @@ header, header .cancel-search, .search-wrapper .search {
 }
 
 .location-body .selectedLocations li {
+    position: relative;
+    margin-right: 5px;
     background-color: #009bdb;
+}
+
+.location-body .selectedLocations li .remove-selected-location {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    padding: 5px;
+    height: 24px;
+    width: 24px;
+    border: none;
+    border-radius: 100%;
+    background-image: url(../icons/close.svg);
+    background-size: 12px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #eb2c16;
 }
 
 .location-body input#display_trials_outside_locations {
