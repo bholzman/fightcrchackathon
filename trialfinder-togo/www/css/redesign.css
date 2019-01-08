@@ -287,6 +287,11 @@ header, header .cancel-search, .search-wrapper .search {
     vertical-align: middle;
 }
 
+/* FAQ */
+.faq-screen {
+    font-size: 1.3em;
+}
+
 /* FOOTER */
 footer {
     background-color: #adadad;
