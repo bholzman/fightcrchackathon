@@ -43,6 +43,13 @@ LocationWidget.prototype.updateLocations = function(data) {
     return true;
 };
 
+LocationWidget.prototype.removeLocation = function(data, elem) {
+    var index = data.selected_locations.indexOf(elem);
+    if (index !== -1) data.selected_locations.splice(index, 1);
+
+    return true;
+};
+
 LocationWidget.prototype.updateDisplayTrialsOutsideLocations = function(data, elem) {
     data.prefs.search.display_trials_outside_locations = $(elem).prop('checked');
 };

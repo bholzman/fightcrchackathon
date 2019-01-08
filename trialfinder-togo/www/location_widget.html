@@ -16,7 +16,7 @@
         <span>Selected Locations</span>
         {{#locations}}
         {{#selected}}
-        <li class="badge selected-location">{{ location }}<button class="remove-selected-location"></button></li>
+        <li class="badge selected-location">{{ location }}<button onclick="javascript:controller.pageCall('removeLocation', this.parentNode.textContent)" class="remove-selected-location"></button></li>
         {{/selected}}
         {{/locations}}
     </ul>

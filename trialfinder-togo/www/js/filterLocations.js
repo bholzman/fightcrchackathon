@@ -26,6 +26,10 @@ FilterLocations.prototype.updateLocations = function(data) {
     return this.locationWidgetPage.updateLocations(data);
 };
 
+FilterLocations.prototype.removeLocation = function(data, elem) {
+    return this.locationWidgetPage.removeLocation(data, elem);
+};
+
 FilterLocations.prototype.updateDisplayTrialsOutsideLocations = function(data, elem) {
     return this.locationWidgetPage.updateDisplayTrialsOutsideLocations(data, elem);
 };
