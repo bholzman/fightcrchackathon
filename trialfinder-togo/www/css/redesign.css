@@ -98,6 +98,12 @@ header, header .cancel-search, .search-wrapper .search {
     background-color: #00549f;
 }
 
+header .cancel-search .icon {
+    height: 16px;
+    width: 30px;
+    vertical-align: middle;
+}
+
 .back-button {
     text-decoration: none;
 }

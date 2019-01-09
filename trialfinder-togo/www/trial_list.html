@@ -2,7 +2,7 @@
   <header>
       <span><strong>{{ count }} Trials</strong> (of {{ total_count }} total)</span>
     {{ #inSearch }}
-      <button class="cancel-search" onclick="javascript:controller.goToPage('trialList', 'clearSearch')">Cancel</button>
+      <button class="cancel-search" onclick="javascript:controller.goToPage('trialList', 'clearSearch')"><img src="./icons/close.svg" alt="Close" class="icon"></button>
     {{ /inSearch }}
     <img src="./icons/search.svg" alt="Search" class="icon search-icon" onclick="javascript:controller.goToPage('trialSearch')">
   </header>
