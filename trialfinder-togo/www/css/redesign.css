@@ -64,6 +64,11 @@ header.back-page-header span {
     font-weight: 400;
 }
 
+header.back-page-header span img, header.question-header a img {
+    width: 16px;
+    height: 16px;
+}
+
 .search-wrapper {
     margin-bottom: 8vh;
     animation-duration: 0.4s;
