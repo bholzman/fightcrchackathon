@@ -64,7 +64,7 @@ header.back-page-header span {
     font-weight: 400;
 }
 
-header.back-page-header span img, header.question-header a img {
+header.back-page-header span img, div.question-header a img {
     width: 16px;
     height: 16px;
 }
@@ -109,8 +109,11 @@ header .cancel-search .icon {
     vertical-align: middle;
 }
 
-.back-button {
+.back-button, .next-button {
+    padding: 0 6px;
+    font-size: 1.3rem;
     text-decoration: none;
+    color: #ffffff;
 }
 
 /* TRIAL LIST */
@@ -245,6 +248,7 @@ header .cancel-search .icon {
     height: 4em;
     width: 100%;
     font-size: 1.4em;
+    border-radius: 0.5em;
 }
 
 .filter-screen .question-wrapper .toggle-list button.toggle.selected {

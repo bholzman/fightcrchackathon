@@ -27,6 +27,10 @@ LocationSelect.prototype.updateLocations = function(data) {
     return this.locationWidgetPage.updateLocations(data);
 };
 
+LocationSelect.prototype.removeLocation = function(data, elem) {
+    return this.locationWidgetPage.removeLocation(data, elem);
+};
+
 LocationSelect.prototype.updateDisplayTrialsOutsideLocations = function(data, elem) {
     this.locationWidgetPage.updateDisplayTrialsOutsideLocations(data, elem);
     return true;
