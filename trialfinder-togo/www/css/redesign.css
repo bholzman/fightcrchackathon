@@ -346,8 +346,13 @@ footer .last-updated {
 }
 
 /* LEARN MORE */
+.learn-more-content {
+    height: 100%;
+}
+
 .learn-more-content .question-wrapper {
     align-items: unset;
+    justify-content: unset;
 }
 
 .learn-more-content .question-wrapper p {
