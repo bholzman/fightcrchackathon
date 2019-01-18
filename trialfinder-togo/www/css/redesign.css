@@ -272,6 +272,10 @@ header .cancel-search .icon {
 }
 
 /* LOCATION PREFERENCES */
+.location-preferences, .trials-available {
+    font-size: 2em;
+}
+
 .location-prompt,
 .location-body {
     background-color: inherit;
@@ -334,4 +338,19 @@ footer {
 
 footer .last-updated {
     color: #ffffff;
+}
+
+/* ONBOARDING SCREENS */
+.question-number {
+    font-size: 2em;
+}
+
+/* LEARN MORE */
+.learn-more-content .question-wrapper {
+    align-items: unset;
+}
+
+.learn-more-content .question-wrapper p {
+    font-size: 1.3rem;
+    overflow-wrap: break-word;
 }
