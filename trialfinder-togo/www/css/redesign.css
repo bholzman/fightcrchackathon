@@ -45,7 +45,7 @@ p {
 }
 
 /* HEADER + SEARCH */
-header {
+header, .question-screen .question-header {
     height: 8vh;
 }
 
@@ -237,7 +237,9 @@ header .cancel-search .icon {
 }
 .filter-screen .question-wrapper .question-content .learn-more,
 .filter-screen .question-wrapper .learn-more {
+    display: block;
     font-size: 1.6em;
+    text-align: center;
 }
 
 .filter-screen .question-wrapper .toggle-list {
@@ -341,6 +343,10 @@ footer .last-updated {
 }
 
 /* ONBOARDING SCREENS */
+.question-screen, .trials-available {
+    background-color: #f3f3f3;
+}
+
 .question-number {
     font-size: 2em;
 }
@@ -356,6 +362,6 @@ footer .last-updated {
 }
 
 .learn-more-content .question-wrapper p {
-    font-size: 1.3rem;
+    font-size: 1.3em;
     overflow-wrap: break-word;
 }

@@ -5,7 +5,7 @@
   <div class="question-wrapper">
       <p class="question">Recruitment Status</p>
       <div class="question-body">Use the filters below to include trials based on their recruitment status.</div>
-      <a href="#" class="learn-more">Learn more</a>
+      <a onclick="javascript:controller.goToPage('learnMore', 'filter_recruitment_statuses')" class="learn-more">Learn more</a>
       <div class="toggle-list">
         {{#recruitment_statuses}}
           <button name="recruitment_statuses" value="{{ value }}" class="toggle {{ selected }}"
