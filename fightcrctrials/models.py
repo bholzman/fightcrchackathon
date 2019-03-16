@@ -19,6 +19,10 @@ class UserText(models.Model):
 
 
 class FAQ(models.Model):
+    class Meta:
+        verbose_name = 'FAQ'
+        verbose_name_plural = 'FAQs'
+
     question = models.TextField(unique=True)
     answer = models.TextField()
     def __str__(self):
@@ -36,6 +40,25 @@ class FAQ(models.Model):
 class MobileFAQ(FAQ):
     pass
 
+class MobileFAQ2(models.Model):
+    class Meta:
+        verbose_name = 'Mobile FAQ'
+        verbose_name_plural = 'Mobile FAQs'
+
+    question = models.TextField(unique=True)
+    answer = models.TextField()
+    def __str__(self):
+        return self.question
+
+    @classmethod
+    def faq_json(cls):
+        faqs = cls.objects.order_by('id').all()
+        raw_data = [{
+            'question': faq.question,
+            'answer': faq.answer
+        } for faq in faqs]
+        return json.dumps(raw_data)
+
 class DeletedCRCTrial(models.Model):
     deleted_at = models.DateField(auto_now_add=True)
     nct_id = models.CharField(unique=True, max_length=100)
@@ -44,6 +67,8 @@ class DeletedCRCTrial(models.Model):
 class CRCTrial(models.Model):
     class Meta:
         permissions = (("phase_1", "Phase 1 reviewer"), ("phase_2", "Phase 2 reviewer"),)
+        verbose_name = 'CRC Trial'
+        verbose_name_plural = 'CRC Trials'
 
     nct_id = models.CharField("NCT ID", unique=True, max_length=100)
     trial_link = models.URLField(max_length=200, null=True, blank=True,

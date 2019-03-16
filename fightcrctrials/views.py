@@ -8,7 +8,7 @@ from sendgrid.helpers.mail import Email, Content, Mail
 
 from .email import send_email
 from .forms import ContactUsForm
-from .models import CRCTrial, FAQ, MobileFAQ
+from .models import CRCTrial, FAQ, MobileFAQ2
 
 
 # Create your views here.
@@ -47,11 +47,11 @@ def faq_json(request):
 
 
 def mobile_faq(request):
-    return _faq(request, MobileFAQ)
+    return _faq(request, MobileFAQ2)
 
 
 def mobile_faq_json(request):
-    return _faq_json(request, MobileFAQ)
+    return _faq_json(request, MobileFAQ2)
 
 
 def send_trial_closed_email(request):
