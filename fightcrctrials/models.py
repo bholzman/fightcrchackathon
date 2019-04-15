@@ -112,6 +112,7 @@ class CRCTrial(models.Model):
     date_trial_added = models.DateField(null=True, blank=True)
     updated_date = models.DateField(null=True, blank=True)
     phase = models.CharField(max_length=20, choices=(
+        ("N/A", "N/A"),
         ("Phase 1", "Phase 1"),
         ("Early Phase 1", "Early Phase 1"),
         ("Phase 4", "Phase 4"),

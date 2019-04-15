@@ -104,6 +104,9 @@ Data.prototype.last_update = function() {
 };
 
 function convertDescriptionToParagraphs(description) {
+    if (description === null || description === undefined) {
+        description = ''
+    }
     // TODO - Refactor
     return description
             .split('\n')
