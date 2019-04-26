@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib import admin
 from django.contrib.admin.views.main import ChangeList
 from django.contrib.postgres.fields import ArrayField
@@ -61,6 +62,12 @@ class CRCTrialAdmin(admin.ModelAdmin):
                 'description', 'min_age', 'max_age', 'gender',
                 'inclusion_criteria', 'exclusion_criteria',
                 'contact_phones', 'contact_emails')}))
+
+    def save_model(self, request, obj, form, change):
+        obj.updated_date = datetime.now()
+        if obj.date_trial_added is None:
+            obj.date_trial_added = datetime.now()
+        super(CRCTrialAdmin, self).save_model(request, obj, form, change)
 
     formfield_overrides = {
         ArrayField: {'widget': Textarea(attrs={'rows':4})}

@@ -8,6 +8,9 @@ DataHandler.prototype.loadTrials = function() {
         var trials = [];
         for (var i = 0; i < content.length; i++) {
             var c = content[i];
+            if (c.trial_link === undefined || c.trial_link === "") {
+                c.trial_link = 'http://clinicaltrials.gov/ct2/show/' + c.nct_id;
+            }
             trials.push(new Trial(
                 c.nct_id, c.trial_link, c.is_crc_trial, c.is_immunotherapy_trial, c.subtype,
                 c.prior_io_ok, c.comments, c.publications, c.urls, c.brief_title, c.title,

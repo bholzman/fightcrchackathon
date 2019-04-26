@@ -50,11 +50,10 @@ TrialView.prototype.toggleFavorite = function(data, trial_id) {
 };
 
 TrialView.prototype.shareTrial = function(data) {
-    var url = 'https://clinicaltrials.gov/ct2/show/' + data.trial.trial_id;
     var options = {
         subject: 'Trial found using the FightCRC TrialFinder',
-        message: data.trial.brief_title + ': ' + url,
-        url: url
+        message: data.trial.brief_title + ': ' + data.trial.trial_link,
+        url: data.trial.trial_link
     };
     window.plugins.socialsharing.shareWithOptions(
         options,
