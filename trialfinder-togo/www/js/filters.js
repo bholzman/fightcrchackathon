@@ -42,3 +42,11 @@ Filters.prototype.render_data = function(data) {
     page_render_data.filters_selected = '-selected';
     return page_render_data;
 };
+
+Filters.prototype.resetFilters = function(data) {
+  if (confirm("Are you sure you want to reset all filters?")) {
+    controller.data.prefs.clearSearch();
+    controller.data.prefs.save();
+    controller.goToPage('msStatusQuestion');
+  }
+};

@@ -28,6 +28,11 @@ TrialView.prototype.render_data = function(data) {
                 }
             }
 
+            if (trial.trial_link.startsWith('http://clinicaltrials.gov')) {
+                trial.id_title = 'NCT ID'
+            } else {
+                trial.id_title = 'Trial Link'
+            }
             page_render_data.trial = trial;
         }
     });

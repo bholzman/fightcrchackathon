@@ -17,7 +17,7 @@
         <table border="0" cellspacing="0" cellpadding="0">
             <tr>
               <td>
-                <div class="heading">NCT ID</div>
+                <div class="heading">{{ id_title }}</div>
                 <div class="centered-content">
                 <p><a href="{{ trial_link }}">{{ trial_id }}</a></p>
                 </div>
@@ -55,6 +55,18 @@
                 <p class="content">{{ comments }}</p>
               </td>
             </tr>
+            {{ #publications.length }}
+            <tr>
+              <td>
+                <div class="heading">Helpful Links</div>
+                <p class="centered-content">
+                {{ #publications }}
+                    <a href="{{.}}">{{.}}</a><br>
+                {{ /publications }}
+                </p>
+              </td>
+            </tr>
+            {{ /publications.length }}
             {{ #min_age }}
             <tr>
               <td>

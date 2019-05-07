@@ -19,7 +19,11 @@ DataHandler.prototype.loadTrials = function() {
                 c.max_age, c.gender, c.inclusion_criteria, c.exclusion_criteria
             ));
         }
+        window.localStorage.setItem("__fightcrc_trialfinder.trials", JSON.stringify(trials));
+
         deferred.resolve(trials);
+    }).fail(function(){
+        deferred.reject();
     });
     return deferred.promise();
 };
@@ -32,7 +36,10 @@ DataHandler.prototype.loadFAQ = function() {
             var c = content[i];
             faqs.push(new FAQItem(c.question, c.answer))
         }
+        window.localStorage.setItem("__fightcrc_trialfinder.faqs", JSON.stringify(faqs));
         deferred.resolve(faqs);
+    }).fail(function(){
+        deferred.reject();
     });
     return deferred.promise();
 };

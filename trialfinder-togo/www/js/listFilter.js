@@ -17,7 +17,7 @@ ListFilter.prototype.render_data = function(data) {
     var values = {};
     data.trials.forEach(function (trial) {
         trial_fields.forEach(function (trial_field) {
-            if (!(trial[trial_field] in values)) {
+            if (!(trial[trial_field] in values) && trial[trial_field] !== '') {
                 values[trial[trial_field]] = {
                     value: trial[trial_field],
                     selected: selected_values.includes(trial[trial_field]) ? 'selected' : ''
@@ -26,7 +26,16 @@ ListFilter.prototype.render_data = function(data) {
         });
     });
     page_render_data[this.field] = Object.values(values).sort(
-        function (a, b) { return a.value < b.value ? -1 : a.value > b.value ? 1 : 0; }
+        function (a, b) {
+            return a.value == 'N/A'
+                 ? b.value == 'N/A'
+                     ? 0
+                     : -1
+                 : a.value < b.value
+                     ? -1
+                     : a.value > b.value
+                         ? 1
+                         : 0; }
     );
 
     page_render_data.prefs = data.prefs;

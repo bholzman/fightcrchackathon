@@ -56,19 +56,7 @@ Preferences.prototype.restore = function() {
     if (savedSearch) {
         this.search = JSON.parse(savedSearch);
     } else {
-        this.search = {
-            'hasImmunoTherapy': undefined,
-            'doesKnowMsStatus': undefined,
-            'hasPreviouslyUsedImmunoTherapy': undefined,
-            'is_immunotherapy_trial': undefined,
-            'prior_io_ok': undefined,
-            'locations': [],
-            'display_trials_outside_locations': false,
-            'search': '',
-            'recruitment_statuses': undefined,
-            'phases': undefined,
-            'date_added': undefined
-        };
+        this.clearSearch();
     }
 
     var savedApp = window.localStorage.getItem("__fightcrc_trialfinder.prefs.app");
@@ -77,6 +65,22 @@ Preferences.prototype.restore = function() {
     } else {
         this.app = {'onTrialList': false, 'lastVisited': '0000-00-00', 'favorites': {}};
     }
+};
+
+Preferences.prototype.clearSearch = function() {
+    this.search = {
+        'hasImmunoTherapy': undefined,
+        'doesKnowMsStatus': undefined,
+        'hasPreviouslyUsedImmunoTherapy': undefined,
+        'is_immunotherapy_trial': undefined,
+        'prior_io_ok': undefined,
+        'locations': [],
+        'display_trials_outside_locations': false,
+        'search': '',
+        'recruitment_statuses': undefined,
+        'phases': undefined,
+        'date_added': undefined
+    };
 };
 
 function Data(trials, faqs, prefs) {

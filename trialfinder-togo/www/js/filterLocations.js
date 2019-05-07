@@ -23,11 +23,23 @@ FilterLocations.prototype.dependencies = function(render_data) {
 };
 
 FilterLocations.prototype.updateLocations = function(data) {
-    return this.locationWidgetPage.updateLocations(data);
+    this.locationWidgetPage.updateLocations(data);
+    if (data.prefs.search.auto_select_display_trials_outside_locations) {
+        data.prefs.search.display_trials_outside_locations = false;
+        data.prefs.search.auto_select_display_trials_outside_locations = false;
+        $('#display_trials_outside_locations').prop('checked', false);
+    }
+    return true;
 };
 
 FilterLocations.prototype.removeLocation = function(data, elem) {
-    return this.locationWidgetPage.removeLocation(data, elem);
+    this.locationWidgetPage.removeLocation(data, elem);
+    if (data.selected_locations.length == 0 && !data.prefs.search.display_trials_outside_locations) {
+        data.prefs.search.display_trials_outside_locations = true;
+        data.prefs.search.auto_select_display_trials_outside_locations = true;
+        $('#display_trials_outside_locations').prop('checked', 'checked');
+    }
+    return true;
 };
 
 FilterLocations.prototype.updateDisplayTrialsOutsideLocations = function(data, elem) {

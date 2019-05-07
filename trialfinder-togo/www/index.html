@@ -83,32 +83,66 @@
         var controller;
         var prefs = new Preferences({}, {});
         prefs.restore();
+        function _init(data) {
+            controller = new Controller([
+                new SplashScreen(),
+                new Wizard(),
+                new MsStatus(),
+                new ImmunoTherapy(),
+                new ImmunoTherapyPreviouslyUsed(),
+                new LocationSelect(),
+                new TrialList(),
+                new TrialView(),
+                new TrialSearch(),
+                new Filters(),
+                new FilterLocations(),
+                new FilterRecruitmentStatus(),
+                new FilterIsImmunotherapyTrial(),
+                new FilterPriorIOOk(),
+                new FilterPhase(),
+                new FilterDateAdded(),
+                new Favorites(),
+                new LearnMore(),
+                new FAQ()
+            ], data);
+            app.initialize(controller);
+        }
+
         var dh = new DataHandler('http://trialfinder.fightcrc.org/')
         dh.loadTrials().done(function(trials) {
             dh.loadFAQ().done(function(faqs) {  
                 var data = new Data(trials, faqs, prefs);
-                controller = new Controller([
-                    new SplashScreen(),
-                    new Wizard(),
-                    new MsStatus(),
-                    new ImmunoTherapy(),
-                    new ImmunoTherapyPreviouslyUsed(),
-                    new LocationSelect(),
-                    new TrialList(),
-                    new TrialView(),
-                    new TrialSearch(),
-                    new Filters(),
-                    new FilterLocations(),
-                    new FilterRecruitmentStatus(),
-                    new FilterIsImmunotherapyTrial(),
-                    new FilterPriorIOOk(),
-                    new FilterPhase(),
-                    new FilterDateAdded(),
-                    new Favorites(),
-                    new LearnMore(),
-                    new FAQ()
-                ], data);
-                app.initialize(controller);
+                _init(data);
+            }).fail(function() {
+                var faqs = window.localStorage.getItem("__fightcrc_trialfinder.faqs");
+                if (faqs) {
+                    faqs = JSON.parse(faqs);
+                } else {
+                    faqs = [];
+                }
+                var data = new Data(trials, faqs, prefs);
+                _init(data);
+            });
+        }).fail(function() {
+            var trials = window.localStorage.getItem("__fightcrc_trialfinder.trials");
+            if (trials) {
+                trials = JSON.parse(trials);
+            } else {
+                trials = [];
+            }
+            
+            dh.loadFAQ().done(function(faqs) {  
+                var data = new Data(trials, faqs, prefs);
+                _init(data);
+            }).fail(function() {
+                var faqs = window.localStorage.getItem("__fightcrc_trialfinder.faqs");
+                if (faqs) {
+                    faqs = JSON.parse(faqs);
+                } else {
+                    faqs = [];
+                }
+                var data = new Data(trials, faqs, prefs);
+                _init(data);
             });
         });
     </script>
