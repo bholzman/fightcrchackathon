@@ -118,5 +118,5 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git" />
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <engine name="browser" spec="~5.0.3" />
-    <preference name="phonegap-version" value="cli-8.0.0" />
+    <preference name="phonegap-version" value="cli-8.1.1" />
 </widget>
