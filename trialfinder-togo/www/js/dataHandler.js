@@ -20,8 +20,16 @@ alert("trials-json:done");
                 c.max_age, c.gender, c.inclusion_criteria, c.exclusion_criteria
             ));
         }
+alert("going to convert trials to string");
+var trials_string = JSON.stringify(trials);
 alert("going to set trials in localstorage");
+try {
         window.localStorage.setItem("__fightcrc_trialfinder.trials", JSON.stringify(trials));
+} catch (err) {
+alert(err);
+throw(err);
+}
+alert("back from setting trials in localstorage");
 
         deferred.resolve(trials);
     }).fail(function(){
