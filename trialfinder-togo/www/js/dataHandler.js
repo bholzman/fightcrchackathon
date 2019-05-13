@@ -20,12 +20,10 @@ DataHandler.prototype.loadTrials = function() {
             ));
         }
         var trials_string = LZString.compress(JSON.stringify(trials));
-        alert("trials string is " + trials_string.length + " bytes");
-        alert("going to set trials in localstorage");
         try {
             window.localStorage.setItem("__fightcrc_trialfinder.trials", trials_string);
         } catch (err) {
-            alert(err);
+            console.log(err);
         }
 
         deferred.resolve(trials);
