@@ -109,12 +109,18 @@
         }
 
         var dh = new DataHandler('http://trialfinder.fightcrc.org/')
+alert("calling loadTrials()");
         dh.loadTrials().done(function(trials) {
+alert("loadTrials():done");
+alert("calling loadFAQ()");
             dh.loadFAQ().done(function(faqs) {  
+alert("loadFAQ():done");
                 var data = new Data(trials, faqs, prefs);
                 _init(data);
             }).fail(function() {
+alert("loadFAQ():fail");
                 var faqs = window.localStorage.getItem("__fightcrc_trialfinder.faqs");
+alert("got FAQs from localStorage");
                 if (faqs) {
                     faqs = JSON.parse(faqs);
                 } else {
@@ -124,18 +130,24 @@
                 _init(data);
             });
         }).fail(function() {
+alert("loadTrials():fail");
             var trials = window.localStorage.getItem("__fightcrc_trialfinder.trials");
+alert("got trials from localStorage");
             if (trials) {
                 trials = JSON.parse(trials);
             } else {
                 trials = [];
             }
-            
+
+alert("calling loadFAQ()");
             dh.loadFAQ().done(function(faqs) {  
+alert("loadFAQ():done");
                 var data = new Data(trials, faqs, prefs);
                 _init(data);
             }).fail(function() {
+alert("loadFAQ():fail");
                 var faqs = window.localStorage.getItem("__fightcrc_trialfinder.faqs");
+alert("got FAQs from localStorage");
                 if (faqs) {
                     faqs = JSON.parse(faqs);
                 } else {

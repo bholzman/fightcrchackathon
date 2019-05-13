@@ -5,6 +5,7 @@ function DataHandler(source) {
 DataHandler.prototype.loadTrials = function() {
     var deferred = $.Deferred();
     $.ajax(this.source + 'trials-json/', {dataType: 'json'}).done(function(content) {
+alert("trials-json:done");
         var trials = [];
         for (var i = 0; i < content.length; i++) {
             var c = content[i];
@@ -19,10 +20,12 @@ DataHandler.prototype.loadTrials = function() {
                 c.max_age, c.gender, c.inclusion_criteria, c.exclusion_criteria
             ));
         }
+alert("going to set trials in localstorage");
         window.localStorage.setItem("__fightcrc_trialfinder.trials", JSON.stringify(trials));
 
         deferred.resolve(trials);
     }).fail(function(){
+alert("trials-json:fail");
         deferred.reject();
     });
     return deferred.promise();
@@ -31,14 +34,17 @@ DataHandler.prototype.loadTrials = function() {
 DataHandler.prototype.loadFAQ = function() {
     var deferred = $.Deferred();
     $.ajax(this.source + 'mobile-faq-json/', {dataType: 'json'}).done(function(content) {
+alert("mobile-faq-json:done");
         var faqs = [];
         for (var i = 0; i < content.length; i++) {
             var c = content[i];
             faqs.push(new FAQItem(c.question, c.answer))
         }
+alert("going to set faqs in localstorage");
         window.localStorage.setItem("__fightcrc_trialfinder.faqs", JSON.stringify(faqs));
         deferred.resolve(faqs);
     }).fail(function(){
+alert("mobile-faq-json:fail");
         deferred.reject();
     });
     return deferred.promise();
