@@ -5,7 +5,6 @@ function DataHandler(source) {
 DataHandler.prototype.loadTrials = function() {
     var deferred = $.Deferred();
     $.ajax(this.source + 'trials-json/', {dataType: 'json'}).done(function(content) {
-alert("trials-json:done");
         var trials = [];
         for (var i = 0; i < content.length; i++) {
             var c = content[i];
@@ -20,20 +19,17 @@ alert("trials-json:done");
                 c.max_age, c.gender, c.inclusion_criteria, c.exclusion_criteria
             ));
         }
-alert("going to convert trials to string");
-var trials_string = JSON.stringify(trials);
-alert("trials string is " + trials_string.length + " bytes");
-alert("going to set trials in localstorage");
-try {
-        window.localStorage.setItem("__fightcrc_trialfinder.trials", trials_string);
-} catch (err) {
-alert(err);
-}
-alert("back from setting trials in localstorage");
+        var trials_string = LZString.compress(JSON.stringify(trials));
+        alert("trials string is " + trials_string.length + " bytes");
+        alert("going to set trials in localstorage");
+        try {
+            window.localStorage.setItem("__fightcrc_trialfinder.trials", trials_string);
+        } catch (err) {
+            alert(err);
+        }
 
         deferred.resolve(trials);
     }).fail(function(){
-alert("trials-json:fail");
         deferred.reject();
     });
     return deferred.promise();
@@ -42,20 +38,15 @@ alert("trials-json:fail");
 DataHandler.prototype.loadFAQ = function() {
     var deferred = $.Deferred();
     $.ajax(this.source + 'mobile-faq-json/', {dataType: 'json'}).done(function(content) {
-alert("mobile-faq-json:done");
         var faqs = [];
         for (var i = 0; i < content.length; i++) {
             var c = content[i];
             faqs.push(new FAQItem(c.question, c.answer))
         }
-alert("going to convert faqs to string");
-var faqs_string = JSON.stringify(faqs);
-alert("FAQs string is " + faqs_string.length + " bytes long.");
-alert("going to set faqs in localstorage");
+        var faqs_string = JSON.stringify(faqs);
         window.localStorage.setItem("__fightcrc_trialfinder.faqs", faqs_string);
         deferred.resolve(faqs);
     }).fail(function(){
-alert("mobile-faq-json:fail");
         deferred.reject();
     });
     return deferred.promise();
