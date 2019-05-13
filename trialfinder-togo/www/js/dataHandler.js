@@ -22,12 +22,12 @@ alert("trials-json:done");
         }
 alert("going to convert trials to string");
 var trials_string = JSON.stringify(trials);
+alert("trials string is " + trials_string.length + " bytes");
 alert("going to set trials in localstorage");
 try {
-        window.localStorage.setItem("__fightcrc_trialfinder.trials", JSON.stringify(trials));
+        window.localStorage.setItem("__fightcrc_trialfinder.trials", trials_string);
 } catch (err) {
 alert(err);
-throw(err);
 }
 alert("back from setting trials in localstorage");
 
@@ -48,8 +48,11 @@ alert("mobile-faq-json:done");
             var c = content[i];
             faqs.push(new FAQItem(c.question, c.answer))
         }
+alert("going to convert faqs to string");
+var faqs_string = JSON.stringify(faqs);
+alert("FAQs string is " + faqs_string.length + " bytes long.");
 alert("going to set faqs in localstorage");
-        window.localStorage.setItem("__fightcrc_trialfinder.faqs", JSON.stringify(faqs));
+        window.localStorage.setItem("__fightcrc_trialfinder.faqs", faqs_string);
         deferred.resolve(faqs);
     }).fail(function(){
 alert("mobile-faq-json:fail");
