@@ -38,7 +38,8 @@ class CRCTrialAdmin(admin.ModelAdmin):
     actions = [archive, unarchive]
 
     def get_actions(self, request):
-        return {'archive': (archive, 'archive', "Archive selected trial(s)")}
+        actions = super(CRCTrialAdmin, self).get_actions(request)
+        return {'archive': (archive, 'archive', "Archive selected trial(s)"), 'delete_selected': actions['delete_selected']}
 
     def get_queryset(self, request):
         return self.model.objects.filter(archived=False)
@@ -122,7 +123,8 @@ class CRCTrialAdmin(admin.ModelAdmin):
 class ArchivedCRCTrialAdmin(CRCTrialAdmin):
 
     def get_actions(self, request):
-        return {'unarchive': (unarchive, 'unarchive', "Unarchive selected trial(s)")}
+        actions = super(ArchivedCRCTrial, self).get_actions(request)
+        return {'unarchive': (unarchive, 'unarchive', "Unarchive selected trial(s)"), 'delete_selected': actions['delete_selected']}
 
     def get_queryset(self, request):
         return self.model.objects.filter(archived=True)
