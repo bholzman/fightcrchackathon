@@ -78,8 +78,8 @@ class CRCTrial(models.Model):
     screened.verbose_name = 'Triaged'
     reviewed = models.NullBooleanField(default=None, null=True, blank=True)
     reviewed.verbose_name = 'Approved'
-    additional_review = models.BooleanField(default=False, blank=True)
-    additional_review.verbose_name = 'Needs Additional Review'
+    action_required = models.CharField(default=None, null=True, blank=True, choices=(('L1: Read', 'L1: Read'), ('L2: Read', 'L2 Read'), ('L2: Update COMM', 'L2: Update COMM'), ('L2: Update LINKS', 'L2: Update LINKS'), ('MAB: Review', 'MAB: Review'), ('Unknown', 'Unknown')), max_length=100)
+    action_required.verbose_name = 'Action Required'
     review_comments = models.TextField(null=True, blank=True)
     is_crc_trial = models.BooleanField('CRC-directed trial', default=False, blank=True)
     is_immunotherapy_trial = models.BooleanField('Immunotherapy trial', default=False, blank=True)

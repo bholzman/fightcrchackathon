@@ -25,6 +25,16 @@ class Phase2ChangeList(ChangeList):
 class CRCTrialAdmin(admin.ModelAdmin):
     save_on_top = True
 
+    def show_action_required(self, obj):
+        from django.utils.html import format_html
+        return format_html(
+            '<img src="/static/admin/img/icon-yes.svg" alt="True" /> ' + obj.action_required
+        ) if obj.action_required else format_html(
+            '<img src="/static/admin/img/icon-no.svg" alt="False" />'
+        )
+    show_action_required.short_description = 'Action Required'
+    show_action_required.admin_order_field = 'action_required'
+
     def get_changelist(self, request):
         if request.user.has_perm('fightcrctrials.phase_1') and not request.user.is_superuser:
             return Phase1ChangeList
@@ -35,11 +45,11 @@ class CRCTrialAdmin(admin.ModelAdmin):
 
     def get_list_display(self, request):
         if request.user.has_perm('fightcrctrials.phase_1') and not request.user.is_superuser:
-            return ('brief_title', 'nct_id', 'screened', 'updated_date', 'date_trial_added')
+            return ('brief_title', 'nct_id', 'screened', 'show_action_required', 'updated_date', 'date_trial_added')
         elif request.user.has_perm('fightcrctrials.phase_2') and not request.user.is_superuser:
-            return ('brief_title', 'nct_id', 'screened', 'reviewed', 'updated_date', 'date_trial_added')
+            return ('brief_title', 'nct_id', 'screened', 'reviewed', 'show_action_required', 'updated_date', 'date_trial_added')
         else:
-            return ('brief_title', 'nct_id', 'screened', 'reviewed', 'additional_review', 'updated_date', 'date_trial_added')
+            return ('brief_title', 'nct_id', 'screened', 'reviewed', 'show_action_required', 'updated_date', 'date_trial_added')
 
     def get_list_display_links(self, request, list_display):
         return ('brief_title', 'nct_id')
@@ -48,7 +58,7 @@ class CRCTrialAdmin(admin.ModelAdmin):
         if request.user.has_perm('fightcrctrials.phase_1') and not request.user.is_superuser:
             top_fields = (('nct_id','trial_link'),('brief_title','conditions'),'screened','review_comments')
         else:
-            top_fields = (('nct_id','trial_link'),('brief_title','conditions'),'screened','reviewed',('additional_review','review_comments'))
+            top_fields = (('nct_id','trial_link'),('brief_title','conditions'),'screened','reviewed',('action_required','review_comments'))
 
         return (
             (None, {'fields': top_fields}),
