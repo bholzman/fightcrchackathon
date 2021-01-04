@@ -111,6 +111,8 @@ class CRCTrial(models.Model):
     urls = ArrayField(models.URLField(max_length=200), null=True, blank=True)
     date_trial_added = models.DateField(null=True, blank=True)
     updated_date = models.DateField(null=True, blank=True)
+    last_edited = models.DateField(null=True, blank=True)
+    last_edited_by = models.CharField(null=True, blank=True, max_length=200)
     phase = models.CharField(max_length=20, choices=(
         ("N/A", "N/A"),
         ("Phase 1", "Phase 1"),
@@ -149,7 +151,7 @@ class CRCTrial(models.Model):
              'trial_link': r.trial_link,
              'brief_title': r.brief_title,
              'date_trial_added': str(r.date_trial_added),
-             'updated_date': str(r.updated_date),
+             'updated_date': str(max(r.last_edited, r.updated_date)),
              'is_crc_trial': r.is_crc_trial,
              'is_immunotherapy_trial': r.is_immunotherapy_trial,
              'intervention_types': r.intervention_types,

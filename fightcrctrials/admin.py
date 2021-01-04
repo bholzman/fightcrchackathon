@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.contrib.admin.views.main import ChangeList
 from django.contrib.postgres.fields import ArrayField
 from django.forms import Textarea
+from django.utils.formats import date_format
+from django.utils.html import format_html
 
 
 # Register your models here.
@@ -26,7 +28,6 @@ class CRCTrialAdmin(admin.ModelAdmin):
     save_on_top = True
 
     def show_action_required(self, obj):
-        from django.utils.html import format_html
         return format_html(
             '<img src="/static/admin/img/icon-yes.svg" alt="True" /> ' + obj.action_required
         ) if obj.action_required else format_html(
@@ -34,6 +35,11 @@ class CRCTrialAdmin(admin.ModelAdmin):
         )
     show_action_required.short_description = 'Action Required'
     show_action_required.admin_order_field = 'action_required'
+
+    def show_last_edited(self, obj):
+        return date_format(obj.last_edited) + ' ' + obj.last_edited_by if obj.last_edited else None
+    show_last_edited.short_description = 'Last Edited'
+    show_last_edited.admin_order_field = 'last_edited'
 
     def get_changelist(self, request):
         if request.user.has_perm('fightcrctrials.phase_1') and not request.user.is_superuser:
@@ -45,11 +51,11 @@ class CRCTrialAdmin(admin.ModelAdmin):
 
     def get_list_display(self, request):
         if request.user.has_perm('fightcrctrials.phase_1') and not request.user.is_superuser:
-            return ('brief_title', 'nct_id', 'screened', 'show_action_required', 'updated_date', 'date_trial_added')
+            return ('brief_title', 'nct_id', 'screened', 'show_action_required', 'show_last_edited', 'date_trial_added')
         elif request.user.has_perm('fightcrctrials.phase_2') and not request.user.is_superuser:
-            return ('brief_title', 'nct_id', 'screened', 'reviewed', 'show_action_required', 'updated_date', 'date_trial_added')
+            return ('brief_title', 'nct_id', 'screened', 'reviewed', 'show_action_required', 'show_last_edited', 'date_trial_added')
         else:
-            return ('brief_title', 'nct_id', 'screened', 'reviewed', 'show_action_required', 'updated_date', 'date_trial_added')
+            return ('brief_title', 'nct_id', 'screened', 'reviewed', 'show_action_required', 'show_last_edited', 'date_trial_added')
 
     def get_list_display_links(self, request, list_display):
         return ('brief_title', 'nct_id')
@@ -68,13 +74,15 @@ class CRCTrialAdmin(admin.ModelAdmin):
                 'comments', 'resources', 'keywords', 'drug_brand_names')}),
             ('Additional Information', {'fields': (
                 'title', 'drug_names', 'program_status', 'locations',
-                'urls', 'date_trial_added', 'updated_date', 'phase', 'intervention_types',
+                'urls', 'date_trial_added', 'last_edited', 'last_edited_by',
+                'phase', 'intervention_types',
                 'description', 'min_age', 'max_age', 'gender',
                 'inclusion_criteria', 'exclusion_criteria',
                 'contact_phones', 'contact_emails')}))
 
     def save_model(self, request, obj, form, change):
-        obj.updated_date = datetime.now()
+        obj.last_edited = datetime.now()
+        obj.last_edited_by = request.user.username
         if obj.date_trial_added is None:
             obj.date_trial_added = datetime.now()
         super(CRCTrialAdmin, self).save_model(request, obj, form, change)
@@ -89,9 +97,9 @@ class CRCTrialAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return ()
         return (
-            'title', 'program_status', 'locations', 'urls', 'date_trial_added', 'updated_date', 'phase',
+            'title', 'program_status', 'locations', 'urls', 'date_trial_added', 'last_edited', 'phase',
             'intervention_types', 'drug_names', 'description', 'min_age', 'max_age', 'gender', 'inclusion_criteria',
-            'exclusion_criteria', 'contact_phones', 'contact_emails')
+            'exclusion_criteria', 'contact_phones', 'contact_emails', 'last_edited', 'last_edited_by')
 
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
