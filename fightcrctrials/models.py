@@ -132,6 +132,7 @@ class CRCTrial(models.Model):
     exclusion_criteria = models.TextField(null=True, blank=True)
     contact_phones = ArrayField(models.CharField(max_length=100), null=True, blank=True)
     contact_emails = ArrayField(models.EmailField(), null=True, blank=True)
+    archived = models.BooleanField('Archived', default=False)
 
     def __str__(self):
         return '%s (%s)' % (self.brief_title, self.nct_id)
@@ -141,7 +142,7 @@ class CRCTrial(models.Model):
 
     @classmethod
     def trials_json(cls):
-        reviewed = CRCTrial.objects.filter(reviewed=True)
+        reviewed = CRCTrial.objects.filter(reviewed=True, archived=False)
         # TODO
         # would be nice to use django's built-in serializer, but it does
         # not handle the ArrayFields correctly. Should extend the serializer
@@ -177,6 +178,14 @@ class CRCTrial(models.Model):
              'keywords': r.keywords,
              'publications': r.resources} for r in reviewed]
         return json.dumps(raw_data)
+
+
+class ArchivedCRCTrial(CRCTrial):
+    class Meta:
+        proxy = True
+        permissions = (("phase_1", "Phase 1 reviewer"), ("phase_2", "Phase 2 reviewer"),)
+        verbose_name = 'CRC Trial (Archived)'
+        verbose_name_plural = 'CRC Trials (Archived)'
 
 
 class ScriptRuns(models.Model):

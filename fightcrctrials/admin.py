@@ -8,7 +8,7 @@ from django.utils.html import format_html
 
 
 # Register your models here.
-from .models import UserText, FAQ, CRCTrial, MobileFAQ2
+from .models import UserText, FAQ, CRCTrial, MobileFAQ2, ArchivedCRCTrial
 
 admin.site.register(UserText)
 
@@ -23,9 +23,25 @@ class Phase2ChangeList(ChangeList):
         return qs.exclude(reviewed=False)
 
 
+def archive(modeladmin, request, queryset):
+    queryset.update(archived=True)
+
+
+def unarchive(modeladmin, request, queryset):
+    queryset.update(archived=False)
+
+
 @admin.register(CRCTrial)
 class CRCTrialAdmin(admin.ModelAdmin):
     save_on_top = True
+
+    actions = [archive, unarchive]
+
+    def get_actions(self, request):
+        return {'archive': (archive, 'archive', "Archive selected trial(s)")}
+
+    def get_queryset(self, request):
+        return self.model.objects.filter(archived=False)
 
     def show_action_required(self, obj):
         return format_html(
@@ -101,9 +117,21 @@ class CRCTrialAdmin(admin.ModelAdmin):
             'intervention_types', 'drug_names', 'description', 'min_age', 'max_age', 'gender', 'inclusion_criteria',
             'exclusion_criteria', 'contact_phones', 'contact_emails', 'last_edited', 'last_edited_by')
 
+
+@admin.register(ArchivedCRCTrial)
+class ArchivedCRCTrialAdmin(CRCTrialAdmin):
+
+    def get_actions(self, request):
+        return {'unarchive': (unarchive, 'unarchive', "Unarchive selected trial(s)")}
+
+    def get_queryset(self, request):
+        return self.model.objects.filter(archived=True)
+
+
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
     ordering = ('id',)
+
 
 @admin.register(MobileFAQ2)
 class MobileFAQAdmin(admin.ModelAdmin):
