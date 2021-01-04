@@ -147,12 +147,20 @@ class CRCTrial(models.Model):
         # would be nice to use django's built-in serializer, but it does
         # not handle the ArrayFields correctly. Should extend the serializer
         # instead, but for now we'll just do something dumb.
+        def nullmax(a, b):
+            if a is None:
+                return b
+            elif b is None:
+                return a
+            else:
+                return max(a, b)
+
         raw_data = [
             {'nct_id': r.nct_id,
              'trial_link': r.trial_link,
              'brief_title': r.brief_title,
              'date_trial_added': str(r.date_trial_added),
-             'updated_date': str(max(r.last_edited, r.updated_date)),
+             'updated_date': str(nullmax(r.last_edited, r.updated_date)),
              'is_crc_trial': r.is_crc_trial,
              'is_immunotherapy_trial': r.is_immunotherapy_trial,
              'intervention_types': r.intervention_types,
