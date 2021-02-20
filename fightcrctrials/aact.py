@@ -151,7 +151,7 @@ class AACT(object):
             studies.c.last_update_posted_date.label('last_changed_date'),
             loc_query.c.locations,
             email_phone_query.c.contact_phones,
-            [x for x in email_phone_query.c.contact_emails if x is not None],
+            email_phone_query.c.contact_emails,
             cond_query.c.conditions,
             link_query.c.urls,
             description.c.description.label('trial_description'),
