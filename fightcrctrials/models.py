@@ -308,5 +308,3 @@ class CRCTrials(object):
             'header': self._header,
             'data': data
         })
-
-import signals

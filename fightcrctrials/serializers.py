@@ -16,8 +16,8 @@ class AACTrialSerializer(object):
             'brief_title': self.sanitize_title(aact_trial.brief_title),
             'title': self.sanitize_title(aact_trial.official_title, length=500),
             'conditions': self.sanitize_conditions(aact_trial.conditions),
-            'program_status': "%s" % aact_trial.program_status,
-            'phase': "%s" % aact_trial.eligible_cancer_phase,
+            'program_status': f"{aact_trial.program_status}",
+            'phase': f"{aact_trial.eligible_cancer_phase}",
             'min_age': self.sanitize_min_age(aact_trial.minimum_age),
             'max_age': self.sanitize_max_age(aact_trial.maximum_age),
             'gender': self.sanitize_gender(aact_trial.gender_criteria),
@@ -27,7 +27,7 @@ class AACTrialSerializer(object):
             'contact_phones': self.sanitize_phones(aact_trial.contact_phones),
             'contact_emails': self.sanitize_emails(aact_trial.contact_emails),
             'urls': self.sanitize_urls(aact_trial.urls),
-            'description': "%s" % aact_trial.trial_description,
+            'description': f"{aact_trial.trial_description}",
             'drug_names': self.sanitize_drug_names(aact_trial.drug_names),
         }
         if self.classifiers:
@@ -39,27 +39,27 @@ class AACTrialSerializer(object):
     def sanitize_urls(self, urls):
         if urls is None: return None
 
-        return ["%s" % url[:200] for url in urls]
+        return [url[:200] for url in urls]
 
     def sanitize_phones(self, phones):
         if phones is None: return None
 
-        return ["%s" % phone for phone in phones]
+        return [phone for phone in phones if phone is not None]
 
     def sanitize_emails(self, emails):
         if emails is None: return None
 
-        return ["%s" % email for email in emails]
+        return [email for email in emails if email is not None]
 
     def sanitize_locations(self, locations):
         if locations is None: return None
 
-        return ["%s" % location for location in locations]
+        return [location for location in locations if location is not None]
 
     def sanitize_conditions(self, conditions):
         if conditions is None: return None
 
-        return ["%s" % condition for condition in conditions]
+        return [condition for condition in conditions if condition is not None]
 
     def sanitize_gender(self, gender):
         if gender is None: return None
@@ -71,7 +71,7 @@ class AACTrialSerializer(object):
         elif gender == "All":
             return "A"
         else:
-            raise Exception("%s is not a valid gender" % gender)
+            raise Exception(f"{gender} is not a valid gender")
             return None
 
     def sanitize_title(self, string, length=300):
@@ -84,7 +84,7 @@ class AACTrialSerializer(object):
     def sanitize_drug_names(self, drug_names):
         if drug_names is None: return None
 
-        return ["%s" % drug for drug in drug_names]
+        return [drug for drug in drug_names if drug is not None]
 
     def sanitize_min_age(self, minimum_age):
         if minimum_age is None:
