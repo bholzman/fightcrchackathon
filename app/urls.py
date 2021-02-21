@@ -1,4 +1,4 @@
-from django.conf.urls import include, url
+from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import RedirectView
 
@@ -8,7 +8,6 @@ import fightcrctrials.views
 
 # Examples:
 # url(r'^$', 'app.views.home', name='home'),
-# url(r'^blog/', include('blog.urls')),
 
 urlpatterns = [
     url(r'^$', fightcrctrials.views.welcome, name='welcome'),
@@ -21,7 +20,7 @@ urlpatterns = [
     url(r'^mobile-faq/', fightcrctrials.views.mobile_faq, name='mobile_faq'),
     url(r'^mobile-faq-json/', fightcrctrials.views.mobile_faq_json, name='mobile_faq_json'),
     url(r'^contact-us/', fightcrctrials.views.contactus, name='contact_us'),
-    url(r'^admin/', include(admin.site.urls))
+    url(r'^admin/', admin.site.urls)
 ]
 
 admin.site.site_header = 'FightCRC Trial Finder administration'

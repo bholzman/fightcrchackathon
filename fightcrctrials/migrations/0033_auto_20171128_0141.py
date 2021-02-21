@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='crctrial',
             name='reviewed',
-            field=models.NullBooleanField(default=None),
+            field=models.BooleanField(default=None, null=True),
         ),
         migrations.RunPython(force_reviewed_null)
     ]

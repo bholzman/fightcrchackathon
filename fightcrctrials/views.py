@@ -60,9 +60,8 @@ def send_trial_closed_email(request):
         nct = request.POST.get('nct') or 'No NCT# available'
 
         response = send_email(
-            'User reports trial "{}" has closed'.format(title),
-            "User reports that trial '{}' ({}) has closed.".format(
-                title, nct))
+            f'User reports trial "{title}" has closed',
+            f"User reports that trial '{trial}' ({nct}) has closed.")
 
         return HttpResponse(response.body)
 

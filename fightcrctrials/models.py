@@ -74,9 +74,9 @@ class CRCTrial(models.Model):
     trial_link = models.URLField(max_length=200, null=True, blank=True,
         help_text="Optional, defaults to the page at clinicaltrials.gov for this NCT ID")
     brief_title = models.CharField(max_length=300, null=True, blank=True)
-    screened = models.NullBooleanField(default=None, null=True, blank=True)
+    screened = models.BooleanField(default=None, null=True, blank=True)
     screened.verbose_name = 'Triaged'
-    reviewed = models.NullBooleanField(default=None, null=True, blank=True)
+    reviewed = models.BooleanField(default=None, null=True, blank=True)
     reviewed.verbose_name = 'Approved'
     action_required = models.CharField(default=None, null=True, blank=True, choices=(('L1: Read', 'L1: Read'), ('L2: Read', 'L2 Read'), ('L2: Update COMM', 'L2: Update COMM'), ('L2: Update LINKS', 'L2: Update LINKS'), ('MAB: Review', 'MAB: Review'), ('Unknown', 'Unknown')), max_length=100)
     action_required.verbose_name = 'Action Required'
@@ -308,5 +308,3 @@ class CRCTrials(object):
             'header': self._header,
             'data': data
         })
-
-import signals
